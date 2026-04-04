@@ -1,0 +1,43 @@
+<link rel="stylesheet" href="../loan_calculator/style.css" />
+
+<hr />
+
+<h3>Parameters</h3>
+
+<table style="width: auto; display: inline-block">
+  <tr>
+    <td><label for="loan-amount">Loan Amount</label></td>
+    <td><input type="text" id="loan-amount" value="1000000" /></td>
+  </tr>
+  <tr>
+    <td><label for="loan-duration">Loan Duration (Years)</label></td>
+    <td><input type="number" id="loan-duration" value="5" /></td>
+  </tr>
+  <tr style="border-top: 1px solid #000">
+    <td><label for="rate-1">Interest Rate (%)</label></td>
+    <td><input type="number" id="rate-1" value="5" /></td>
+  </tr>
+  <tr>
+    <td><label for="duration-1">Duration (Years)</label></td>
+    <td><input type="number" id="duration-1" value="5" /></td>
+    <td><button type="button" class="delete-segment">🗑️</button></td>
+  </tr>
+</table>
+
+<div style="display: flex; gap: 10px; margin-top: 10px">
+  <button type="button" id="add-interest-rate">+ Add Interest Rate</button>
+  <button type="button" id="simulate">Simulate</button>
+</div>
+
+<div>
+  <div id="summary-result">
+    <!-- Summary will be populated by JavaScript -->
+  </div>
+  <div id="table-result-wrapper" style="overflow-x: auto; width: 100%">
+    <div id="table-result">
+      <!-- Amortization table will be populated by JavaScript -->
+    </div>
+  </div>
+</div>
+
+<script src="../loan_calculator/script.js"></script>

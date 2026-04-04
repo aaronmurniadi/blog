@@ -1,0 +1,112 @@
+media:
+  - name: images
+    label: Images
+    input: media/images
+    output: /media/images
+    categories: [image]
+content:
+  - name: posts
+    label: Posts
+    type: collection
+    path: '_posts'
+    view:
+      fields: [title, date, last_modified_date]
+    fields:
+      - name: date
+        label: Date
+        type: date
+      - name: last_modified_date
+        label: Last Modified Date
+        type: date
+      - name: title
+        label: Title
+        type: string
+      - name: layout
+        label: Layout
+        type: string
+      - name: body
+        label: Body
+        type: rich-text
+  - name: summaries
+    label: Summaries
+    type: collection
+    path: '_summaries'
+    view:
+      fields: [title, date, last_modified_date]
+    fields:
+      - name: date
+        label: Date
+        type: date
+      - name: last_modified_date
+        label: Last Modified Date
+        type: date
+      - name: title
+        label: Title
+        type: string
+      - name: layout
+        label: Layout
+        type: string
+      - name: body
+        label: Body
+        type: rich-text
+  - name: articles
+    label: Articles
+    type: collection
+    path: '_articles'
+    view:
+      fields: [title, date, last_modified_date]
+    fields:
+      - name: date
+        label: Date
+        type: date
+      - name: last_modified_date
+        label: Last Modified Date
+        type: date
+      - name: title
+        label: Title
+        type: string
+      - name: layout
+        label: Layout
+        type: string
+      - name: body
+        label: Body
+        type: rich-text
+  - name: photography
+    label: Photography
+    path: photography.md
+    type: file
+    fields:
+      - name: title
+        label: Title
+        type: string
+      - name: layout
+        label: Layout
+        type: string
+      - name: nav_enabled
+        label: Navigation Sidebar
+        type: boolean
+      - name: nav_exclude
+        label: Exclude from Navigation Sidebar
+        type: boolean
+      - name: body
+        label: Body
+        type: rich-text
+  - name: config
+    label: Jekyll config
+    path: _config.yml
+    type: file
+  - name: css
+    label: CSS
+    path: _sass/custom/custom.scss
+    type: file
+  - name: typesttings
+    label: Typesttings
+    path: typesttings.md
+    type: file
+    fields:
+      - name: title
+        label: Title
+        type: string
+      - name: body
+        label: Typesttings
+        type: rich-text

@@ -1,0 +1,39 @@
+@import url('https://fonts.cdnfonts.com/css/linux-biolinum-o');
+@import url('https://fonts.cdnfonts.com/css/linux-libertine-o');
+@import url('https://fonts.cdnfonts.com/css/inconsolata-2');
+
+table {
+  width: 100%;
+  box-sizing: border-box;
+  font-family: 'Inconsolata', monospace;
+  border-collapse: collapse;
+}
+
+/* Container for scrollable tables */
+#table-result-wrapper {
+  overflow-x: auto;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Allow tables to expand beyond container width when needed */
+#table-result-wrapper table {
+  min-width: 100%;
+  width: auto;
+}
+
+th,
+td {
+  border-bottom: 0px !important;
+  border-left: 0px !important;
+}
+
+/* Ensure results table is positioned correctly */
+#amortization-table {
+  margin-top: 20px;
+  clear: both;
+}
+
+.interest-rates {
+  border: 1px solid #eeebee !important;
+}

@@ -1,0 +1,33 @@
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>
+    {% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}
+  </title>
+
+  <meta
+    name="description"
+    content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}"
+  />
+  <meta name="author" content="{{ site.github_username }}" />
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}" />
+
+  {% include "favicon.html" %}
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | url }}" />
+
+  <meta
+    name="google-site-verification"
+    content="9AO6NpUScil3XywYYZoRxjfFqBvb9J6VMle9vl9FdjU"
+  />
+</head>
