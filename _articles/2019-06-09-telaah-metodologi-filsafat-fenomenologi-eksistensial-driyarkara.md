@@ -9,9 +9,9 @@ nav_order: 10
 
 ## Abstrak
 
-Fenomenologi menurut Driyarkara “bukanlah sekadar melihat objek yang tampak atau
+Fenomenologi menurut Driyarkara "bukanlah sekadar melihat objek yang tampak atau
 menampakkan dirinya saja, namun juga mempertimbangakan subjek yang melihatnya,
-yaitu kita sebagai manusia–_suatu budi, jiwa, dan pribadi_.” Driyarkara yakin
+yaitu kita sebagai manusia–_suatu budi, jiwa, dan pribadi_." Driyarkara yakin
 bahwa di dalam metode fenomenologi terkandung cita-cita dan jiwa dari semua
 filsafat, yaitu: keinginan atas pengertian yang benar, pengertian yang
 sedalam-dalamnya, pengertian dibelakang kabut fenomena. Fenomena selalu
@@ -37,22 +37,22 @@ _eksistensialisme_.
 ## Pendahuluan
 
 Penulis pertama kali bertemu dengan pemikiran Driyarkara dalam mata kuliah
-“Seminar Pemikiran-pemikiran Driyarkara” di STF Driyarkara tahun ajaran 2019.
+"Seminar Pemikiran-pemikiran Driyarkara" di STF Driyarkara tahun ajaran 2019.
 Waktu itu, penulis mendapat tugas untuk mempresentasikan tulisan beliau mengenai
-“Fenomena Pendidikan.”[^1] Dalam pembacaan tersebut, sekiranya ada dua hal yang
+"Fenomena Pendidikan."[^1] Dalam pembacaan tersebut, sekiranya ada dua hal yang
 berkesan bagi penulis. Pertama, tulisan ini merupakan contoh teks fenomenologi
 dalam bahasa Indonesia pertama yang pernah penulis baca. Driyarkara merumuskan
-metode fenomenologi sebagai “bukanlah sekadar melihat objek yang tampak atau
+metode fenomenologi sebagai "bukanlah sekadar melihat objek yang tampak atau
 menampakkan dirinya saja, namun juga mempertimbangakan subjek yang melihatnya,
-yaitu kita sebagai manusia–suatu budi, jiwa, dan pribadi,” dan beliau telah
+yaitu kita sebagai manusia–suatu budi, jiwa, dan pribadi," dan beliau telah
 mempraktikkannya dengan baik dan sistematis dalam membahas tema pendidikan.
 Konteks-konteks dan contoh yang digunakan dekat dengan kehidupan sehari-hari,
 sehingga pembaca seakan-akan ikut ‘menerobos’ fenomena pendidikan selapis demi
 selapis bersama dengan Driyarakara.
 
 Kedua, penulis tidak dapat memungkiri bakat yang dimiliki Driyarkara dalam
-menggunakan metode fenomenologi. Ia menuliskan, “Apakah sesuatu itu? Apakah yang
-kita lihat dalam praktek? _Ingatlah pengalaman biasa!_” dan hal inilah suatu
+menggunakan metode fenomenologi. Ia menuliskan, "Apakah sesuatu itu? Apakah yang
+kita lihat dalam praktek? _Ingatlah pengalaman biasa!_" dan hal inilah suatu
 ciri khas yang dapat ditemukan sepanjang tulisannya. Driyarkara banyak
 memberikan contoh dari pengalaman biasa sehari-hari, ‘menerobos’-nya, dan
 mengambil makna dibalik fenomena pendidikan. Akan tetapi, penulis menyadari
@@ -110,10 +110,10 @@ filsafatnya, Driyarkara tidak pernah menulis buku. Tulisan-tulisannya dalam buku
 tebal _KLD_ diambil dari artikel-artikel majalah, surat-surat, dan diktat-diktat
 yang ia gunakan selama mengajar sebagai dosen filsafat.[^3] Hal ini oleh
 Christian Triyudo dilihat sebagai cara khas Driyarkara dalam mengembangkan
-filsafat di Indonesia. Ia menuliskan, “Karena menginginkan filsafat menjadi cara
+filsafat di Indonesia. Ia menuliskan, "Karena menginginkan filsafat menjadi cara
 hidup bagi banyak orang sehingga berani menyelami realitas, beliau
 [(Driyarkara)] memilih mengomunkasikannya dengan beranekaragam cara yang
-memungkinkan orang bermenung.”[^4]
+memungkinkan orang bermenung."[^4]
 
 Tentang minat filsafatnya, sebagaimana dikatakan oleh Christ Verhaak, Driyarkara
 banyak membaca pemikiran tokoh-tokoh aliran Eksistensialisme, seperti Heidegger,
@@ -200,10 +200,10 @@ fenomenologis sekaligus eksistensial. Secara fenomenologis, manusia hidup tidak
 sendirian. Manusia selalu bersama manusia lain, yang oleh Heidegger disebut
 sebagai _Mit-Dasein_. Pandangan ini sekaligus eksistensial. Artinya, adanya
 manusia adalah ada bersama dengan manusia lain. _Dasein_ atau manusia menurut
-Heidegger, yang sebagaimana dijelaskan Driyarkara, selalu “membelum”. Manusia di
+Heidegger, yang sebagaimana dijelaskan Driyarkara, selalu "membelum". Manusia di
 dalam dunia selalu terlibat dalam keigatan, sedang ini atau itu, sedang begini
-atau begitu. Jadi, dia selalu “menyedang,” tetapi dalam menyedang itu manusia
-selalu “membelum.” Ada gerak untuk terus memberbarui, memperbaiki diri dan hal
+atau begitu. Jadi, dia selalu "menyedang," tetapi dalam menyedang itu manusia
+selalu "membelum." Ada gerak untuk terus memberbarui, memperbaiki diri dan hal
 ini tidak pernah selesai sampai akhir hidupnya.[^13]
 
 Hal ini juga yang terlihat dalam pemikirannya tentang pendidikan. Pendidikan
@@ -299,9 +299,9 @@ menggunakan berbagai konsep-konsep psikologis dan sosial seperti ‘meniru’ at
 
 Tetapi, apakah itu yang merupakan keseluruhan ‘fenomena pendidikan’? Masih
 belum, _Tahan dulu tendensi kita untuk berteori!_ Saat melihat fenomena,
-Driyarkara memperingatkan untuk tidak terjebak pada apa yang tampak saja. “Kita
+Driyarkara memperingatkan untuk tidak terjebak pada apa yang tampak saja. "Kita
 tidak harus mengamat-amati barang yang tersurat, melainkan harus menunjuk hal
-yang tersirat dalam tersurat,” tulis Driyarkara.[^22] Dengan itu maksud
+yang tersirat dalam tersurat," tulis Driyarkara.[^22] Dengan itu maksud
 Driyarkara adalah kita mesti mengambil jarak dari yang tampak, dan mulai
 menyelidiki dan bertanya. Jika ingin melampaui apa yang kelihatan dan menuju ke
 yang mendalam, tentunya perlu pertanyaan yang mendalam dan bukan pertanyaan yang
@@ -315,8 +315,8 @@ pendidikan, tetapi kita sudah menempelkannya pada fenomena. Dari situ muncul lah
 kabut tebal yang mencemari pengertian kita, dan menghalangi kita untuk melampaui
 fenomena. Tahan dulu, kurung dulu apa yang kita pahami tentang ‘pendidikan’ itu,
 dan bertanyalah: Apa sebenarnya fenomena pendidikan itu? Atau lebih canggihnya
-Driyarkara merumuskan: “Adakah suatu perbuatan tertentu yang dengan sendirinya
-(_an sich_), menurut ‘strukturnya,’ sudah merupakan pendidikan?” Dari celah
+Driyarkara merumuskan: "Adakah suatu perbuatan tertentu yang dengan sendirinya
+(_an sich_), menurut ‘strukturnya,’ sudah merupakan pendidikan?" Dari celah
 inilah kemudian kita dapat mulai menerobos fenomena![^23]
 
 Hal ini juga yang dapat dilakukan saat kita berhadapan dengan fenomena lainnya
@@ -344,16 +344,16 @@ Perjalanan hidup yang penuh drama, kekaguman atas teori kecintaan St. Agustinus,
 dan permenungannya atas karya fenomenologi Husserl selama 13 tahun membuahkan
 pemikiran fenomenologis yang sangat kaya dan gemilang.[^24]
 
-Permenungan Scheler tentang manusia berpusat pada pertanyaan: “Apakah manusia
-itu dan bagaimana kedudukannya dalam realitas?” Pengaruh pemikiran St. Agustinus
+Permenungan Scheler tentang manusia berpusat pada pertanyaan: "Apakah manusia
+itu dan bagaimana kedudukannya dalam realitas?" Pengaruh pemikiran St. Agustinus
 dan kesetiannya terhadap metode Husserl, membawanya sampai kepada pengertian
-bahwa: “Manusia adalah makhluk yang bersujud dan mencari Tuhan, manusia adalah
+bahwa: "Manusia adalah makhluk yang bersujud dan mencari Tuhan, manusia adalah
 Wahyu dari Tuhan dalam kehidupan duniawi ini, manusia adalah gerak abadi dari
-hidup, yang menuju keatas dengan diri sendiri.” Dalam perjalannya itu, manusia
+hidup, yang menuju keatas dengan diri sendiri." Dalam perjalannya itu, manusia
 melakukan banyak perbuatan-perbuatan, dan dari perbuatan terlihat apakah
 pengertian yang ia dapat membawanya bertindak selaras dengan apa yang
 dikehendaki Tuhan.[^25] Hal ini membawa kita ke ranah etika Scheler, yaitu
-“_Ordo Amoris_,” atau yang Driyarkara sebut sebagai ‘pengaturan kecintaan.’[^26]
+"_Ordo Amoris_," atau yang Driyarkara sebut sebagai ‘pengaturan kecintaan.’[^26]
 Ini kemudian membawa unsur religi atau agama ke dalam metodologi Driyarkara. Hal
 ini akan dibahas di langkah selanjutnya. Sekarang kita lihat dulu bagaimana
 Driyarkara mengaitakan refleksi atas fenomena dengan refleksi atas eksistensi
@@ -382,10 +382,10 @@ akhirnya sampai pada bukan hanya satu, namun 3 definisi pendidikan yang saling
 berkaitan,[^27] dan 18 dalil-dalil tentang pendidikan![^28]
 
 Di dalam Humanisasi terdapat pengertian _Dasein_ atau manusia menurut Heidegger,
-yang sebagaimana dijelaskan Driyarkara, selalu “membelum”. Manusia di dalam
+yang sebagaimana dijelaskan Driyarkara, selalu "membelum". Manusia di dalam
 dunia selalu terlibat dalam keigatan, sedang ini atau itu, sedang begini atau
-begitu. Jadi, dia selalu “menyedang,” tetapi dalam menyedang itu manusia selalu
-“membelum.” Ada gerak untuk terus memberbarui, memperbaiki diri dan hal ini
+begitu. Jadi, dia selalu "menyedang," tetapi dalam menyedang itu manusia selalu
+"membelum." Ada gerak untuk terus memberbarui, memperbaiki diri dan hal ini
 tidak pernah selesai sampai akhir hidupnya.[^29] Berkembang, memperbarui, dan
 melampaui dirinya itu selaras dengan nilai-nilai yang ada disekitarnya, dan
 pemikiran-pemikiran yang ada pada zamannya. Dalam kata lain: sesuai dengan
@@ -399,7 +399,7 @@ sila.
 
 Langkah terakhir, seperti yang sudah sempat disinggung sebelumnya adalah
 mengaitkan relfeksi fenomena dan eksistensi dengan religi atau agama. Titik
-tolaknya adalah pemikiran Max Scheler, yaitu “_Ordo Amoris_,” atau yang
+tolaknya adalah pemikiran Max Scheler, yaitu "_Ordo Amoris_," atau yang
 Driyarkara sebut sebagai ‘pengaturan kecintaan.’[^30] Permenungan fenomenologis
 atas hakikat manusia membawa Scheler kepada tiga golongan nilai (_Wert_) yang
 manusia hadapi dalam hidupnya, yaitu: nilai inderawi (kenikmatan), nilai
@@ -421,9 +421,9 @@ fenomenologi eksistensial Driyarkara.
 ## Penutup dan Kesimpulan
 
 Dari uraian di atas, terlihat bagaimana Driyarkara setia dalam menggunakan
-metode fenomenologi eksistensial, yaitu “bukanlah sekadar melihat objek yang
+metode fenomenologi eksistensial, yaitu "bukanlah sekadar melihat objek yang
 tampak atau menampakkan dirinya saja, namun juga mempertimbangakan subjek yang
-melihatnya, yaitu kita sebagai manusia–_suatu budi, jiwa, dan pribadi._” Dalam
+melihatnya, yaitu kita sebagai manusia–_suatu budi, jiwa, dan pribadi._" Dalam
 menghadapi fenomena, Driyarkara mengajak kita untuk pertama-tama melihatnya
 dengan ‘apa-adanya,’ lengkap, tanpa prasangka dan keputusan-keputusan yang
 spontan. Kedua, kita harus menyingkirkan kabut-kabut yang ada dan menerobos
@@ -449,48 +449,48 @@ berada di dunia sebagai manusia.
 
 ## Daftar Pustaka
 
-- Driyarkara, Nicolaus, SJ. “Bab IV: Fenomenologi.” Dalam _Pertjikan Filsafat_,
+- Driyarkara, Nicolaus, SJ. "Bab IV: Fenomenologi." Dalam _Pertjikan Filsafat_,
   2nd ed. Jakarta: Pembangunan, 1966.
-- ---------. “Buku Kedua: Hominisasi dan Humanisasi, Bab II: Fenomena
-  Pendidikan.” Dalam _Karya lengkap Driyarkara : Esai-esai Filsafat Pemikir yang
+- ---------. "Buku Kedua: Hominisasi dan Humanisasi, Bab II: Fenomena
+  Pendidikan." Dalam _Karya lengkap Driyarkara : Esai-esai Filsafat Pemikir yang
   Terlibat Penuh dalam Perjuangan Bangsanya_, 355–418. Jakarta: Gramedia Pustaka
   Utama, 2006.
-- ---------. “Buku Kedua: Hominisasi dan Humanisasi, Bab III: Capita Selecta
-  Filsafat Pendidikan.” Dalam _Karya lengkap Driyarkara : Esai-esai Filsafat
+- ---------. "Buku Kedua: Hominisasi dan Humanisasi, Bab III: Capita Selecta
+  Filsafat Pendidikan." Dalam _Karya lengkap Driyarkara : Esai-esai Filsafat
   Pemikir yang Terlibat Penuh dalam Perjuangan Bangsanya_, 419–65. Jakarta:
   Gramedia Pustaka Utama, 2006.
-- ---------. “Buku Keempat: Homo Homini Socius, Bab II: Sosialitas Sebagai
-  Eksistensial.” Dalam _Karya lengkap Driyarkara : Esai-esai Filsafat Pemikir
+- ---------. "Buku Keempat: Homo Homini Socius, Bab II: Sosialitas Sebagai
+  Eksistensial." Dalam _Karya lengkap Driyarkara : Esai-esai Filsafat Pemikir
   yang Terlibat Penuh dalam Perjuangan Bangsanya_, 651–98. Jakarta: Gramedia
   Pustaka Utama, 2006.
-- ---------. “Buku Keenam: Menalar Dasar Negara Indonesia, Bab II: Pemikiran
-  Pancasila Sesudah 1965.” Dalam _Karya lengkap Driyarkara : Esai-esai Filsafat
+- ---------. "Buku Keenam: Menalar Dasar Negara Indonesia, Bab II: Pemikiran
+  Pancasila Sesudah 1965." Dalam _Karya lengkap Driyarkara : Esai-esai Filsafat
   Pemikir yang Terlibat Penuh dalam Perjuangan Bangsanya_, 867–959. Jakarta:
   Gramedia Pustaka Utama, 2006.
-- ---------. “Buku Kesembilan: Ajaran dan Tokoh Kontemporer, Bab I:
-  Eksistensialisme.” Dalam _Karya lengkap Driyarkara : Esai-esai Filsafat
+- ---------. "Buku Kesembilan: Ajaran dan Tokoh Kontemporer, Bab I:
+  Eksistensialisme." Dalam _Karya lengkap Driyarkara : Esai-esai Filsafat
   Pemikir yang Terlibat Penuh dalam Perjuangan Bangsanya_, 1281–1318. Jakarta:
   Gramedia Pustaka Utama, 2006.
 - ---------. _Pertjikan Filsafat_. 2nd ed. Jakarta: Pembangunan, 1966.
 - Driyarkara, Nicolaus, SJ, dan A. Sudiarja. _Karya lengkap Driyarkara :
   Esai-esai Filsafat Pemikir yang Terlibat Penuh dalam Perjuangan Bangsanya_.
   Jakarta: Gramedia Pustaka Utama, 2006.
-- Mohanty, Jitendra N. “Phenomenology.” Dalam _Encyclopedia of Philosophy_, 2nd
+- Mohanty, Jitendra N. "Phenomenology." Dalam _Encyclopedia of Philosophy_, 2nd
   ed., 7:278–301. Detroit: Macmillan Reference USA, 2006.
-- Triyatmoko, B.B. “Biografi Singkat.” Dalam _Bunga Rampai Mengenang Prof. Dr.
+- Triyatmoko, B.B. "Biografi Singkat." Dalam _Bunga Rampai Mengenang Prof. Dr.
   N. Drijarkara SJ_, 5–11. Jakarta: Senat Mahasiswa STF Driyarkara, 1988.
-- Triyudo, Christian. “Driyarkara dan Filsafat sebagai Cara Manusia Menyelami
-  Realtias Sedalam-dalamnya.” _Jurnal Driyarkara_ 2 (2013): 7–26.
+- Triyudo, Christian. "Driyarkara dan Filsafat sebagai Cara Manusia Menyelami
+  Realtias Sedalam-dalamnya." _Jurnal Driyarkara_ 2 (2013): 7–26.
 
 [^1]:
-    Driyarkara, “Buku Keenam: Menalar Dasar Negara Indonesia, Bab II:
-    Pemikiran Pancasila Sesudah 1965,” 355–418.
+    Driyarkara, "Buku Keenam: Menalar Dasar Negara Indonesia, Bab II:
+    Pemikiran Pancasila Sesudah 1965," 355–418.
 
 [^2]: Driyarkara dan Sudiarja, _KLD_, xxvi.
-[^3]: Triyatmoko, “Biografi Singkat,” 7.
+[^3]: Triyatmoko, "Biografi Singkat," 7.
 [^4]:
-    Triyudo, “Driyarkara dan Filsafat
-    sebagai Cara Manusia Menyelami Realtias Sedalam-dalamnya,” 11.
+    Triyudo, "Driyarkara dan Filsafat
+    sebagai Cara Manusia Menyelami Realtias Sedalam-dalamnya," 11.
 
 [^5]: Ibid., 10.
 [^6]: Driyarkara, _Pertjikan Filsafat_, 122.
@@ -498,48 +498,48 @@ berada di dunia sebagai manusia.
 [^8]: Ibid., 123.
 [^9]: Ibid., 122.
 [^10]: Ibid., 124.
-[^11]: Driyarkara, “Bab IV: Fenomenologi,” 120–63.
+[^11]: Driyarkara, "Bab IV: Fenomenologi," 120–63.
 [^12]:
-    Driyarkara, “Buku
-    Keempat: Homo Homini Socius, Bab II: Sosialitas Sebagai Eksistensial,” 651–98.
+    Driyarkara, "Buku
+    Keempat: Homo Homini Socius, Bab II: Sosialitas Sebagai Eksistensial," 651–98.
 
 [^13]:
-    Driyarkara, “Buku Kesembilan: Ajaran dan Tokoh Kontemporer, Bab I:
-    Eksistensialisme,” 1291.
+    Driyarkara, "Buku Kesembilan: Ajaran dan Tokoh Kontemporer, Bab I:
+    Eksistensialisme," 1291.
 
 [^14]:
-    Driyarkara, “Buku Keenam: Menalar Dasar Negara Indonesia, Bab II:
-    Pemikiran Pancasila Sesudah 1965,” 370.
+    Driyarkara, "Buku Keenam: Menalar Dasar Negara Indonesia, Bab II:
+    Pemikiran Pancasila Sesudah 1965," 370.
 
 [^15]: Ibid., 938–59.
 [^16]: Driyarkara dan Sudiarja, _KLD_, 591–92.
 [^17]:
-    Driyarkara, “Buku Kedua:
-    Hominisasi dan Humanisasi, Bab II: Fenomena Pendidikan,” 377.
+    Driyarkara, "Buku Kedua:
+    Hominisasi dan Humanisasi, Bab II: Fenomena Pendidikan," 377.
 
 [^18]: Ibid., 382.
-[^19]: Mohanty, “Phenomenology,” 285.
+[^19]: Mohanty, "Phenomenology," 285.
 [^20]: Driyarkara, _Pertjikan Filsafat_, 126.
 [^21]: Ibid., 127–28.
 [^22]:
-    Driyarkara, “Buku Kedua: Hominisasi dan Humanisasi,
-    Bab II: Fenomena Pendidikan,” 360–61.
+    Driyarkara, "Buku Kedua: Hominisasi dan Humanisasi,
+    Bab II: Fenomena Pendidikan," 360–61.
 
 [^23]: Ibid., 356.
 [^24]: Driyarkara, _Pertjikan Filsafat_, 140, 143, 144.
-[^25]: Driyarkara, “Bab IV: Fenomenologi,” 143.
+[^25]: Driyarkara, "Bab IV: Fenomenologi," 143.
 [^26]: Ibid., 148.
 [^27]:
-    Driyarkara, “Buku Kedua: Hominisasi dan Humanisasi,
-    Bab II: Fenomena Pendidikan,” 415–17.
+    Driyarkara, "Buku Kedua: Hominisasi dan Humanisasi,
+    Bab II: Fenomena Pendidikan," 415–17.
 
 [^28]:
-    Driyarkara, “Buku Kedua: Hominisasi dan Humanisasi, Bab III: Capita
-    Selecta Filsafat Pendidikan,” 419–65.
+    Driyarkara, "Buku Kedua: Hominisasi dan Humanisasi, Bab III: Capita
+    Selecta Filsafat Pendidikan," 419–65.
 
 [^29]:
-    Driyarkara, “Buku Kesembilan: Ajaran dan Tokoh Kontemporer, Bab I:
-    Eksistensialisme,” 1291.
+    Driyarkara, "Buku Kesembilan: Ajaran dan Tokoh Kontemporer, Bab I:
+    Eksistensialisme," 1291.
 
 [^30]: Ibid., 148.
-[^31]: Driyarkara, “Bab IV: Fenomenologi,” 148–51.
+[^31]: Driyarkara, "Bab IV: Fenomenologi," 148–51.

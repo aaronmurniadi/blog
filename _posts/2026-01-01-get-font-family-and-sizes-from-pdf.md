@@ -108,10 +108,10 @@ ing the scope of liability under state law is the State’s pre-
 rogative.  But a State has no power to confer immunity from
 federal causes of action.  See, e.g., Howlett v. Rose, 496 U. S.
 356,  383  (1990);  Haywood  v.  Drown,  556  U. S.  729,  740
-(2009); Williams v. Reed, 604 U. S. 168, 174 (2025).  “[T]he
-Judges in every State” are bound to follow federal law, “any
+(2009); Williams v. Reed, 604 U. S. 168, 174 (2025).  "[T]he
+Judges in every State" are bound to follow federal law, "any
 Thing in the Constitution or Laws of any state to the Con-
-trary notwithstanding.”  U. S. Const., Art. VI, cl. 2.
+trary notwithstanding."  U. S. Const., Art. VI, cl. 2.
   Plaintiff ’s  federal  claims  may  well  fail  on  other  federal
 grounds.  Cf. Cummings v. Premier Rehab Keller, 596 U. S.
 212, 222 (2022).  But that is for the Louisiana courts to de-

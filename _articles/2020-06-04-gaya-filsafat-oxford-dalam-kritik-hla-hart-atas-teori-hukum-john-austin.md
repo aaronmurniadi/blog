@@ -165,10 +165,10 @@ mengungkapkan sifat _askriptif_ dari bahasa. Perhatikan kalimat-kalimat berikut:
 
 | Kalimat-kalimat I            | Kalimat-kalimat II       |
 | ---------------------------- | ------------------------ |
-| (A) “Ini miliku.”            | (E) “Aku melakukannya.”  |
-| (B) “Baiklah, ini milikmu.”  | (F) “Kamu melakukannya.” |
-| \(C\) “Ini miliknya.”        | (G) “Dia melakukannya.”  |
-| (D) “Sekarang, ini milikmu.” |                          |
+| (A) "Ini miliku."            | (E) "Aku melakukannya."  |
+| (B) "Baiklah, ini milikmu."  | (F) "Kamu melakukannya." |
+| \(C\) "Ini miliknya."        | (G) "Dia melakukannya."  |
+| (D) "Sekarang, ini milikmu." |                          |
 
 Kalimat-kalimat tersebut secara tradisional digolongkan ke dalam kalimat
 _deskriptif_. Kalimat (A, B, C, dan D), misalnya, adalah kalimat yang
