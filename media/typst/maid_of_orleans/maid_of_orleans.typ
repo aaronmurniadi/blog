@@ -2999,7 +2999,7 @@ but those given below are measurably accurate.
   [1431, Joan is sold to the English and delivered by them to the Inquisition,
     Jan. 3; at her first trial is declared guilty of heresy and sorcery and
     sentenced to imprisonment for life; at her second trial upon charges of
-    “heresy, relapse, apostasy, and idolatry” is sentenced to be burned at the
+    "heresy, relapse, apostasy, and idolatry" is sentenced to be burned at the
     stake; her death, May 30.],
   [1456, Sentence revoked by the Pope.],
   [1904, Preliminary steps toward canonization of Joan taken at Rome.],

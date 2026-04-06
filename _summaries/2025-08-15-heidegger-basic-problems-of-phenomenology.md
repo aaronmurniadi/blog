@@ -87,21 +87,21 @@ Dengan demikian, fenomenologi adalah tata-cara ilmiah filsafat, yang memungkinka
 
 ## §4. Empat Tesis tentang Ada dan Masalah-Masalah Dasar Fenomenologi
 
-Bagian keempat ini menandai titik tolak yang menentukan dalam seluruh penyelidikan: di sinilah pokok persoalan filsafat, sebagaimana dipahami Heidegger, dirumuskan secara tajam dan historis. Filsafat, sejak awal, digerakkan oleh satu pertanyaan yang tak kunjung padam—pertanyaan tentang makna Ada secara umum. Inilah "soal pertama dan terakhir, soal dasar filsafat”: Apa makna Ada itu? Bagaimana mungkin pemahaman tentang Ada?
+Bagian keempat ini menandai titik tolak yang menentukan dalam seluruh penyelidikan: di sinilah pokok persoalan filsafat, sebagaimana dipahami Heidegger, dirumuskan secara tajam dan historis. Filsafat, sejak awal, digerakkan oleh satu pertanyaan yang tak kunjung padam—pertanyaan tentang makna Ada secara umum. Inilah "soal pertama dan terakhir, soal dasar filsafat": Apa makna Ada itu? Bagaimana mungkin pemahaman tentang Ada?
 
 Untuk menelusuri pertanyaan ini, Heidegger mengajak kita menelusuri empat tesis pokok tentang Ada yang telah mewarnai sejarah filsafat Barat. Keempat tesis ini bukan sekadar pendapat terpisah, melainkan simpul-simpul pemikiran yang saling bertaut dan membentuk medan masalah ontologis yang menjadi inti fenomenologi.
 
-1.  **Tesis Kant:** "Ada bukanlah predikat nyata.” Dalam pemikiran Kant, Ada tidak menambah sifat apapun pada sesuatu; ia bukanlah kualitas yang dapat ditempelkan pada suatu yang-ada.
+1.  **Tesis Kant:** "Ada bukanlah predikat nyata." Dalam pemikiran Kant, Ada tidak menambah sifat apapun pada sesuatu; ia bukanlah kualitas yang dapat ditempelkan pada suatu yang-ada.
 2.  **Tesis Ontologi Abad Pertengahan (Skolastik/Aristoteles):** Dalam susunan sesuatu yang-ada, selalu terdapat dua unsur: _essentia_ (apa-nya, hakikat) dan _existentia_ (ada-nya, keberadaan).
 3.  **Tesis Ontologi Modern:** Ada menampakkan diri dalam dua cara pokok: sebagai ada-di-alam (_res extensa_) dan ada-di-jiwa atau pikiran (_res cogitans_).
-4.  **Tesis Logika:** Segala sesuatu yang-ada dapat dibicarakan dan ditunjuk melalui kata "adalah” (kopula).
+4.  **Tesis Logika:** Segala sesuatu yang-ada dapat dibicarakan dan ditunjuk melalui kata "adalah" (kopula).
 
 Keempat tesis ini, meski tampak terpisah, sesungguhnya saling mengandaikan dan saling menuntut. Jika diselami secara kritis, kita akan menemukan bahwa di baliknya tersembunyi empat masalah dasar yang menjadi jantung fenomenologi:
 
 1.  **Masalah Perbedaan Ontologis:** Apa perbedaan mutlak antara Ada dan yang-ada.
 2.  **Masalah Artikulasi Dasar Ada:** Bagaimana Ada terartikulasi dalam _essentia_ dan _existentia_.
 3.  **Masalah Modifikasi Ada dan Kesatuan Konsep Ada:** Bagaimana Ada dapat mengalami pelbagai modifikasi, dan bagaimana kesatuan makna Ada tetap terjaga dalam segala ambiguitas dan perubahannya.
-4.  **Masalah Karakter Kebenaran Ada:** Bagaimana Ada itu sendiri mengandung kebenaran, dan apa artinya "kebenaran” dalam konteks Ada.
+4.  **Masalah Karakter Kebenaran Ada:** Bagaimana Ada itu sendiri mengandung kebenaran, dan apa artinya "kebenaran" dalam konteks Ada.
 
 Jalan menuju pemahaman tentang makna Ada hanya dapat ditempuh melalui analisis ontologis atas Dasein manusia. Dasein, sebagai eksistensi yang selalu sudah berada di dunia, memikul pemahaman tentang Ada di akar segala sikap terhadap yang-ada. Analisis ini menyingkap bahwa struktur asli Dasein adalah temporalitas—waktu sebagai cakrawala di mana Ada menjadi mungkin untuk dimengerti. Dengan demikian, temporalitas menjadi medan pokok penelitian ontologis: penentuan makna Ada hanya dapat dilakukan melalui waktu.
 

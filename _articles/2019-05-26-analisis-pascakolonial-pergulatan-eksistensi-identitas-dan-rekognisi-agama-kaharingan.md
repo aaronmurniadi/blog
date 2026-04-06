@@ -402,35 +402,35 @@ independen.
   The Key Concepts_. Third edition. London ; New York: Routledge, Taylor & Francis
   Group.
 
-- Baier, Martin. 2007. “The Development of a New Religion in Kalimantan, Central
-  Borneo.” _Asian Anthropology_ 6(1):169–82.
+- Baier, Martin. 2007. "The Development of a New Religion in Kalimantan, Central
+  Borneo." _Asian Anthropology_ 6(1):169–82.
 
-- Etika, Tiwi. 2019. “Perjuangan Kritis Agama Kaharingan di Indonesia.” _Jurnal
+- Etika, Tiwi. 2019. "Perjuangan Kritis Agama Kaharingan di Indonesia." _Jurnal
   Studi Kultural_ 4(1):1–12.
 
-- Gepu, Wayan. 2018. “Religious conversion towards Hindu Kaharingan to
-  Christianity.” _International Journal of Linguistics, Literature, and Culture_.
+- Gepu, Wayan. 2018. "Religious conversion towards Hindu Kaharingan to
+  Christianity." _International Journal of Linguistics, Literature, and Culture_.
 
-- Herrmans, Isabell. 2004. “Representing Unpredictability: an Analysis of a Curing
-  Ritual Among The East Kalimantan Luangan.” _Journal of Ritual Studies_
+- Herrmans, Isabell. 2004. "Representing Unpredictability: an Analysis of a Curing
+  Ritual Among The East Kalimantan Luangan." _Journal of Ritual Studies_
   18(1):50–61.
 
-- Herrmans, Isabell. 2017. “Genre Diversification: Orthodoxy and Innovation in an
-  Indonesian Minority Religion.” _Indonesia and the Malay World_ 45(131):24–43.
+- Herrmans, Isabell. 2017. "Genre Diversification: Orthodoxy and Innovation in an
+  Indonesian Minority Religion." _Indonesia and the Malay World_ 45(131):24–43.
 
 - Hiddleston, Jane. 2009. _Understanding Postcolonialism_. Stocksfield: Acumen.
 
-- Klinken, Gerry Van. 2006. “Colonizing Borneo: state-building and ethnicity in
-  Central Kalimantan.” _Indonesia_ (81):23–49.
+- Klinken, Gerry Van. 2006. "Colonizing Borneo: state-building and ethnicity in
+  Central Kalimantan." _Indonesia_ (81):23–49.
 
-- Schiller, Anne. 1996. “An ‘old’ religion in ‘new order’ Indonesia: Notes on
-  ethnicity and religious affiliation.” _Sociology of Religion_ 57(4):409–417.
+- Schiller, Anne. 1996. "An ‘old’ religion in ‘new order’ Indonesia: Notes on
+  ethnicity and religious affiliation." _Sociology of Religion_ 57(4):409–417.
 
 - Steenbrink, Karel A. dan Jan Sihar Aritonang, ed. 2008. _A history of
   Christianity in Indonesia_. Leiden-Boston: Brill.
 
-- Sugiyarto, Wakhid. 2016. “Eksistensi Agama Hindu Kaharingan di Kota Palangkaraya
-  Kalimantan Tengah.” _Harmoni_ 15(3):102–116.
+- Sugiyarto, Wakhid. 2016. "Eksistensi Agama Hindu Kaharingan di Kota Palangkaraya
+  Kalimantan Tengah." _Harmoni_ 15(3):102–116.
 
 [^1]:
     Kitab Suci Kaharingan yang sekarang dipakai, yaitu _Panaturan_ baru

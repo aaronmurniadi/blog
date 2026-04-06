@@ -40,8 +40,8 @@ dengan Levasseur ini memberikan lima orang anak yang semuanya dimasukkan
 Rousseau ke panti asuhan. Mereka menikah setelah 20 tahun menjalin hubungan.[^3]
 
 Tahun 1749, ia menjadi terkenal di seluruh Prancis setelah memenangkan sayembara
-mengarang di kota Dijon, dengan tema “Apakah kemajuan ilmu-ilmu dan seni telah
-memperbaiki kesusilaan?” Dalam karangannya, ia menjawab dengan tegas: Tidak.
+mengarang di kota Dijon, dengan tema "Apakah kemajuan ilmu-ilmu dan seni telah
+memperbaiki kesusilaan?" Dalam karangannya, ia menjawab dengan tegas: Tidak.
 Suatu jawaban kontroversial karena di masa itu ilmu pengetahuan diagungkan
 sebagai yang mendorong majunya peradaban. Karangan ini menjadi titik mulai
 perkembangan pemikiran-pemikiran Rousseau. Dua karyanya yang terbesar, _Émile ou
@@ -101,7 +101,7 @@ antara narasi-narasi tersebut, terdapat pemikiran mengenai prinsip-prinsip
 pendidikan.[^9]
 
 Di keseluruhan buku ini, Rousseau memaparkan suatu ideal pedagogis yang
-berdasarkan prinsip “_Retournous a la nature!_---Marilah kembali ke alam!”.
+berdasarkan prinsip "_Retournous a la nature!_---Marilah kembali ke alam!".
 Seperti yang sudah tertulis di atas, Rousseau melihat bahwa kebudayaan membuat
 korup masyarakat secara umum. Tetapi, Rousseau juga melihat dengan lebih
 spesifik, yaitu bahwa kebudayaan juga membuat korup anggota masyarakat di
@@ -123,18 +123,18 @@ pendidikan Rousseau akan penulis bahas menurut lima tahap perkembangan manusia.
 
 ## Pendahuluan
 
-Di sini Rousseau pertama kali menyebutkan istilah “_Nature_”, suatu istilah yang
+Di sini Rousseau pertama kali menyebutkan istilah "_Nature_", suatu istilah yang
 penting dan terlihat dalam keseluruhan buku _Emile_. Rousseau menggunakan term
 ‘_Nature_’ bergantian dengan bentuk sifatnya ‘_Natural_’, tetapi ia tidak pernah
 mendefinisikannya secara pasti.[^10] Di bagian ini, Rousseau menyempitkan arti
-_Nature_ sebagai “perkembangan-perkembangan internal dari bagian tubuh dan
-organ-organ kita” (Dengan begitu, makna _Nature_ di sini lebih dekat dengan
+_Nature_ sebagai "perkembangan-perkembangan internal dari bagian tubuh dan
+organ-organ kita" (Dengan begitu, makna _Nature_ di sini lebih dekat dengan
 ‘kodrat’ seseorang sebagai manusia). Rousseau memulai pendahuluannya dengan
 membahas tiga (3) aspek yang paling berperan dalam pendidikan seseorang selama
-hidupnya, yaitu “_Nature_”, manusia, dan benda-benda (EM 38:3). Dari manusia,
-kita belajar “kegunaan [bagian-bagian] yang didapat dari perkembangan itu”, dan
-hasil pendidikan dari benda-benda adalah “pengalaman mengenai berbagai benda
-yang mempengaruhi kita.” (EM 38:3). Tentang seberapa jauh manusia punya kendali
+hidupnya, yaitu "_Nature_", manusia, dan benda-benda (EM 38:3). Dari manusia,
+kita belajar "kegunaan [bagian-bagian] yang didapat dari perkembangan itu", dan
+hasil pendidikan dari benda-benda adalah "pengalaman mengenai berbagai benda
+yang mempengaruhi kita." (EM 38:3). Tentang seberapa jauh manusia punya kendali
 atas ketiga aspek pendidikan itu, Rousseau menjelaskan:
 
 > Dari ketiga [aspek] pendidikan ini, yang datang dari _Nature_ berada di luar
@@ -148,24 +148,24 @@ atas ketiga aspek pendidikan itu, Rousseau menjelaskan:
 Jika ketiga aspek tersebut saling berlawanan atau ada yang kurang, maka
 pendidikan anak dikatakan gagal. Anak yang dibesarkan dengan baik adalah yang
 memperoleh pelajaran dari ketiga aspek tersebut secara penuh dan proporsional.
-Rousseau menuliskan, “Hanya dia, yang dalam dirinya [ketiga aspek tersebut]
+Rousseau menuliskan, "Hanya dia, yang dalam dirinya [ketiga aspek tersebut]
 tertuju kepada titik yang sama, akan sampai pada cita-citanya dan hidup secara
-konsisten. Hanya dialah yang dibesarkan dengan baik.” (EM 38:4)
+konsisten. Hanya dialah yang dibesarkan dengan baik." (EM 38:4)
 
 ## Buku I: Kelahiran–2 Tahun
 
 Menurut Rousseau, tahap ini merupakan tahap pendidikan yang paling penting, dan
-merupakan tanggung jawab seorang ibu. Ia menuliskan: “Jika Sang Pencipta
+merupakan tanggung jawab seorang ibu. Ia menuliskan: "Jika Sang Pencipta
 menginginkan [tanggung jawab] itu ada pada laki-laki, Ia akan memberikannya susu
-yang dengannya ia akan merawat sang anak” (EM 37: catatan kaki \*). Itulah awal
+yang dengannya ia akan merawat sang anak" (EM 37: catatan kaki \*). Itulah awal
 dari kritik Rousseau terhadap kebiasaan buruk para ibu di zamannya, yaitu
 praktik menyerahkan bayinya kepada seorang suster atau pembantu. (EM 44:1)
 
 Rousseau memberikan ilustrasi mengenai praktik membedung bayi.[^11] Tubuh bayi
 seharusnya terbebas dari bedungan karena itu akan membatasinya dalam
 berinteraksi dengan lingkungan, benda-benda, dan orang-orang di sekitarnya (tiga
-aspek pendidikan). Rousseau bertanya, “Dari mana asalnya praktik yang tidak
-masuk akal ini?” Oleh Rousseau, praktik membedung bayi disebut praktik yang
+aspek pendidikan). Rousseau bertanya, "Dari mana asalnya praktik yang tidak
+masuk akal ini?" Oleh Rousseau, praktik membedung bayi disebut praktik yang
 _denatured_---yang tidak _natural_.
 
 > (...) Para ibu yang meremehkan tugas pertama mereka, yang tidak lagi ingin
@@ -183,12 +183,12 @@ bukan wanita lain. Menurut Rousseau, kebaikan yang didapat jika seorang ibu
 melaksanakan tugasnya, tidak hanya berkaitan dengan hubungan kasih antara ibu
 dan anak, tetapi juga keharmonisan keluarga secara keseluruhan:
 
-> “Biarkanlah para ibu berkenan untuk menyusui anak-anak mereka, [pada gilirannya]
+> "Biarkanlah para ibu berkenan untuk menyusui anak-anak mereka, [pada gilirannya]
 > moral akan mereformasi dirinya sendiri, sentimen alamiah
 > akan terbangun di setiap hati, dan membawa semuanya kembali bersama. (...) dari
 > koreksi satu kesalahan ini akan muncul suatu reformasi; alam akan mendapatkan
 > kembali semua haknya. Biarkan wanita sekali lagi menjadi ibu, [dan] pria akan
-> segera menjadi ayah dan suami lagi.” (EM 46:1)
+> segera menjadi ayah dan suami lagi." (EM 46:1)
 
 Rousseau juga mengkritik ayah-ayah yang menggunakan bisnis, kantor, dan
 pekerjaan-pekerjaan sebagai alasan untuk tidak ikut mengurus anak secara
@@ -198,10 +198,10 @@ membangun relasi dengan anak-anaknya sendiri. Dengan uangnya ia mengirim anaknya
 ke sekolah-sekolah, ke tangan orang lain. Bahkan dengan saudaranya sendiri
 saling terpisah, dan saat bertemu bersama di rumah, mereka akan berperilaku
 sopan, tetapi melihat satu sama lain sebagai orang asing. Konsekuensinya adalah
-“... segera setelah lingkungan keluarga kehilangan manisnya kehidupan, [seorang
+"... segera setelah lingkungan keluarga kehilangan manisnya kehidupan, [seorang
 anak] akan menjadi buruk moral [dalam usaha untuk mendapatkannya kembali].
 Manusia mana yang begitu bodohnya sampai tidak dapat melihat rangkaian
-[sebab-akibat] ini?” (EM 48:5)
+[sebab-akibat] ini?" (EM 48:5)
 
 Mengurus anak, menurut Rousseau, bukan hanya merupakan tuntutan yang muncul
 karena ia adalah ayah dari anak tersebut. Seorang anak kelak akan menjadi
@@ -229,9 +229,9 @@ tua tunduk kepada keperluan anak, atau orang tua membuat anak tunduk kepada
 keinginannya. Dari situ Rousseau melihat bahwa ide pertama yang didapat oleh
 anak adalah dominasi (_domination_) dan pelayanan (_servitude_).
 
-“Bahkan sebelum dapat berbicara, dia sudah memerintah, dan sebelum dapat
+"Bahkan sebelum dapat berbicara, dia sudah memerintah, dan sebelum dapat
 bertindak, dia sudah menurut. Bayi belum mengetahui bahwa apa yang dia lakukan
-itu salah, tetapi sudah dihukum” (EM 48:2). Dengan selalu mencari cara dan
+itu salah, tetapi sudah dihukum" (EM 48:2). Dengan selalu mencari cara dan
 menyesuaikan diri dengan bayi, tanpa sadar kita hanya memperjelas ide atau
 pelajaran dominasi tadi, dan dia akan terus merasa perlu didengarkan. Seharusnya
 kita cukup datang, memperhatikan dengan cermat, dan menyediakan apa yang memang
@@ -244,11 +244,11 @@ berbicara. Anak yang diburu-buru untuk bicara tidak punya waktu untuk belajar
 melafalkan atau mengerti dengan baik apa yang sebenarnya mereka katakan. Tetapi,
 anak yang secara _alami_ belajar berbicara akan mulai dari suku kata termudah,
 dan sedikit demi sedikit memberikan makna bersamaan dengan gerakan.
-“Pertama-tama bayi memberikan kepada kita kata yang mereka mengerti, bukan kita
+"Pertama-tama bayi memberikan kepada kita kata yang mereka mengerti, bukan kita
 yang memberikan kata yang hanya kita mengerti. Setelah itu, bayi akan menerima
 kata-kata kita lewat pengamatan terhadap tindakan yang kita lakukan terhadap
 mereka ketika kita mengucapkan kata-kata tersebut. Bayi kemudian akan
-menirunya.” (EM 73:4)
+menirunya." (EM 73:4)
 
 Menurut Rousseau, terlalu cepat mengajari anak untuk berbicara memiliki efek
 samping yang sangat berpengaruh terhadap cara berpikir anak untuk seumur
@@ -271,49 +271,49 @@ zamannya. Orang tua selalu ‘melindungi’ anak mereka di rumah, jauh dari
 penyakit, lingkungan kotor, dan penyakit. Itu hanya akan menghambat pengalaman
 fisik dari anak. Mereka direbut dari alam dan dikurung di rumah seperti ‘budak
 dapur’. Seharusnya, anak-anak bermain di luar supaya tubuh dan pikiran dapat
-bekerja bersama untuk mengalami dunia. “Maka untuk belajar berpikir, kita harus
+bekerja bersama untuk mengalami dunia. "Maka untuk belajar berpikir, kita harus
 menggerakkan tangan-kaki kita, menggunakan indera-indera kita, dan organ-organ
 kita ... Pendapat yang selama ini mengatakan bahwa perkembangan nalar (reason)
 terlepas dari tubuh itu jauh dari kebenaran. Keadaan jasmani yang sehat lah yang
-membuat kegiatan berpikir lebih mudah dan pasti” (EM 125:3).
+membuat kegiatan berpikir lebih mudah dan pasti" (EM 125:3).
 
 Rousseau juga terganggu ketika anak diajari praktik-praktik sopan santun
 berlebihan, yang menurutnya hanyalah kedok kesombongan dari status kelas mereka.
-Ia menulis, “Untuk saya sendiri, saya lebih suka Emile berperilaku ‘kasar’ dari
+Ia menulis, "Untuk saya sendiri, saya lebih suka Emile berperilaku ‘kasar’ dari
 pada sombong; Saya lebih suka dia berkata, saat mengajukan perintah misalnya,
 Lakukan ini! (Do this!), dari pada, Aku mohon Anda (I beg you). Bukan istilah
-yang ia gunakan yang penting, melainkan makna yang ia kaitkan dengannya.” (EM
+yang ia gunakan yang penting, melainkan makna yang ia kaitkan dengannya." (EM
 86:3)
 
 Indera yang paling penting bagi perkembangan nalar anak menurut Rousseau adalah
-penglihatan. “Penglihatan adalah indera yang paling berkaitan dengan keputusan
-yang dibuat pikiran, dibutuhkan waktu lama untuk belajar melihat” (EM 143:1).
+penglihatan. "Penglihatan adalah indera yang paling berkaitan dengan keputusan
+yang dibuat pikiran, dibutuhkan waktu lama untuk belajar melihat" (EM 143:1).
 Jadi, Rousseau menganjurkan anak-anak untuk diajari menggambar, supaya ia dapat
 mengukur, menilai, memperkirakan jarak, dan tinggi dari benda-benda. Dengan
 melihat dan menggambar bentuk objek-objek nyata, Alam akan masuk
 menjadi bagian dalam imajinasi anak. Rousseau menekankan menggambar objek nyata
-dengan menulis, “Aku bahkan akan menghalanginya [Emile] untuk menggambar apa pun
+dengan menulis, "Aku bahkan akan menghalanginya [Emile] untuk menggambar apa pun
 dari ingatan ... karena ketika gambaran yang aneh dan luar biasa [dari imajinasi]
 menggantikan kenyataan yang ada pada benda, dia akan kehilangan proporsi dan
-selera terhadap keindahan Alam.” (EM 144:1)
+selera terhadap keindahan Alam." (EM 144:1)
 
 Di umur 5–12 tahun ini, Rousseau mengkritik pendidikan yang terlalu fokus kepada
 bahasa dan sejarah. Menurutnya, itu tidak efektif karena kenyataannya anak-anak
 belum dapat mengaplikasikan pengetahuan-pengetahuan itu dalam pengalaman
-sehari-harinya. “Apakah orang dapat percaya bahwa hubungan-hubungan antara fakta
+sehari-harinya. "Apakah orang dapat percaya bahwa hubungan-hubungan antara fakta
 sejarah itu mudah untuk dipahami, sehingga ide-ide dengan sendirinya terbentuk
-di dalam pikiran anak?” (EM 110:2) Melihat orang tua yang sering memaksa anaknya
+di dalam pikiran anak?" (EM 110:2) Melihat orang tua yang sering memaksa anaknya
 membaca buku sejarah, Rousseau berpendapat bahwa seharusnya orang tua membiarkan
 anaknya membaca apa yang mereka suka, sehingga menumbuhkan kesukaan terhadap
-membaca, menulis, dan belajar sekaligus. Ia menuliskan, “Tetapi, harus diakui
+membaca, menulis, dan belajar sekaligus. Ia menuliskan, "Tetapi, harus diakui
 bahwa, anak tentu saja setidaknya harus bisa membaca. Aku setuju. Ia harus bisa
 membaca saat membaca itu berguna baginya; sebelum itu, membaca hanya membuatnya
-bosan.” (EM 116: 3)
+bosan." (EM 116: 3)
 
 Rousseau menjelaskan metode pendidikan yang akan digunakannya secara umum di
-buku ini, yaitu suatu pendidikan negatif: “Bukan terutama mengajarkan keutamaan
+buku ini, yaitu suatu pendidikan negatif: "Bukan terutama mengajarkan keutamaan
 atau kebenaran, tetapi mengamankan hati dari kejahatan dan pikiran dari
-kesalahan” (EM 93: 5). Anak dijauhkan dari pengaruh buruk kebudayaan yang biasa
+kesalahan" (EM 93: 5). Anak dijauhkan dari pengaruh buruk kebudayaan yang biasa
 masuk melalui tulisan-tulisan dan praktik-praktik sosial. Jika Anak dibiarkan
 untuk belajar dari Alam, maka ia akan tumbuh dengan sehat tanpa prasangka
 (prejudice) dan tanpa kebiasaan-kebiasaan (habit). Dengan begitu, ketika ia
@@ -337,12 +337,12 @@ diam. Tetapi itu sebenarnya adalah konsekuensi dari kelebihan kekuatan yang ada
 di dalam anak. Kekuatan keluar dalam wujud rasa ingin tahu (_curiosity_) anak,
 dan rasa ingin tahu ini lah yang sekarang menjadi fokus pendidikan. Kekuatan dan
 rasa penasaran itu membuat masa ini adalah masa yang penting untuk membimbing
-anak dalam segi “pekerjaan, perintah, dan belajar” (EM 166: 3). Untuk
+anak dalam segi "pekerjaan, perintah, dan belajar" (EM 166: 3). Untuk
 mendapatkan ketiganya, Rousseau menganjurkan untuk anak dijauhkan dari buku, dan
-malah membantu bekerja. “Jika saya tidak menyuruh anak untuk melulu membaca
+malah membantu bekerja. "Jika saya tidak menyuruh anak untuk melulu membaca
 buku, dan malah membawanya ke loka karya [*workshop*], tangannya akan bekerja
 dan menguntungkan pikirannya; ia akan menjadi filsuf, tetapi merasa dia hanyalah
-pekerja” (EM 177: 1). Pekerjaan membentuk pikiran anak melalui pengalaman
+pekerja" (EM 177: 1). Pekerjaan membentuk pikiran anak melalui pengalaman
 langsung. Perintah-perintah yang ia terima saat bekerja akan membuat anak dapat
 membedakan kapan saatnya bermain dan kapan saatnya bekerja, sekaligus apa yang
 berguna dan yang tidak.
@@ -390,9 +390,9 @@ kekayaan. Ia menuliskan:
 Dalam masa ini, Rousseau menekankan pendidikan yang berfokus kepada relasi anak
 dengan sesama dan lingkungan sosialnya, seperti pendidikan agama dan moral.
 Rousseau berargumen bahwa di masa ini, mulai tumbuh dalam diri Emile yang
-disebut _self-love_, yaitu “suatu keinginan primitif bawaan yang mengatasi
+disebut _self-love_, yaitu "suatu keinginan primitif bawaan yang mengatasi
 keinginan-keinginan lainnya, dan keinginan yang lain tersebut dapat disebut
-hanya merupakan modifikasi [dari *self-love*]” (EM 212:5). _Self-love_ ini dari
+hanya merupakan modifikasi [dari *self-love*]" (EM 212:5). _Self-love_ ini dari
 dirinya adalah baik, dan muncul dari kenyataan bahwa setiap manusia selalu
 mengutamakan keselamatan dirinya sebagai yang utama; sebagai sesuatu yang harus
 selalu diperhatikan dan dijaga---sebagai sesuatu yang ia cintai. Dari situ,
@@ -412,42 +412,42 @@ membanding-bandingkan, suka-tidak suka, dan apa yang seharusnya. Di sini,
 _self-love_ mulai diambil alih fungsinya oleh apa yang disebut oleh Rousseau
 _amour-propre_.
 
-> “_Self-love_, yang hanya berkaitan dengan diri kita sendiri, akan merasa puas
+> "_Self-love_, yang hanya berkaitan dengan diri kita sendiri, akan merasa puas
 > saat kebutuhan kita dipenuhi. Tetapi _amour-propre_ yang
 > membanding-bandingkan, tidak pernah puas dan tidak akan pernah, karena
 > sentimen ini bukan hanya mementingkan diri sendiri, tetapi juga menuntut orang
 > lain untuk mementingkan diri kita, yang memang tidak mungkin. (...) Dari
 > _Self-love_ lahir keinginan yang lembut dan penuh kasih sayang, dan keinginan
-> yang penuh benci dan meledak-ledak lahir dari _amour-prope_.” (EM 214:1)
+> yang penuh benci dan meledak-ledak lahir dari _amour-prope_." (EM 214:1)
 
 Itulah mengapa, di masa ini penting untuk mengajarkan Emile agama dan moral.
 Agama dan moral diharapkan dapat mengarahkan _self-love_ ini ke arah kebaikan
 tertinggi dan universal, dan mencegah _amour-propre_. Menurut Rousseau, inilah
 mengapa, bahaya dari kebudayaan harus menjadi perhatian kita, yaitu demi
 mencegah masuknya kerusakan-kerusakan yang lahir dari kebutuhan-kebutuhan baru
-mereka, ke dalam hati manusia. “Yang membuat manusia baik adalah memiliki
+mereka, ke dalam hati manusia. "Yang membuat manusia baik adalah memiliki
 sedikit kebutuhan, dan tidak membanding-bandingkan diri dengan orang lain; yang
 membuat manusia jahat adalah memiliki banyak kebutuhan dan terlalu berpegang
-terhadap pendapat orang.” (EM 214: 1)
+terhadap pendapat orang." (EM 214: 1)
 
 ## Buku V: 20–25 Tahun dan Sophie
 
 Di buku terakhir ini, Rousseau membahas tahap usia antara 20 dan 25 tahun, yaitu
 ketika pria dan wanita mendekati pernikahan. Buku ini Rousseau dedikasikan untuk
 pendidikan wanita. Menurut Rousseau, perempuan membutuhkan pendidikan
-sebagaimana laki-laki membutuhkan pendidikan, yaitu pendidikan “yang sesuai
+sebagaimana laki-laki membutuhkan pendidikan, yaitu pendidikan "yang sesuai
 dengan konstitusi spesiesnya dan gendernya demi memenuhi tempatnya di dunia
-fisik dan moral.” (EM 357: 2) Dengan itu, Rousseau mengemukakan suatu gagasan
-mengenai kesetaraan gender, “Yang kita tahu dengan pasti hanyalah bahwa
+fisik dan moral." (EM 357: 2) Dengan itu, Rousseau mengemukakan suatu gagasan
+mengenai kesetaraan gender, "Yang kita tahu dengan pasti hanyalah bahwa
 satu-satunya kesamaan antara pria dan wanita adalah spesiesnya, dan satu-satunya
 perbedaan adalah dalam hal gender. (...) Dalam hal-hal yang sama, keduanya setara.
-Dalam hal-hal yang berbeda, mereka tidak dapat dibandingkan.” (EM 358:1)”
+Dalam hal-hal yang berbeda, mereka tidak dapat dibandingkan." (EM 358:1)"
 Tetapi, Rousseau berpendapat bahwa Alam mau tidak mau membuat gender memengaruhi
 pendidikan, baik itu mengenai tubuh, agama, dan moral seseorang. Ia menuliskan,
-“Karena itu, mereka tidak boleh memiliki yang pendidikan yang sama persis (...)
+"Karena itu, mereka tidak boleh memiliki yang pendidikan yang sama persis (...)
 selaras dengan alam mereka harus bertindak bersama, tetapi tidak melakukan hal
 yang sama; mereka memiliki tujuan yang sama, tetapi tugasnya berbeda, dan begitu
-juga hasrat-hasrat yang mendorong mereka.” (EM 363:1)
+juga hasrat-hasrat yang mendorong mereka." (EM 363:1)
 
 Menurut Rousseau, pada masa bayi tubuh wanita tidak boleh dikembangkan supaya
 kuat sebagaimana bayi laki-laki, tetapi untuk mengembangkan ‘pesona’
@@ -459,16 +459,16 @@ cenderung lebih banyak bermain dengan boneka karena itu sesuai dengan peran
 mereka sebagai ibu. Mereka juga belajar menyulam dan jahit-menjahit lebih baik
 dari laki-laki, karena ini berguna bagi dirinya sebagai perempuan, dan itu
 merupakan wujud hasratnya untuk mempercantik diri. (EM 366: 3–5) Pendidikan
-untuk anak perempuan adalah pendidikan yang menekankan “bakat yang membentuk
-selera (_taste_).” Selera pada gilirannya membentuk pikiran yang “terbuka
+untuk anak perempuan adalah pendidikan yang menekankan "bakat yang membentuk
+selera (_taste_)." Selera pada gilirannya membentuk pikiran yang "terbuka
 terhadap berbagai macam ide-ide keindahan dan konsep moral yang terkait
-dengannya.” (EM 375: 1)
+dengannya." (EM 375: 1)
 
 Demi kebaikan mereka sendiri, anak perempuan harus diajarkan untuk menahan diri
-dan fokus menjalankan tugas-tugas tertentu. “Mereka harus dilatih untuk menahan
+dan fokus menjalankan tugas-tugas tertentu. "Mereka harus dilatih untuk menahan
 diri sampai mereka terbiasa, dan dapat menaklukkan semua keinginan-keinginan
 mereka untuk tunduk pada keinginan orang lain. Untuk anak perempuan yang selalu
-ingin bekerja, terkadang harus dipaksa untuk tidak melakukan apa-apa” (EM 369:
+ingin bekerja, terkadang harus dipaksa untuk tidak melakukan apa-apa" (EM 369:
 2). Rousseau Melihat bahwa hal itu diperlukan karena hampir seumur hidupnya
 perempuan akan berada di bawah perintah otoritas yang lebih kuat dari dirinya.
 Waktu kecil, ia diharapkan dapat berperilaku sopan, lemah lembut, dan elegan
@@ -540,26 +540,26 @@ mempertahankan warisan kita.
     alcohol, uses illegal drugs, or is sexually immoral, especially a man who is
     fairly old_.
 
-[^2]: O’Hagan, Timothy. _Rousseau_. (USA: Routledge, 1999), “Introduction,” p.1
+[^2]: O’Hagan, Timothy. _Rousseau_. (USA: Routledge, 1999), "Introduction," p.1
 [^3]:
-    Grimsley, Ronald. “Jean-Jacques Rousseau” dalam _Encyclopedia of
+    Grimsley, Ronald. "Jean-Jacques Rousseau" dalam _Encyclopedia of
     Philosophy_. Edited by Donald M. Borchert, 2nd ed., vol. 8. (Detroit:
     Thomson Gale/Macmillan Reference USA, 2006): 507–516. Setelah Rousseau
-    terkenal, masa lalunya ini diketahui publik dan membuat Rousseau menjadi “...
+    terkenal, masa lalunya ini diketahui publik dan membuat Rousseau menjadi "...
     bahan maki-makian. Terlebih lagi setelah penerbitan buku Emile, dia dianggap
     sebagai lambang karikatur dari kemunafikan, suatu perwujudan nyata dari
-    kegagalan bersatunya teori dan praktek.” Lih. O’Hagan, Timothy. _Rousseau_,
+    kegagalan bersatunya teori dan praktek." Lih. O’Hagan, Timothy. _Rousseau_,
     p.2
 
 [^5]:
-    Tjahjadi, _Sejarah Filsafat Modern_. “Rousseau”, p.63 [^6]: Tjahjadi,
-    _Sejarah Filsafat Modern_. “Rousseau”, p.63 [^7]: Hardiman, F. Budi.
+    Tjahjadi, _Sejarah Filsafat Modern_. "Rousseau", p.63 [^6]: Tjahjadi,
+    _Sejarah Filsafat Modern_. "Rousseau", p.63 [^7]: Hardiman, F. Budi.
     _Pemikiran-pemikiran yang Membentuk Dunia Modern_. (Jakarta: Penerbit
     Erlangga, 2011), hlm. 97–98
 
 [^6]:
-    “Dalam hal-hal yang sama, keduanya (laki-laki dan wanita) setara. Dalam
-    hal-hal yang berbeda, mereka tidak dapat dibandingkan.” (EM 358:1)
+    "Dalam hal-hal yang sama, keduanya (laki-laki dan wanita) setara. Dalam
+    hal-hal yang berbeda, mereka tidak dapat dibandingkan." (EM 358:1)
 
 [^7]: O’Hagan, Timothy. Rousseau, p.41
 [^8]: O’Hagan, Timothy. Rousseau, p.43
@@ -567,10 +567,10 @@ mempertahankan warisan kita.
 
 ## Daftar Pustaka
 
-- Bloom, Allan. “The Education of Democratic Man: Émile.” _Daedalus_ 107, no. 3,
+- Bloom, Allan. "The Education of Democratic Man: Émile." _Daedalus_ 107, no. 3,
   (1978): 135–53.
 
-- Grimsley, Ronald. “Jean-Jacques Rousseau” dalam _Encyclopedia of Philosophy_.
+- Grimsley, Ronald. "Jean-Jacques Rousseau" dalam _Encyclopedia of Philosophy_.
   Ed. Donald M. Borchert, 2nd edition., vol. 8. (Detroit: Thomson Gale/Macmillan
   Reference USA, 2006): 507–516.
 
@@ -580,11 +580,11 @@ mempertahankan warisan kita.
 - Hamersma, Harry. _Tokoh-tokoh Filsafat Barat Modern_. (Jakarta: Penerbit PT
   Gramedia, 1983).
 
-- Kessen, William. “Rousseau’s Children.” _Daedalus_ 107, no. 3, (1978): 155–66.
+- Kessen, William. "Rousseau’s Children." _Daedalus_ 107, no. 3, (1978): 155–66.
 
 - O’Hagan, Timothy. _Rousseau_. (USA: Routledge, 1999)
 
-- Oelkers, Jürgen. “Rousseau and the Image of ‘Modern Education.’” _Journal of
+- Oelkers, Jürgen. "Rousseau and the Image of ‘Modern Education.’" _Journal of
   Curriculum Studies_ 34, no. 6 (November 2002): 679–98.
 
 - Rousseau, Jean-Jacques. _Émile: or On Education_, trans. Allan Bloom. (USA:

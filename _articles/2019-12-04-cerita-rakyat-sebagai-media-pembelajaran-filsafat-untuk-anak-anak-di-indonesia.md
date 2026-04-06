@@ -76,9 +76,9 @@ lebih tajam dan kritis.
 Dengan kebiasaan bertanya, mencari tahu, dan berdiskusi, benih pemikiran kritis
 mulai tumbuh. Murid belajar untuk tidak serta-merta menerima setiap informasi
 yang datang padanya. Ia mulai memilah dan menyaring, tidak percaya hanya karena
-manis bunyinya, dan tidak menolak hanya karena pahit rasanya. “(...) _walau
+manis bunyinya, dan tidak menolak hanya karena pahit rasanya. "(...) _walau
 terasa semanis gula, tak bakal langsung direguknya, meski sepahit empedu tidak
-pula buru-buru dimuntahkannya_, (...)”[^2] --- ungkapan ini sangat tepat
+pula buru-buru dimuntahkannya_, (...)"[^2] --- ungkapan ini sangat tepat
 menggambarkan watak berpikir kritis yang ideal.
 
 Namun, sebagaimana setiap daya manusiawi lainnya, berpikir kritis pun memerlukan
@@ -366,8 +366,8 @@ tema, tokoh dan watak, latar, serta amanat. Sedangkan unsur ekstrinsik misalnya
 latar belakang penulis dan budaya. Dari sekian unsur tersebut, yang paling dekat
 dengan fungsi mengajarkan filsafat pada anak adalah pencarian amanat cerita.
 
-Namun, amanat-amanat seperti _“Jangan durhaka kepada orangtua”_, _“Jangan
-serakah”_, _“Kita harus bersyukur dengan apa yang kita miliki”_ tidak
+Namun, amanat-amanat seperti _"Jangan durhaka kepada orangtua"_, _"Jangan
+serakah"_, _"Kita harus bersyukur dengan apa yang kita miliki"_ tidak
 membutuhkan penalaran abstrak. Ketika anak membaca, ia akan menemukan konflik di
 dalam cerita. Dalam konflik itu, tokoh antagonis dan protagonis dapat
 diidentifikasi dengan memperhatikan tindakan-tindakan yang mereka lakukan.
@@ -382,13 +382,13 @@ Menalar melampaui sekadar menemukan unsur intrinsik dan ekstrinsik. Hal ini
 lebih mudah dipahami melalui contoh. Dalam salah satu versi cerita _Si Kancil
 Mencuri Timun_, digambarkan bagaimana tindakan Kancil mencuri timun membuatnya
 dikurung oleh Pak Tani. Untuk mulai mencari unsur intrinsik, pertanyaan yang
-diajukan misalnya “Bagaimana watak Kancil?”, “Bagaimana watak Pak Tani?”, yang
+diajukan misalnya "Bagaimana watak Kancil?", "Bagaimana watak Pak Tani?", yang
 secara tersirat tergambar dalam tindakan tokoh. Amanatnya pun jelas: Kancil
 mencuri, lalu dihukum Pak Tani, sehingga amanatnya adalah ‘jangan mencuri.’
 
 Namun, dalam menalar cerita, pertanyaan yang diajukan tidak selalu dapat dijawab
 dari teks. Contohnya, untuk menalar cerita _Si Kancil Mencuri Timun_, pertanyaan
-yang dapat diajukan adalah “Mengapa mencuri itu salah?” Pertanyaan ini tampak
+yang dapat diajukan adalah "Mengapa mencuri itu salah?" Pertanyaan ini tampak
 konyol dan tidak terkait langsung dengan cerita, namun pertanyaan seperti ini
 yang justru melatih anak untuk bernalar. Anak harus mulai memikirkan, apa
 sebenarnya mencuri itu? Apakah mencuri salah karena orang yang mencuri dihukum,

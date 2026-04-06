@@ -16,9 +16,9 @@ nav_order: 5
 
 Florentino H. Hornedo membuka esainya "_Education for Peace_" dengan menyoroti
 kecenderungan pendidikan yang terlalu menekankan aspek individual. Pendidikan,
-dalam pandangan umum, dimengerti sebagai “penangkapan pengetahuan, sikap, dan
+dalam pandangan umum, dimengerti sebagai "penangkapan pengetahuan, sikap, dan
 keterampilan lewat cara-cara formal, non-formal, maupun informal, untuk membantu
-individu mencapai potensinya.” Namun, justru pada titik itulah Hornedo
+individu mencapai potensinya." Namun, justru pada titik itulah Hornedo
 mengangkat kritiknya. Baginya, tekanan yang berlebihan pada aspek 'individu'
 telah menyuburkan benih individualisme dalam sistem pendidikan kita (CE 111).
 
@@ -36,8 +36,8 @@ ialah bahwa manusia hidup demi dirinya sendiri. Pandangan seperti itu, jika
 diteruskan, akan membentuk individu yang terobsesi pada kesuksesan personal dan
 lupa pada tanggung jawab sosialnya. Pendidikan yang demikian melatih manusia
 untuk melihat dunia sebagai arena kompetisi, dan sesama manusia sebagai lawan.
-Inilah mengapa Hornedo menyebut pendidikan semacam itu sebagai “pendidikan untuk
-perang” (CE 113).
+Inilah mengapa Hornedo menyebut pendidikan semacam itu sebagai "pendidikan untuk
+perang" (CE 113).
 
 Pengamatan Hornedo ini mengingatkan kita pada pandangan Thomas Hobbes tentang
 _state of nature_, di mana manusia hidup dalam situasi _homo homini lupus_ ---
@@ -57,7 +57,7 @@ melupakan tanggung jawab sosialnya. (CE 113)
 
 Pandangan Hornedo mengenai manusia sebagai makhluk sosial sangat bersesuaian
 dengan gagasan Martin Heidegger tentang _mit-dasein_ --- bahwa manusia
-senantiasa adalah “ada-bersama-orang-lain.” Dalam horizon ini, sosialitas
+senantiasa adalah "ada-bersama-orang-lain." Dalam horizon ini, sosialitas
 bukanlah atribut tambahan, melainkan dimensi esensial dari eksistensi manusia.
 Dan karena itu pula, pendidikan yang mengabaikan dimensi ini sesungguhnya telah
 mengkhianati hakikat manusia itu sendiri.
@@ -73,9 +73,9 @@ karyawan tersebut tetap hidup dalam kemiskinan. Secara hukum, pengusaha itu
 adil. Tetapi secara moral dan sosial, apakah ia sungguh berlaku adil? (CE 114)
 
 Di sinilah Hornedo memperkenalkan perspektif cinta kasih sebagai dasar yang
-lebih tinggi dari hukum. Ia menulis, “akar dari keadilan memang kesesuaian
+lebih tinggi dari hukum. Ia menulis, "akar dari keadilan memang kesesuaian
 dengan hukum, tetapi hukum yang ada di atas segala hukum adalah hukum Cinta
-Kasih.” Keadilan sejati, menurutnya, adalah distribusi cinta kasih --- yaitu
+Kasih." Keadilan sejati, menurutnya, adalah distribusi cinta kasih --- yaitu
 perhatian nyata terhadap perkembangan dan kesejahteraan orang lain. Maka, ketika
 seseorang yang berpotensi menjadi dokter tidak dapat meraihnya karena kemiskinan
 dan ketiadaan perhatian sosial, di sanalah letak ketidakadilan yang
@@ -126,7 +126,7 @@ sejati adalah pendidikan yang membentuk sikap hati yang terbuka terhadap sesama
 
 ## Kesimpulan
 
-“Pendidikan untuk Perdamaian” yang digagas Hornedo bertujuan membentuk manusia
+"Pendidikan untuk Perdamaian" yang digagas Hornedo bertujuan membentuk manusia
 yang sadar bahwa keberhasilannya bukanlah hasil mutlak dari usahanya sendiri,
 melainkan buah dari hubungan sosial yang menopangnya. Dari kesadaran itu,
 lahirlah tanggung jawab sosial terhadap masyarakat. Untuk mencapainya,
