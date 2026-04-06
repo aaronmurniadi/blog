@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://aaronmurniadi.github.io/sitemap.xml
+Sitemap: https://aaron.beago-cirius.ts.net/sitemap.xml
