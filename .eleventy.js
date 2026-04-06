@@ -160,7 +160,7 @@ module.exports = function (eleventyConfig) {
 
   // Global data
   eleventyConfig.addGlobalData("site", {
-    title: "Contemplative Coder",
+    title: "Beago Cirius",
     email: "aaronmurniadi@gmail.com",
     description: "A Software Engineer with a passion for technology, coding, and open-source software.",
     baseurl: "",
