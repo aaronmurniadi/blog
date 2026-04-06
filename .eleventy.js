@@ -164,7 +164,7 @@ module.exports = function (eleventyConfig) {
     email: "aaronmurniadi@gmail.com",
     description: "A Software Engineer with a passion for technology, coding, and open-source software.",
     baseurl: "",
-    url: "https://aaronmurniadi.github.io",
+    url: "https://aaron.beago-cirius.ts.net",
     lang: "en-US",
     github_username: "aaronmurniadi",
   });
