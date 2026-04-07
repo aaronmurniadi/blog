@@ -1391,7 +1391,7 @@ article#main-content:has(#gallery-container) blockquote {
   display: none !important;
 }
 
-/* Add permalink functionality to headings */
+/* Permalink inside heading: real <a href="#..."> so “Copy link” works */
 h1[id],
 h2[id],
 h3[id],
@@ -1401,23 +1401,55 @@ h6[id] {
   position: relative;
 }
 
-h1[id]:hover::after,
-h2[id]:hover::after,
-h3[id]:hover::after,
-h4[id]:hover::after,
-h5[id]:hover::after,
-h6[id]:hover::after {
-  content: ' #';
-  color: var(--text-muted);
+h1[id] .header-anchor,
+h2[id] .header-anchor,
+h3[id] .header-anchor,
+h4[id] .header-anchor,
+h5[id] .header-anchor,
+h6[id] .header-anchor {
   position: absolute;
   left: -1.5rem;
-  text-decoration: none;
   font-weight: normal;
+  color: var(--text-muted);
+  text-decoration: none;
+  opacity: 0.45;
 }
 
-/* Hide the separate header-anchor links */
-.header-anchor {
-  display: none !important;
+@media (hover: hover) and (pointer: fine) {
+  h1[id] .header-anchor,
+  h2[id] .header-anchor,
+  h3[id] .header-anchor,
+  h4[id] .header-anchor,
+  h5[id] .header-anchor,
+  h6[id] .header-anchor {
+    opacity: 0;
+  }
+
+  h1[id]:hover .header-anchor,
+  h2[id]:hover .header-anchor,
+  h3[id]:hover .header-anchor,
+  h4[id]:hover .header-anchor,
+  h5[id]:hover .header-anchor,
+  h6[id]:hover .header-anchor,
+  h1[id]:focus-within .header-anchor,
+  h2[id]:focus-within .header-anchor,
+  h3[id]:focus-within .header-anchor,
+  h4[id]:focus-within .header-anchor,
+  h5[id]:focus-within .header-anchor,
+  h6[id]:focus-within .header-anchor {
+    opacity: 1;
+  }
+}
+
+h1[id] .header-anchor:focus-visible,
+h2[id] .header-anchor:focus-visible,
+h3[id] .header-anchor:focus-visible,
+h4[id] .header-anchor:focus-visible,
+h5[id] .header-anchor:focus-visible,
+h6[id] .header-anchor:focus-visible {
+  opacity: 1;
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
 }
 
 /* Gallery styles for photography page */

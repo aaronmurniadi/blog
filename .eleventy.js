@@ -38,12 +38,14 @@ module.exports = function (eleventyConfig) {
     quotes: ['\u201c', '\u201d', '\u2018', '\u2019']
   })
     .use(markdownItAnchor, {
-      permalink: markdownItAnchor.permalink.linkAfterHeader({
-        style: "visually-hidden",
-        assistiveText: title => `Permalink to section "${title}"`,
-        visuallyHiddenClass: "visually-hidden",
-        symbol: "#"
-      })
+      permalink: markdownItAnchor.permalink.linkInsideHeader({
+        placement: "after",
+        symbol: "#",
+        space: true,
+        renderAttrs: () => ({
+          "aria-label": "Permalink to this section",
+        }),
+      }),
     })
     .use(markdownItAttrs)
     .use(markdownItFootnote);
