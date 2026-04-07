@@ -2,7 +2,7 @@
 
 backend:
   name: github
-  repo: aaronmurniadi/aaron.beago-cirius.ts.net
+  repo: aaronmurniadi/blog
   branch: main
 
 # Match existing site layout: uploads go under media/images (see .pages.yml)
