@@ -86,7 +86,7 @@
   ],
 )
 
-Professional QA Software Engineer with expertise in both manual and automated testing, specializing in comprehensive test automation frameworks and cross-platform application testing. Additional track record in cybersecurity research with two independently discovered vulnerabilities in high-profile systems. Currently transitioning from QA to Developer role while maintaining deep expertise in quality assurance methodologies. Passionate advocate for FOSS principles and open science.
+Software Engineer with expertise in building scalable web dashboards and custom operating systems for logistics infrastructure. Strong background in test automation frameworks and cross-platform application development (QA Engineer), with additional track record in cybersecurity research including two independently discovered vulnerabilities in high-profile systems. Passionate advocate for FOSS principles and open science.
 
 #section-block(
   [Work Experience],
@@ -96,7 +96,16 @@ Professional QA Software Engineer with expertise in both manual and automated te
       time: [December 2021--_Present_],
     )
 
-    _*Software Engineer 2, QA*_ #h(1fr) #text(size: 0.8em)[September 2024--Present]\
+    _*Software Engineer*_ #h(1fr) #text(size: 0.8em)[August 2025--_Present_]\
+    #point Engineered scalable internal web dashboards using React and Yarn, implementing comprehensive CI/CD pipelines and automated testing suites to ensure high code coverage.
+    #point Architected a custom Debian based operating system image tailored for proprietary Dimension, Weight, and Sizing (DWS) hardware.
+    #point Developed a high performance application for DWS systems utilizing Wails (Go + SvelteKit).
+    #point Led the design of a centralized provisioning dashboard to streamline the deployment of DWS infrastructure.
+    #point Modernized legacy microservices by implementing design patterns and enforcing Single Responsibility Principles (SRP), improving system maintainability in the future.
+    #point Optimized geospatial data processing by leveraging PostGIS for precise latitude and longitude waypoint zone assignments.
+    #point Solved operation blockers by participating in a 24/7 on-call duty roster, providing rapid technical resolution for production level issues.
+
+    _*Software Engineer 2, QA*_ #h(1fr) #text(size: 0.8em)[September 2024--July 2025]\
     #point Seamlessly integrated into a newly restructured team, demonstrating strong adaptability and collaboration skills.
     #point Initiated and planned the migration of Karate projects from Maven to Gradle for improved build performance and maintainability.
     #point Appointed as QA Driver App Release Manager, coordinating smoke testing for new driver app releases across three teams to ensure quality and timely delivery.
