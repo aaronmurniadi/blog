@@ -130,6 +130,7 @@ Software Engineer with expertise in building scalable web dashboards and custom 
 #section-block(
   [Technical Skills],
   [
+    #set text(hyphenate: false)
     #table(
       columns: (auto, auto),
       inset: 5pt,
