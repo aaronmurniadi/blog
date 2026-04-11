@@ -138,6 +138,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("avatar.jpg");
   eleventyConfig.addPassthroughCopy("robots.txt");
   eleventyConfig.addPassthroughCopy("_includes/**/*.(css|js|jpg|jpeg|png|gif|svg|ico|pdf)");
+  eleventyConfig.addPassthroughCopy("_tools");
 
   // Date filters
   eleventyConfig.addFilter("dateReadable", dateObj => {
