@@ -9,9 +9,9 @@ if ! command -v typst &> /dev/null; then
     exit 1
 fi
 
-# Check for magick command (ImageMagick v7+)
-if ! command -v magick &> /dev/null; then
-    echo "Error: ImageMagick 'magick' is not installed or not in PATH."
+# Check for pdftocairo (Poppler)
+if ! command -v pdftocairo &> /dev/null; then
+    echo "Error: pdftocairo is not installed or not in PATH (install poppler)."
     exit 1
 fi
 
@@ -43,7 +43,8 @@ for typfile in $changed_typ_files; do
 
     # Convert first page of pdf to jpg
     echo "Converting first page of $pdffile to $jpgfile"
-    magick -density 300 "${pdffile}[0]" -quality 90 "$jpgfile"
+    outbase="${jpgfile%.jpg}"
+    pdftocairo -jpeg -r 300 -jpegopt "quality=90" -singlefile "$pdffile" "$outbase"
     if [ $? -ne 0 ]; then
         echo "Error converting $pdffile to jpg"
         continue
