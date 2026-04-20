@@ -30,6 +30,7 @@
         "markdown-it-footnote": "^4.0.0"
     },
     "devDependencies": {
-        "@11ty/eleventy-img": "^5.0.0"
+        "@11ty/eleventy-img": "^5.0.0",
+        "@sherby/eleventy-plugin-files-minifier": "^1.1.1"
     }
 }
