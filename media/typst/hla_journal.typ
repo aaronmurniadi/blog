@@ -1,7 +1,7 @@
 #import "@preview/droplet:0.3.1": dropcap
 #import "@preview/typearea:0.2.0": typearea
 
-// ── Metadata ────────────────────────────────────────────────────
+//  Metadata 
 
 #let meta = (
   institution: "Typst University",
@@ -16,7 +16,7 @@
   abstract: [Typography is often described as the clothes that words wear. While the content of a text provides the soul, typography provides the physical presence, the tone of voice, and the first impression. To the untrained eye, it might seem like a simple choice between fonts, but to the designer and the reader, it is governed by a set of psychological and structural principles often referred to as the "laws" of typography. These laws ensure that written communication is not just seen, but understood and felt.],
   keywords: "Typography, Legibility, Readability, Visual Hierarchy, Kerning, Serif, Sans-Serif, White Space, Document Design.",
   body: [
-    // ── BODY ────────────────────────────────────────────────────
+    //  BODY 
 
     == The Law of Legibility and Readability
 
@@ -60,7 +60,7 @@
   ],
 )
 
-// ── Typography ──────────────────────────────────────────────────
+//  Typography 
 
 // This is the root font size for the journal (body).
 // Other text sizes are relative to this size.
@@ -80,7 +80,7 @@
   ),
 )
 
-// ── Page geometry ───────────────────────────────────────────────
+//  Page geometry 
 
 #show: typearea.with(
   two-sided: false,
@@ -93,7 +93,7 @@
   header-height: 2em,
 )
 
-// ── Header ──────────────────────────────────────────────────
+//  Header 
 #set page(
   header: context {
     let pg = counter(page).get().first()
@@ -132,7 +132,7 @@
     }
   },
 
-  // ── Footer ──────────────────────────────────────────────────
+  //  Footer 
   // Only the title page carries a footer (outside page number).
   footer: context {
     set text(size: 1em)
@@ -148,7 +148,7 @@
 )
 
 
-// ── Footnotes ───────────────────────────────────────────────────
+//  Footnotes 
 #set footnote.entry(
   separator: line(length: 33%, stroke: 0.35pt),
   indent: 0.5em,
@@ -156,7 +156,7 @@
 )
 
 
-// ── Headings ────────────────────────────────────────────────────
+//  Headings 
 
 #set heading(numbering: none)
 
@@ -190,7 +190,7 @@
   h(1em)
 }
 
-// ── Utility shorthand ───────────────────────────────────────────
+//  Utility shorthand 
 
 #let lining(content) = text(number-type: "lining")[#content]
 
@@ -199,7 +199,7 @@
 //  DOCUMENT
 // ================================================================
 
-// ── Title page  (mirrors \thispagestyle{plain}) ──────────────────
+//  Title page  (mirrors \thispagestyle{plain}) 
 
 // Footnotes use superscript symbols (†, ‡ …) on the title page,
 // matching \renewcommand*{\thefootnote}{\fnsymbol{footnote}}.
@@ -253,7 +253,7 @@
 #v(1em)
 
 
-// ── Body  (mirrors) ──────────────────────
+//  Body  (mirrors) 
 
 // Reset footnotes to arabic numerals, counter to zero.
 #set footnote(numbering: "1")
