@@ -6,9 +6,45 @@ const markdownIt = require("markdown-it");
 const markdownItAnchor = require("markdown-it-anchor");
 const markdownItAttrs = require("markdown-it-attrs");
 const markdownItFootnote = require("markdown-it-footnote");
+const eleventyPluginFilesMinifier = require("@sherby/eleventy-plugin-files-minifier");
+const path = require("node:path");
+const fs = require("node:fs/promises");
+const CleanCSS = require("clean-css");
+const htmlMinifier = require("html-minifier");
+
+/** Match @sherby/eleventy-plugin-files-minifier HTML options (passthrough HTML skips transforms). */
+const HTML_MINIFY_OPTIONS = {
+  collapseBooleanAttributes: true,
+  collapseWhitespace: true,
+  decodeEntities: true,
+  html5: true,
+  minifyCSS: true,
+  minifyJS: true,
+  removeComments: true,
+  removeEmptyAttributes: true,
+  removeEmptyElements: false,
+  sortAttributes: true,
+  sortClassName: true,
+  useShortDoctype: true
+};
+
+async function walkHtmlFiles(dir) {
+  const files = [];
+  const entries = await fs.readdir(dir, { withFileTypes: true });
+  for (const ent of entries) {
+    const full = path.join(dir, ent.name);
+    if (ent.isDirectory()) {
+      files.push(...(await walkHtmlFiles(full)));
+    } else if (ent.isFile() && ent.name.endsWith(".html")) {
+      files.push(full);
+    }
+  }
+  return files;
+}
 
 module.exports = function (eleventyConfig) {
   // Plugins
+  eleventyConfig.addPlugin(eleventyPluginFilesMinifier);
   eleventyConfig.addPlugin(pluginRss);
   eleventyConfig.addPlugin(pluginSyntaxHighlight, {
     preAttributes: {
@@ -138,6 +174,34 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("robots.txt");
   eleventyConfig.addPassthroughCopy("_includes/**/*.(css|js|jpg|jpeg|png|gif|svg|ico|pdf)");
   eleventyConfig.addPassthroughCopy("_tools");
+
+  // Passthrough assets skip template transforms; minify CSS + all HTML after write.
+  eleventyConfig.on("eleventy.after", async ({ directories }) => {
+    const outDir = directories.output;
+
+    const cssPath = path.join(outDir, "assets", "css", "style.css");
+    try {
+      const source = await fs.readFile(cssPath, "utf8");
+      const { styles, errors } = new CleanCSS({ level: 2 }).minify(source);
+      if (errors?.length) {
+        console.warn("[clean-css] style.css:", errors.join("; "));
+      }
+      await fs.writeFile(cssPath, styles, "utf8");
+    } catch (err) {
+      if (err.code !== "ENOENT") throw err;
+    }
+
+    const htmlPaths = await walkHtmlFiles(outDir);
+    for (const htmlPath of htmlPaths) {
+      try {
+        const raw = await fs.readFile(htmlPath, "utf8");
+        const min = htmlMinifier.minify(raw, HTML_MINIFY_OPTIONS);
+        await fs.writeFile(htmlPath, min, "utf8");
+      } catch (err) {
+        console.warn("[html-minifier]", path.relative(outDir, htmlPath), err.message);
+      }
+    }
+  });
 
   // Date filters
   eleventyConfig.addFilter("dateReadable", dateObj => {
