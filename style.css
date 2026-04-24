@@ -39,6 +39,14 @@ a:visited {
 	color: var(--link-visited);
 }
 
+img {
+	max-height: 90vh;
+	width: auto;
+	/* Maintains aspect ratio */
+	object-fit: contain;
+	/* Ensures the image isn't distorted */
+}
+
 #header {
 	border-bottom: 3px solid var(--accent);
 	padding-bottom: 15px;
