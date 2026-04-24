@@ -34,7 +34,10 @@ var (
 	mdDir      string
 	tmplDir    string
 	port       int
-	funcMap    = template.FuncMap{"trim": strings.TrimSpace}
+	funcMap    = template.FuncMap{
+		"trim":      strings.TrimSpace,
+		"titlecase": func(s string) string { return strings.ToUpper(s[:1]) + strings.ToLower(s[1:]) },
+	}
 	templates  *template.Template
 )
 
