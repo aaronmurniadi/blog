@@ -15,6 +15,21 @@
 	box-sizing: border-box;
 }
 
+nav {
+	display: flex !important;
+	flex-wrap: wrap !important;
+	width: 100%;
+	max-width: 100%;
+	overflow: visible !important;
+	gap: 5px 5px;
+}
+
+nav a {
+	white-space: nowrap;
+	display: inline-block;
+	text-align: center;
+}
+
 body {
 	font-family: Georgia, "Times New Roman", Times, serif;
 	font-size: 16px;
