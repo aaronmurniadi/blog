@@ -2,6 +2,8 @@ package main
 
 import (
 	"bytes"
+	"flag"
+	"fmt"
 	"html/template"
 	"io/fs"
 	"log"
@@ -31,11 +33,16 @@ type Link struct {
 var (
 	mdDir      string
 	tmplDir    string
+	port       int
 	funcMap    = template.FuncMap{"trim": strings.TrimSpace}
 	templates  *template.Template
 )
 
 func main() {
+	flag.IntVar(&port, "port", 8080, "port to serve on")
+	flag.IntVar(&port, "p", 8080, "port to serve on")
+	flag.Parse()
+
 	wd, err := os.Getwd()
 	if err != nil {
 		log.Fatal(err)
@@ -51,8 +58,8 @@ func main() {
 
 	http.HandleFunc("/", handleRequest)
 	http.Handle("/style.css", http.FileServer(http.Dir(wd)))
-	log.Println("Serving at http://localhost:8003")
-	log.Fatal(http.ListenAndServe(":8003", nil))
+	log.Printf("Serving at http://localhost:%d", port)
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), nil))
 }
 
 func handleRequest(w http.ResponseWriter, r *http.Request) {
