@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"encoding/xml"
 	"flag"
 	"fmt"
 	"html/template"
@@ -61,6 +62,7 @@ func main() {
 	}
 
 	http.HandleFunc("/", handleRequest)
+	http.HandleFunc("/sitemap.xml", handleSitemap)
 	http.Handle("/style.css", http.FileServer(http.Dir(wd)))
 	http.Handle("/favicon.ico", http.FileServer(http.Dir(wd)))
 	http.Handle("/media/", http.StripPrefix("/media/", http.FileServer(http.Dir(filepath.Join(wd, "media")))))
@@ -334,4 +336,75 @@ func buildNav(currentPath string) []Link {
 	}
 
 	return nav
+}
+
+type URL struct {
+	Loc      string `xml:"loc"`
+	LastMod  string `xml:"lastmod,omitempty"`
+	Priority string `xml:"priority,omitempty"`
+}
+
+type Sitemap struct {
+	XMLName xml.Name `xml:"urlset"`
+	XMLns   string   `xml:"xmlns,attr"`
+	URLs    []URL    `xml:"url"`
+}
+
+func handleSitemap(w http.ResponseWriter, r *http.Request) {
+	log.Printf("%s %s", r.Method, r.URL.Path)
+
+	var urls []URL
+	filepath.Walk(mdDir, func(path string, info fs.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		if info.IsDir() {
+			return nil
+		}
+		if !strings.HasSuffix(path, ".md") {
+			return nil
+		}
+		rel, err := filepath.Rel(mdDir, path)
+		if err != nil {
+			return nil
+		}
+		if strings.HasPrefix(rel, "content") || strings.HasPrefix(rel, "media") || strings.HasPrefix(rel, "assets") || strings.HasPrefix(rel, "templates") {
+			return nil
+		}
+		rel = strings.TrimSuffix(rel, ".md")
+		rel = strings.ReplaceAll(rel, string(filepath.Separator), "/")
+		if strings.HasPrefix(rel, "_") || strings.Contains(rel, "/_") {
+			return nil
+		}
+		loc := "https://aaron.beago-cirius.ts.net/" + rel
+		if strings.HasSuffix(loc, "/index") {
+			loc = strings.TrimSuffix(loc, "index")
+		} else if rel == "index" {
+			loc = "https://aaron.beago-cirius.ts.net/"
+		}
+		content, err := os.ReadFile(path)
+		if err != nil {
+			return nil
+		}
+		_, _, date := stripFrontMatter(content)
+		url := URL{Loc: loc}
+		if date != "" {
+			url.LastMod = date
+		} else {
+			url.LastMod = info.ModTime().Format("2006-01-02")
+		}
+		urls = append(urls, url)
+		return nil
+	})
+
+	sitemap := Sitemap{
+		XMLns: "http://www.sitemaps.org/schemas/sitemap/0.9",
+		URLs:  urls,
+	}
+
+	w.Header().Set("Content-Type", "application/xml")
+	w.Write([]byte(xml.Header))
+	if err := xml.NewEncoder(w).Encode(sitemap); err != nil {
+		log.Println(err)
+	}
 }
