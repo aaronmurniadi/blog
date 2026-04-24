@@ -67,6 +67,8 @@ func main() {
 }
 
 func handleRequest(w http.ResponseWriter, r *http.Request) {
+	log.Printf("%s %s", r.Method, r.URL.Path)
+
 	path := r.URL.Path
 	if path == "/" {
 		path = "/index"
@@ -80,7 +82,7 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 			serveDirIndex(filepath.Join(mdDir, filepath.Clean(path)), w, r)
 			return
 		}
-	} else if !strings.HasSuffix(path, ".md") {
+	} else if !strings.HasSuffix(path, ".md") && !strings.HasPrefix(path, "/media/") {
 		path = path + ".md"
 	}
 
