@@ -15,6 +15,7 @@ import (
 
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/extension"
+	"github.com/yuin/goldmark/renderer/html"
 )
 
 type Page struct {
@@ -134,7 +135,7 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 	if title == "" {
 		title = extractTitle(absPath)
 	}
-	headerTitle := "Beago Cirius"
+	headerTitle := "😱 Beago Cirius"
 	nav := buildNav(absPath)
 	pageHTML := template.HTML(html)
 	if date != "" {
@@ -180,8 +181,8 @@ func serveDirIndex(dirPath string, w http.ResponseWriter, r *http.Request) {
 
 	title := filepath.Base(dirPath)
 	nav := buildNav("")
-	html := "<ul>" + linksToHTML(links) + "</ul>"
-	page := Page{Title: title, Path: r.URL.Path, HTML: template.HTML(html), Nav: nav}
+	htmlStr := "<ul>" + linksToHTML(links) + "</ul>"
+	page := Page{Title: title, Path: r.URL.Path, HTML: template.HTML(htmlStr), Nav: nav}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := templates.ExecuteTemplate(w, "default.html", page); err != nil {
@@ -266,6 +267,7 @@ func mdToHTML(md []byte) (string, error) {
 	md = bytes.ReplaceAll(md, []byte("---"), []byte("—"))
 	markdown := goldmark.New(
 		goldmark.WithExtensions(extension.Footnote, extension.Table),
+		goldmark.WithRendererOptions(html.WithUnsafe()),
 	)
 	var buf bytes.Buffer
 	if err := markdown.Convert(md, &buf); err != nil {
