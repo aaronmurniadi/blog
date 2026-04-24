@@ -70,6 +70,7 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s %s", r.Method, r.URL.Path)
 
 	path := r.URL.Path
+
 	if path == "/" {
 		path = "/index"
 	}
