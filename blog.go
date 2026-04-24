@@ -61,6 +61,7 @@ func main() {
 
 	http.HandleFunc("/", handleRequest)
 	http.Handle("/style.css", http.FileServer(http.Dir(wd)))
+	http.Handle("/media/", http.FileServer(http.Dir(filepath.Join(wd, "media"))))
 	log.Printf("Serving at http://localhost:%d", port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), nil))
 }
