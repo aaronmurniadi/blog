@@ -1,5 +1,4 @@
 ---
-title: 'Home'
 layout: simple
 heading_anchors: false
 ---

@@ -77,7 +77,7 @@ from the
 [Supreme Court of the United States](<[https://www.supremecourt.gov/](https://www.supremecourt.gov/)>)
 as an example. The output is as follows:
 
-```shell
+```bash
 ========= [PAGE 1] ==========
 
 [PDDHNP+CenturySchoolbook, 9.0] Cite as:  607 U. S. ____ (2025)

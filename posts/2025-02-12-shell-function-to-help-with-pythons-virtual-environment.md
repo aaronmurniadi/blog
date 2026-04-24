@@ -15,7 +15,7 @@ excellent, creating and activating environments can be a bit repetitive. To
 streamline this process, I've created a simple Bash function called `ve()` that
 simplifies virtual environment management:
 
-```shell
+```bash
 ve() {
     local py="${1:-python}"
     local venv="${2:-.venv}"

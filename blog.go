@@ -8,59 +8,32 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 
 	"github.com/yuin/goldmark"
+	"github.com/yuin/goldmark/extension"
 )
 
 type Page struct {
-	Title   string
-	Path    string
-	HTML    template.HTML
-	Nav     []Link
+	Title string
+	Path  string
+	HTML  template.HTML
+	Nav   []Link
 }
 
 type Link struct {
 	Path  string
 	Title string
+	Date  string
 }
 
 var (
 	mdDir      string
 	tmplDir    string
-	funcMap   = template.FuncMap{"trim": strings.TrimSpace}
-	templates *template.Template
+	funcMap    = template.FuncMap{"trim": strings.TrimSpace}
+	templates  *template.Template
 )
-
-const defaultHTML = `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{.Title}}</title>
-<style>
-:root{--bg:#fafafa;--fg:#222;--a:#0066cc;--code:#f4f4f4}
-@media(prefers-color-scheme:dark){:root{--bg:#1a1a1a;--f0:#ddd;--fg:#ddd;--a:#7ab3ff;--code:#2d2d2d}}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,sans-serif;max-width:800px;margin:0 auto;padding:2rem;background:var(--bg);color:var(--fg);line-height:1.6}
-a{color:var(--a);text-decoration:none}
-a:hover{text-decoration:underline}
-nav{margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid #ddd;display:flex;flex-wrap:wrap;gap:1rem}
-code{background:var(--code);padding:0.2rem 0.4rem;border-radius:4px;font-size:0.9em}
-pre{background:var(--code);padding:1rem;border-radius:4px;overflow-x:auto}
-pre code{background:none;padding:0}
-img{max-width:100%;height:auto}
-h1,h2,h3{margin-top:1.5em}
-hr{border:none;border-top:1px solid #ddd;margin:2rem 0}
-blockquote{border-left:3px solid #ddd;margin:1rem 0;padding-left:1rem;color:#666}
-table{border-collapse:collapse;width:100%;margin:1rem 0}
-th,td{border:1px solid #ddd;padding:0.5rem;text-align:left}
-</style>
-</head>
-<body>
-<nav>{{range .Nav}}<a href="{{.Path}}">{{.Title}}</a>{{end}}</nav>
-<main>{{.HTML}}</main>
-</body>
-</html>`
 
 func main() {
 	wd, err := os.Getwd()
@@ -70,25 +43,14 @@ func main() {
 	mdDir = wd
 	tmplDir = filepath.Join(wd, "templates")
 
-	if _, err := os.Stat(tmplDir); os.IsNotExist(err) {
-		os.MkdirAll(tmplDir, 0755)
-	}
-
-	defaultTmpl := filepath.Join(tmplDir, "default.html")
-	if _, err := os.Stat(defaultTmpl); os.IsNotExist(err) {
-		os.WriteFile(defaultTmpl, []byte(defaultHTML), 0644)
-	}
-
 	templates = template.New("").Funcs(funcMap)
 	templates, err = templates.ParseGlob(filepath.Join(tmplDir, "*.html"))
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	nav := buildNav("")
-	log.Println("Nav:", nav)
-
 	http.HandleFunc("/", handleRequest)
+	http.Handle("/style.css", http.FileServer(http.Dir(wd)))
 	log.Println("Serving at http://localhost:8003")
 	log.Fatal(http.ListenAndServe(":8003", nil))
 }
@@ -145,7 +107,7 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	mdContent, pageTitle := stripFrontMatter(content)
+	mdContent, pageTitle, date := stripFrontMatter(content)
 
 	html, err := mdToHTML(mdContent)
 	if err != nil {
@@ -157,8 +119,13 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 	if title == "" {
 		title = extractTitle(absPath)
 	}
+	headerTitle := "Beago Cirius"
 	nav := buildNav(absPath)
-	page := Page{Title: title, Path: path, HTML: template.HTML(html), Nav: nav}
+	pageHTML := template.HTML(html)
+	if date != "" {
+		pageHTML = template.HTML("<p class=\"subtitle\">" + date + "</p>" + string(html))
+	}
+	page := Page{Title: headerTitle, Path: path, HTML: pageHTML, Nav: nav}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := templates.ExecuteTemplate(w, "default.html", page); err != nil {
@@ -188,11 +155,11 @@ func serveDirIndex(dirPath string, w http.ResponseWriter, r *http.Request) {
 			if err != nil {
 				continue
 			}
-			_, title := stripFrontMatter(content)
+			_, title, date := stripFrontMatter(content)
 			ep := filepath.Join(relDir, e.Name())
 			ep = strings.TrimPrefix(ep, string(filepath.Separator))
 			ep = "/" + strings.TrimSuffix(ep, ".md")
-			links = append(links, Link{Path: ep, Title: title})
+			links = append(links, Link{Path: ep, Title: title, Date: date})
 		}
 	}
 
@@ -214,45 +181,59 @@ func linksToHTML(links []Link) string {
 		b.WriteString(l.Path)
 		b.WriteString(`">`)
 		b.WriteString(l.Title)
-		b.WriteString("</a></li>")
+		b.WriteString("</a>")
+		if l.Date != "" {
+			b.WriteString(` <span style="color:#666;font-size:0.9em">`)
+			b.WriteString(l.Date)
+			b.WriteString(`</span>`)
+		}
+		b.WriteString(`</li>`)
 	}
 	return b.String()
 }
 
-func stripFrontMatter(md []byte) ([]byte, string) {
-	if !bytes.HasPrefix(bytes.TrimSpace(md), []byte("---")) {
-		return md, extractH1(md)
+func stripFrontMatter(md []byte) ([]byte, string, string) {
+	trimmed := bytes.TrimSpace(md)
+	if !bytes.HasPrefix(trimmed, []byte("---")) {
+		return md, extractH1(md), ""
 	}
 
-	lines := strings.Split(string(md), "\n")
+	lines := strings.Split(string(trimmed), "\n")
 	if len(lines) < 3 {
-		return md, extractH1(md)
+		return md, extractH1(md), ""
 	}
 
+	var metaLines []string
 	contentStart := -1
 	for i := 1; i < len(lines); i++ {
 		if strings.TrimSpace(lines[i]) == "---" {
 			contentStart = i + 1
 			break
 		}
+		metaLines = append(metaLines, lines[i])
 	}
 
 	if contentStart == -1 {
-		return md, extractH1(md)
+		return md, extractH1(md), ""
 	}
 
-	for _, line := range lines[1:contentStart-1] {
+	var date string
+	var title string
+	for _, line := range metaLines {
 		if strings.HasPrefix(line, "title:") {
-			title := strings.TrimSpace(strings.TrimPrefix(line, "title:"))
+			title = strings.TrimSpace(strings.TrimPrefix(line, "title:"))
 			title = strings.Trim(title, `"`)
-			title = strings.Trim(title, `'`)
-			content := []byte(strings.Join(lines[contentStart:], "\n"))
-			return bytes.TrimSpace(content), title
+			title = strings.Trim(title, "'")
+		}
+		if strings.HasPrefix(line, "date:") {
+			date = strings.TrimSpace(strings.TrimPrefix(line, "date:"))
+			date = strings.Trim(date, `"`)
+			date = strings.Trim(date, "'")
 		}
 	}
 
 	content := []byte(strings.Join(lines[contentStart:], "\n"))
-	return bytes.TrimSpace(content), extractH1(content)
+	return bytes.TrimSpace(content), title, date
 }
 
 func extractH1(md []byte) string {
@@ -267,7 +248,10 @@ func extractH1(md []byte) string {
 
 func mdToHTML(md []byte) (string, error) {
 	md = bytes.ReplaceAll(md, []byte("\r\n"), []byte("\n"))
-	markdown := goldmark.New()
+	md = bytes.ReplaceAll(md, []byte("---"), []byte("—"))
+	markdown := goldmark.New(
+		goldmark.WithExtensions(extension.Footnote, extension.Table),
+	)
 	var buf bytes.Buffer
 	if err := markdown.Convert(md, &buf); err != nil {
 		return "", err
@@ -281,7 +265,11 @@ func extractTitle(path string) string {
 }
 
 func buildNav(currentPath string) []Link {
-	dirs := make(map[string]string)
+	type dirInfo struct {
+		path  string
+		title string
+	}
+	var dirList []dirInfo
 
 	filepath.Walk(mdDir, func(path string, info fs.FileInfo, err error) error {
 		if err != nil {
@@ -309,8 +297,12 @@ func buildNav(currentPath string) []Link {
 		if !hasMD {
 			return filepath.SkipDir
 		}
-		dirs[rel] = name
+		dirList = append(dirList, dirInfo{path: rel, title: name})
 		return nil
+	})
+
+	sort.Slice(dirList, func(i, j int) bool {
+		return dirList[i].path < dirList[j].path
 	})
 
 	var nav []Link
@@ -319,9 +311,9 @@ func buildNav(currentPath string) []Link {
 		nav = append(nav, Link{Path: "/", Title: "Home"})
 	}
 
-	for dir, title := range dirs {
-		title = strings.ToUpper(title[:1]) + title[1:]
-		nav = append(nav, Link{Path: "/" + dir + "/", Title: title})
+	for _, d := range dirList {
+		title := strings.ToUpper(d.title[:1]) + d.title[1:]
+		nav = append(nav, Link{Path: "/" + d.path + "/", Title: title})
 	}
 
 	return nav
