@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{.Title}}</title>
-<style>
-:root{--bg:#fafafa;--fg:#222;--a:#0066cc;--code:#f4f4f4}
-@media(prefers-color-scheme:dark){:root{--bg:#1a1a1a;--f0:#ddd;--fg:#ddd;--a:#7ab3ff;--code:#2d2d2d}}
-body{font-family:Georgia,Times,"Times New Roman",serif;max-width:800px;margin:0 auto;padding:2rem;background:var(--bg);color:var(--fg);line-height:1.6}
-nav,nav+*{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,sans-serif}
-main{font-family:Georgia,Times,"Times New Roman",serif}
-a{color:var(--a);text-decoration:none}
-a:hover{text-decoration:underline}
-nav{margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid #ddd;display:flex;flex-wrap:wrap;gap:1rem}
-code{background:var(--code);padding:0.2rem 0.4rem;border-radius:4px;font-size:0.9em}
-pre{background:var(--code);padding:1rem;border-radius:4px;overflow-x:auto}
-pre code{background:none;padding:0}
-img{max-width:100%;height:auto}
-h1,h2,h3{margin-top:1.5em}
-hr{border:none;border-top:1px solid #ddd;margin:2rem 0}
-blockquote{border-left:3px solid #ddd;margin:1rem 0;padding-left:1rem;color:#666}
-table{border-collapse:collapse;width:100%;margin:1rem 0}
-th,td{border:1px solid #ddd;padding:0.5rem;text-align:left}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beago Cirius - {{.Title}}</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css">
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+
+    <!-- and it's easy to individually load additional languages -->
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/go.min.js"></script>
+
+    <script>hljs.highlightAll();</script>
 </head>
+
 <body>
-<nav>{{range .Nav}}<a href="{{.Path}}">{{.Title}}</a>{{end}}</nav>
-<main>{{.HTML}}</main>
+    <div id="header">
+        <h1>Beago Cirius</h1>
+    </div>
+    <nav>{{range .Nav}}<a href="{{.Path}}">{{.Title}}</a>{{end}}</nav>
+    <main>
+        {{.HTML}}
+    </main>
 </body>
+
 </html>

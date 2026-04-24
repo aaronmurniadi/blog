@@ -45,7 +45,7 @@ site](https://www.debian.org/distrib/).
 On the host machine, I need to install the `live-build` alongside some
 dependencies:
 
-```shell
+```bash
 sudo apt-get update && \
 sudo apt-get install -y \
     binfmt-support \
@@ -58,7 +58,7 @@ sudo apt-get install -y \
 
 Next, prepare the project directory:
 
-```shell
+```bash
 mkdir debian-iso
 cd debian-iso
 git init
@@ -70,7 +70,7 @@ the way._
 Then, simply run `lb config`. This will create a directory structure for our
 build project, along with some scripts filled with default values.
 
-```shell
+```bash
 .
 ├── auto/
 │   ├── build
@@ -96,7 +96,7 @@ I deleted the `auto` directory, I found it to be unnecessary for my needs.
 
 Instead, I created a build script:
 
-```shell
+```bash
 #!/bin/bash
 set -e
 
@@ -151,7 +151,7 @@ directly into the ISO's filesystem. This is where I put my custom wallpapers,
 configuration files, and the critical `autostart.sh`. The structure inside is
 directly related to the standard Linux system starting from the root `/` :
 
-```shell
+```bash
 config/includes.chroot/
 └── etc
     ├── default
@@ -173,7 +173,7 @@ Another important file is `config/includes.installer/preseed.cfg`. This is the
 preseed file that is used to configure the system during installation. I put the
 hostname, timezone, and other important settings there.
 
-```shell
+```bash
 ## https://www.debian.org/releases/trixie/amd64/apbs04.en.html
 #### B.4.1. Localization
 d-i debian-installer/locale string en_US.UTF-8
@@ -251,7 +251,7 @@ So, the docker package must be baked into the generated ISO file. Unfortunately
 `docker-ce` is not available in the default Debian repository. I need to add the
 custom Docker repository to APT's sources list. Easy enough:
 
-```shell
+```bash
 config/includes.chroot/
 └── archives
 │   ├── docker.list
@@ -263,7 +263,7 @@ config/includes.chroot/
 
 The contents of the files are as follows:
 
-```shell
+```bash
 # docker.list
 deb [arch=amd64 trusted=yes] https://download.docker.com/linux/debian trixie stable
 
@@ -290,7 +290,7 @@ deadlock.
 
 This is why I used this argument to the `lb config` command:
 
-```shell
+```bash
 --apt-options '--yes -o Acquire::https::Verify-Peer=false -o Acquire::https::Verify-Host=false -o APT::Get::AllowUnauthenticated=true'`
 ```
 
@@ -300,7 +300,7 @@ Finally, just run `lb build` and grab a cup of coffee. The build takes quite a
 long time and generated a lot of new files artifacts that is irrelevant and can
 be ignored in `.gitignore` file:
 
-```shell
+```bash
 .build/
 *.contents
 *.files
