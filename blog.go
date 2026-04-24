@@ -31,14 +31,14 @@ type Link struct {
 }
 
 var (
-	mdDir      string
-	tmplDir    string
-	port       int
-	funcMap    = template.FuncMap{
+	mdDir   string
+	tmplDir string
+	port    int
+	funcMap = template.FuncMap{
 		"trim":      strings.TrimSpace,
 		"titlecase": func(s string) string { return strings.ToUpper(s[:1]) + strings.ToLower(s[1:]) },
 	}
-	templates  *template.Template
+	templates *template.Template
 )
 
 func main() {
@@ -61,7 +61,7 @@ func main() {
 
 	http.HandleFunc("/", handleRequest)
 	http.Handle("/style.css", http.FileServer(http.Dir(wd)))
-	http.Handle("/media/", http.FileServer(http.Dir(filepath.Join(wd, "media"))))
+	http.Handle("/media/", http.StripPrefix("/media/", http.FileServer(http.Dir(filepath.Join(wd, "media")))))
 	log.Printf("Serving at http://localhost:%d", port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), nil))
 }
