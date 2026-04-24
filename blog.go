@@ -135,7 +135,7 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 	if title == "" {
 		title = extractTitle(absPath)
 	}
-	headerTitle := "😱 Beago Cirius"
+	headerTitle := "Home"
 	nav := buildNav(absPath)
 	pageHTML := template.HTML(html)
 	if date != "" {
