@@ -68,14 +68,6 @@ body p {
 	}
 }
 
-
-body p {
-	text-wrap: pretty;
-	text-align: justify;
-	hyphens: auto;
-	font-weight: 400;
-}
-
 sup {
 	position: relative;
 	top: -0.4em;
