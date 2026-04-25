@@ -76,7 +76,6 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s %s", r.Method, r.URL.Path)
 
 	path := r.URL.Path
-	prefetch := r.Header.Get("X-Prefetch") == "true"
 
 	if path == "/" {
 		path = "/index"
@@ -87,7 +86,7 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 		if _, err := os.Stat(absPath); err == nil {
 			path = indexPath
 		} else {
-			serveDirIndex(filepath.Join(mdDir, filepath.Clean(path)), w, r, prefetch)
+			serveDirIndex(filepath.Join(mdDir, filepath.Clean(path)), w, r)
 			return
 		}
 	} else if !strings.HasSuffix(path, ".md") && !strings.HasPrefix(path, "/media/") {
@@ -117,7 +116,7 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 		if _, err := os.Stat(indexPath); err == nil {
 			absPath = indexPath
 		} else {
-			serveDirIndex(absPath, w, r, prefetch)
+			serveDirIndex(absPath, w, r)
 			return
 		}
 	}
@@ -148,22 +147,13 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 	}
 	page := Page{Title: headerTitle, Path: path, HTML: pageHTML, Nav: nav}
 
-	if prefetch {
-		if date != "" {
-			html = "<p class=\"subtitle\">" + date + "</p>" + html
-		}
-		w.Header().Set("Content-Type", "text/html")
-		w.Write([]byte(html))
-		return
-	}
-
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := templates.ExecuteTemplate(w, "default.html", page); err != nil {
 		log.Println(err)
 	}
 }
 
-func serveDirIndex(dirPath string, w http.ResponseWriter, r *http.Request, prefetch bool) {
+func serveDirIndex(dirPath string, w http.ResponseWriter, r *http.Request) {
 	entries, err := os.ReadDir(dirPath)
 	if err != nil {
 		http.Error(w, err.Error(), 500)
@@ -220,12 +210,6 @@ func serveDirIndex(dirPath string, w http.ResponseWriter, r *http.Request, prefe
 	nav := buildNav("")
 	htmlStr := "<ul>" + linksToHTML(links) + "</ul>"
 	page := Page{Title: title, Path: r.URL.Path, HTML: template.HTML(htmlStr), Nav: nav}
-
-	if prefetch {
-		w.Header().Set("Content-Type", "text/html")
-		w.Write([]byte(htmlStr))
-		return
-	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := templates.ExecuteTemplate(w, "default.html", page); err != nil {

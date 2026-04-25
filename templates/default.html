@@ -19,14 +19,7 @@
     <script>hljs.highlightAll();</script>
     <script>
         const cache = new Map();
-        document.addEventListener('mouseover', e => {
-            const a = e.target.closest('a[href^="/"]');
-            if (!a || cache.has(a.pathname)) return;
-            fetch(a.pathname, { headers: { 'X-Prefetch': 'true' } })
-                .then(r => r.text())
-                .then(html => { if (html) cache.set(a.pathname, html); })
-                .catch(() => { });
-        });
+
         document.addEventListener('click', e => {
             const a = e.target.closest('a[href^="/"]');
             if (!a) return;
