@@ -15,6 +15,29 @@
         src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/go.min.js"></script>
 
     <script>hljs.highlightAll();</script>
+    <script>
+        const cache = new Map();
+        document.addEventListener('mouseover', e => {
+            const a = e.target.closest('a[href^="/"]');
+            if (!a || cache.has(a.pathname)) return;
+            fetch(a.pathname, { headers: { 'X-Prefetch': 'true' } })
+                .then(r => r.text())
+                .then(html => { if (html) cache.set(a.pathname, html); })
+                .catch(() => {});
+        });
+        document.addEventListener('click', e => {
+            const a = e.target.closest('a[href^="/"]');
+            if (!a) return;
+            if (a.pathname.startsWith('/media/') || !cache.has(a.pathname)) return;
+            e.preventDefault();
+            const html = cache.get(a.pathname);
+            const main = document.querySelector('main');
+            main.innerHTML = html;
+            history.pushState({}, '', a.pathname);
+            window.scrollTo(0, 0);
+            hljs.highlightAll();
+        });
+    </script>
 </head>
 
 <body>
