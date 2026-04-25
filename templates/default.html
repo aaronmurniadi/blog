@@ -11,7 +11,6 @@
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
 
-    <!-- and it's easy to individually load additional languages -->
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/go.min.js"></script>
 
@@ -19,13 +18,18 @@
 </head>
 
 <body>
-    <div id="header">
-        <h1>😱 Beago Cirius</h1>
+    <div id="page">
+        <header>
+            <h1>😱 Beago Cirius</h1>
+        </header>
+        <nav>{{range .Nav}}<a href="{{.Path}}">{{.Title}}</a>{{end}}</nav>
+        <main>
+            {{.HTML}}
+        </main>
+        <footer>
+            <p>© 2026 Aaron P. Murniadi</p>
+        </footer>
     </div>
-    <nav>{{range .Nav}}<a href="{{.Path}}">{{.Title}}</a>{{end}}</nav>
-    <main>
-        {{.HTML}}
-    </main>
 </body>
 
 </html>
