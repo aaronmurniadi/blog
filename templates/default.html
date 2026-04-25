@@ -13,6 +13,8 @@
 
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/go.min.js"></script>
+    <script src="https://unpkg.com/tex-linebreak2@0.8/dist/lib.js"></script>
+
 
     <script>hljs.highlightAll();</script>
     <script>
@@ -23,7 +25,7 @@
             fetch(a.pathname, { headers: { 'X-Prefetch': 'true' } })
                 .then(r => r.text())
                 .then(html => { if (html) cache.set(a.pathname, html); })
-                .catch(() => {});
+                .catch(() => { });
         });
         document.addEventListener('click', e => {
             const a = e.target.closest('a[href^="/"]');
@@ -53,6 +55,9 @@
             <p>© 2026 Aaron P. Murniadi</p>
         </footer>
     </div>
+    <script>
+        texLinebreak.texLinebreakDOM("p");
+    </script>
 </body>
 
 </html>

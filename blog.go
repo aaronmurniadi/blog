@@ -149,6 +149,9 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 	page := Page{Title: headerTitle, Path: path, HTML: pageHTML, Nav: nav}
 
 	if prefetch {
+		if date != "" {
+			html = "<p class=\"subtitle\">" + date + "</p>" + html
+		}
 		w.Header().Set("Content-Type", "text/html")
 		w.Write([]byte(html))
 		return
