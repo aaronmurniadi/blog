@@ -29,6 +29,12 @@ body {
 	background: var(--bg);
 }
 
+body p {
+	text-wrap: pretty;
+	text-align: left;
+	font-weight: 400;
+}
+
 /* Mobile Layout Single Column*/
 #page {
 	display: grid;
@@ -52,6 +58,13 @@ body {
 			". foot";
 		grid-template-rows: auto 1fr auto;
 		grid-template-columns: minmax(auto, 15ch) minmax(0, 60ch);
+	}
+
+	body p {
+		text-wrap: pretty;
+		text-align: justify;
+		hyphens: auto;
+		font-weight: 400;
 	}
 }
 
