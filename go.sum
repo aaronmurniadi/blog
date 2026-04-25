@@ -1,2 +1,6 @@
+github.com/aaronmurniadi/goldmark-linked-images v0.0.0-20260425213310-edc977d5795a h1:sw+3lZnPRnvHV8S6/LuhVJn+S0MmwJujnchUucCw7v8=
+github.com/aaronmurniadi/goldmark-linked-images v0.0.0-20260425213310-edc977d5795a/go.mod h1:EDMzTbru+I2xgdvMh8nRrmwlDbcYU9LQjvve1M2y4wg=
+github.com/mangoumbrella/goldmark-figure v1.4.0 h1:2N0Gg1YPKjwuPSVsznA+A34iYGm6qQwQeZI8pa3XY+0=
+github.com/mangoumbrella/goldmark-figure v1.4.0/go.mod h1:iIL+fhdmCQDpE0l/TKtGhokWzIbo5lo/Y2OIAcx6usI=
 github.com/yuin/goldmark v1.8.2 h1:kEGpgqJXdgbkhcOgBxkC0X0PmoPG1ZyoZ117rDVp4zE=
 github.com/yuin/goldmark v1.8.2/go.mod h1:ip/1k0VRfGynBgxOz0yCqHrbZXhcjxyuS66Brc7iBKg=
