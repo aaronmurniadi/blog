@@ -13,6 +13,7 @@ import (
 	"path/filepath"
 	"sort"
 	"strings"
+	"time"
 
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/extension"
@@ -27,9 +28,10 @@ type Page struct {
 }
 
 type Link struct {
-	Path  string
-	Title string
-	Date  string
+	Path     string
+	Title    string
+	Date     string
+	SortDate string
 }
 
 var (
@@ -177,9 +179,32 @@ func serveDirIndex(dirPath string, w http.ResponseWriter, r *http.Request) {
 			ep := filepath.Join(relDir, e.Name())
 			ep = strings.TrimPrefix(ep, string(filepath.Separator))
 			ep = "/" + strings.TrimSuffix(ep, ".md")
-			links = append(links, Link{Path: ep, Title: title, Date: date})
+			sortDate := ""
+			if date != "" {
+				if t, err := time.Parse("2006-01-02", date); err == nil {
+					sortDate = t.Format("2006-01-02")
+				} else if t, err := time.Parse("January 2, 2006", date); err == nil {
+					sortDate = t.Format("2006-01-02")
+				} else if t, err := time.Parse("Jan 2, 2006", date); err == nil {
+					sortDate = t.Format("2006-01-02")
+				}
+			}
+			links = append(links, Link{Path: ep, Title: title, Date: date, SortDate: sortDate})
 		}
 	}
+
+	sort.Slice(links, func(i, j int) bool {
+		if links[i].SortDate == links[j].SortDate {
+			return links[i].Title < links[j].Title
+		}
+		if links[i].SortDate == "" {
+			return false
+		}
+		if links[j].SortDate == "" {
+			return true
+		}
+		return links[i].SortDate > links[j].SortDate
+	})
 
 	title := filepath.Base(dirPath)
 	nav := buildNav("")
