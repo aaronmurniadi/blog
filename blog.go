@@ -15,6 +15,8 @@ import (
 	"strings"
 	"time"
 
+	goldmarklinkedimages "github.com/aaronmurniadi/goldmark-linked-images"
+	figure "github.com/mangoumbrella/goldmark-figure"
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/renderer/html"
@@ -296,6 +298,8 @@ func mdToHTML(md []byte) (string, error) {
 			extension.Footnote,
 			extension.Table,
 			extension.Typographer,
+			figure.Figure,
+			goldmarklinkedimages.LinkedImages,
 		),
 		goldmark.WithRendererOptions(html.WithUnsafe()),
 	)
