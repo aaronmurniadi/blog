@@ -291,9 +291,12 @@ func extractH1(md []byte) string {
 
 func mdToHTML(md []byte) (string, error) {
 	md = bytes.ReplaceAll(md, []byte("\r\n"), []byte("\n"))
-	md = bytes.ReplaceAll(md, []byte("---"), []byte("—"))
 	markdown := goldmark.New(
-		goldmark.WithExtensions(extension.Footnote, extension.Table),
+		goldmark.WithExtensions(
+			extension.Footnote,
+			extension.Table,
+			extension.Typographer,
+		),
 		goldmark.WithRendererOptions(html.WithUnsafe()),
 	)
 	var buf bytes.Buffer
