@@ -1,16 +1,19 @@
 :root {
 	--bg: #fafafa;
 	--text: #444444;
+	--text-light: #fafafa;
 	--link: #003366;
 	--link-visited: #663399;
-	--border: #cccccc;
+	--border: #dfdfdf;
 	--accent: #f5f5f5;
 	--code-bg: #eeeeee;
 
 	--base-font-size: 16px;
+	--header-bg: #0a5167;
+	--nav-bg: #0a5167;
+
+	--max-width: 700px;
 	/* Grid debugging colours
-	--header-bg: #8ca0ff;
-	--nav-bg: #ffa08c;
 	--main-bg: #ffff64;
 	--footer-bg: #8cffa0; */
 }
@@ -53,11 +56,11 @@ body p {
 @media (min-width: 600px) {
 	#page {
 		grid-template-areas:
-			"head head"
+			"head main"
 			"nav main"
-			". foot";
+			"nav foot";
 		grid-template-rows: auto 1fr auto;
-		grid-template-columns: minmax(auto, 15ch) minmax(0, 60ch);
+		grid-template-columns: minmax(auto, 15ch) minmax(0, var(--max-width));
 	}
 
 	body p {
@@ -81,7 +84,7 @@ h3,
 h4,
 h5,
 h6 {
-	font-family: sans-serif;
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 h1 {
@@ -121,11 +124,12 @@ h3 {
 #page>header h1 {
 	font-size: 28px;
 	font-weight: normal;
-	color: var(--text);
+	color: var(--text-light);
 }
 
 #page>nav {
 	grid-area: nav;
+	color: var(--text-light);
 	background-color: var(--nav-bg);
 	padding: 10px 18px;
 	display: flex;
@@ -137,7 +141,7 @@ h3 {
 	font-family: "Trebuchet MS", "Helvetica Neue", Arial, sans-serif;
 	font-size: 14px;
 	text-decoration: none;
-	color: var(--link);
+	color: var(--text-light);
 }
 
 #page>nav a:hover {
@@ -158,7 +162,7 @@ h3 {
 	grid-area: main;
 	background-color: var(--main-bg);
 	padding: 20px;
-	max-width: 80ch;
+	max-width: var(--max-width);
 }
 
 #page>footer {
@@ -218,7 +222,6 @@ figcaption {
 	font-size: 14px;
 	line-height: 1.5;
 	color: var(--text);
-	background: var(--header-bg);
 	border-left: 3px solid var(--border);
 	font-family: "Trebuchet MS", "Helvetica Neue", Arial, sans-serif;
 }
@@ -284,7 +287,7 @@ blockquote {
 	border-left: 4px solid var(--border);
 	margin: 15px 0;
 	padding: 5px 15px;
-	background: var(--header-bg);
+	background: var(--border);
 	font-style: italic;
 }
 
