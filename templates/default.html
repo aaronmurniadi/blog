@@ -57,7 +57,10 @@
         });
 
         if (window.innerWidth > 600) {
-            texLinebreak.texLinebreakDOM(justifiedPar);
+            const myOptions = new TexLinebreakOptions({
+                leftHangingPunctuation: false
+            });
+            texLinebreak.texLinebreakDOM(justifiedPar, myOptions);
         }
     </script>
 </body>

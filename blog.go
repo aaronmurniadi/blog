@@ -142,7 +142,7 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 		title = extractTitle(absPath)
 	}
 	headerTitle := "Home"
-	nav := buildNav(absPath)
+	nav := buildNav()
 	pageHTML := template.HTML(html)
 	if date != "" {
 		pageHTML = template.HTML("<p class=\"subtitle\">" + date + "</p>" + string(html))
@@ -208,9 +208,9 @@ func serveDirIndex(dirPath string, w http.ResponseWriter, r *http.Request) {
 		return links[i].SortDate > links[j].SortDate
 	})
 
-	title := filepath.Base(dirPath)
-	nav := buildNav("")
-	htmlStr := "<ul>" + linksToHTML(links) + "</ul>"
+	title := strings.ToUpper(filepath.Base(dirPath)[:1]) + filepath.Base(dirPath)[1:]
+	nav := buildNav()
+	htmlStr := "<h1>" + title + "</h1><ul>" + linksToHTML(links) + "</ul>"
 	page := Page{Title: title, Path: r.URL.Path, HTML: template.HTML(htmlStr), Nav: nav}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
@@ -222,16 +222,17 @@ func serveDirIndex(dirPath string, w http.ResponseWriter, r *http.Request) {
 func linksToHTML(links []Link) string {
 	var b strings.Builder
 	for _, l := range links {
-		b.WriteString(`<li><a href="`)
+		b.WriteString(`<li>`)
+		if l.Date != "" {
+			b.WriteString(`<span style="color:#666;font-size:0.9em">`)
+			b.WriteString(l.Date)
+			b.WriteString(`</span> `)
+		}
+		b.WriteString(`<a href="`)
 		b.WriteString(l.Path)
 		b.WriteString(`">`)
 		b.WriteString(l.Title)
 		b.WriteString("</a>")
-		if l.Date != "" {
-			b.WriteString(` <span style="color:#666;font-size:0.9em">`)
-			b.WriteString(l.Date)
-			b.WriteString(`</span>`)
-		}
 		b.WriteString(`</li>`)
 	}
 	return b.String()
@@ -315,7 +316,7 @@ func extractTitle(path string) string {
 	return strings.TrimSuffix(base, ".md")
 }
 
-func buildNav(currentPath string) []Link {
+func buildNav() []Link {
 	type dirInfo struct {
 		path  string
 		title string
