@@ -56,21 +56,9 @@
             return style.textAlign === 'justify';
         });
 
-        function applyJustification() {
-            if (window.innerWidth > 600) {
-                console.log(window.innerWidth)
-                texLinebreak.texLinebreakDOM(justifiedPar);
-            }
+        if (window.innerWidth > 600) {
+            texLinebreak.texLinebreakDOM(justifiedPar);
         }
-
-        applyJustification();
-        let resizeTimer;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
-                applyJustification();
-            }, 250);
-        });
     </script>
 </body>
 
