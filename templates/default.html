@@ -50,7 +50,27 @@
         </footer>
     </div>
     <script>
-        texLinebreak.texLinebreakDOM(document.querySelectorAll("p"), { textAlign: "justify" });
+        const paragraphs = document.querySelectorAll('p');
+        const justifiedPar = Array.from(paragraphs).filter(p => {
+            const style = window.getComputedStyle(p);
+            return style.textAlign === 'justify';
+        });
+
+        function applyJustification() {
+            if (window.innerWidth > 600) {
+                console.log(window.innerWidth)
+                texLinebreak.texLinebreakDOM(justifiedPar);
+            }
+        }
+
+        applyJustification();
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                applyJustification();
+            }, 250);
+        });
     </script>
 </body>
 
