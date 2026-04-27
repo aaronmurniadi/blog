@@ -147,6 +147,9 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 	if date != "" {
 		pageHTML = template.HTML("<p class=\"subtitle\">" + date + "</p>" + string(html))
 	}
+	if shouldParaNum(filepath.ToSlash(cleanPath)) {
+		pageHTML = template.HTML(`<div class="para-num">` + string(pageHTML) + `</div>`)
+	}
 	page := Page{Title: headerTitle, Path: path, HTML: pageHTML, Nav: nav}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
@@ -314,6 +317,11 @@ func mdToHTML(md []byte) (string, error) {
 func extractTitle(path string) string {
 	base := filepath.Base(path)
 	return strings.TrimSuffix(base, ".md")
+}
+
+// shouldParaNum: paragraph margin numbers only for long-form under articles/ and summaries/.
+func shouldParaNum(cleanPath string) bool {
+	return strings.Contains(cleanPath, "articles/") || strings.Contains(cleanPath, "summaries/")
 }
 
 func buildNav() []Link {
