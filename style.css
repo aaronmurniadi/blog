@@ -378,7 +378,6 @@ ul.link-list li {
 .footnotes {
 	margin-top: 40px;
 	padding-top: 15px;
-	border-top: 1px solid var(--border);
 	font-size: 14px;
 }
 
