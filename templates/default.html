@@ -39,7 +39,7 @@
 <body>
     <div id="page">
         <header>
-            <h1>😱 Beago Cirius</h1>
+            <h1>Beago Cirius</h1>
         </header>
         <nav>{{range .Nav}}<a href="{{.Path}}">{{.Title}}</a>{{end}}</nav>
         <main>
@@ -50,8 +50,10 @@
         </footer>
     </div>
     <script>
-        const paragraphs = document.querySelectorAll('p');
-        const justifiedPar = Array.from(paragraphs).filter(p => {
+        document.querySelectorAll('.para-num p').forEach((p, i) => {
+            if (i > 0) p.setAttribute('data-pnum', i);
+        });
+        const justifiedPar = Array.from(document.querySelectorAll('main p')).filter(p => {
             const style = window.getComputedStyle(p);
             return style.textAlign === 'justify';
         });
