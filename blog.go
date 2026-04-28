@@ -78,9 +78,19 @@ func main() {
 
 	http.HandleFunc("/", handleRequest)
 	http.HandleFunc("/sitemap.xml", handleSitemapFile)
-	http.Handle("/style.css", http.FileServer(http.Dir(wd)))
-	http.Handle("/favicon.ico", http.FileServer(http.Dir(wd)))
-	http.Handle("/robots.txt", http.FileServer(http.Dir(wd)))
+	for _, f := range []string{
+		"style.css",
+		"favicon.ico",
+		"favicon-32x32.png",
+		"favicon-16x16.png",
+		"android-chrome-192x192.png",
+		"android-chrome-512x512.png",
+		"apple-touch-icon.png",
+		"robots.txt",
+		"site.webmanifest",
+	} {
+		http.Handle("/"+f, http.FileServer(http.Dir(wd)))
+	}
 	http.Handle("/media/", http.StripPrefix("/media/", http.FileServer(http.Dir(filepath.Join(wd, "media")))))
 	log.Printf("Serving at http://localhost:%d", port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), nil))
