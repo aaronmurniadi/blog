@@ -1,0 +1,8 @@
+<h1>{{.DirTitle}}</h1>
+<ul class="dir-list">
+    {{range .Links}}
+    <li>
+        {{if .Date}}<span class="dir-list-date">{{.Date}}</span> {{end}}<a href="{{.Path}}">{{.Title}}</a>
+    </li>
+    {{end}}
+</ul>
