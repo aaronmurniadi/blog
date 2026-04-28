@@ -37,9 +37,10 @@ type Link struct {
 }
 
 var (
-	mdDir   string
-	tmplDir string
-	port    int
+	mdDir         string
+	tmplDir       string
+	port          int
+	writeSitemapF bool
 	funcMap = template.FuncMap{
 		"trim":      strings.TrimSpace,
 		"titlecase": func(s string) string { return strings.ToUpper(s[:1]) + strings.ToLower(s[1:]) },
@@ -50,6 +51,7 @@ var (
 func main() {
 	flag.IntVar(&port, "port", 8080, "port to serve on")
 	flag.IntVar(&port, "p", 8080, "port to serve on")
+	flag.BoolVar(&writeSitemapF, "write-sitemap", false, "write sitemap.xml to current directory and exit")
 	flag.Parse()
 
 	wd, err := os.Getwd()
@@ -59,6 +61,15 @@ func main() {
 	mdDir = wd
 	tmplDir = filepath.Join(wd, "templates")
 
+	if writeSitemapF {
+		out := filepath.Join(wd, "sitemap.xml")
+		if err := writeSitemapFile(wd, out); err != nil {
+			log.Fatal(err)
+		}
+		log.Printf("wrote %s", out)
+		return
+	}
+
 	templates = template.New("").Funcs(funcMap)
 	templates, err = templates.ParseGlob(filepath.Join(tmplDir, "*.html"))
 	if err != nil {
@@ -66,7 +77,7 @@ func main() {
 	}
 
 	http.HandleFunc("/", handleRequest)
-	http.HandleFunc("/sitemap.xml", handleSitemap)
+	http.HandleFunc("/sitemap.xml", handleSitemapFile)
 	http.Handle("/style.css", http.FileServer(http.Dir(wd)))
 	http.Handle("/favicon.ico", http.FileServer(http.Dir(wd)))
 	http.Handle("/media/", http.StripPrefix("/media/", http.FileServer(http.Dir(filepath.Join(wd, "media")))))
@@ -391,21 +402,25 @@ type Sitemap struct {
 	URLs    []URL    `xml:"url"`
 }
 
-func handleSitemap(w http.ResponseWriter, r *http.Request) {
-	log.Printf("%s %s", r.Method, r.URL.Path)
+const sitemapBase = "https://aaron.beago-cirius.ts.net/"
 
+func collectSitemapURLs(root string) ([]URL, error) {
 	var urls []URL
-	filepath.Walk(mdDir, func(path string, info fs.FileInfo, err error) error {
+	err := filepath.Walk(root, func(path string, info fs.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
 		if info.IsDir() {
+			name := info.Name()
+			if name == "node_modules" || strings.HasPrefix(name, ".") {
+				return filepath.SkipDir
+			}
 			return nil
 		}
 		if !strings.HasSuffix(path, ".md") {
 			return nil
 		}
-		rel, err := filepath.Rel(mdDir, path)
+		rel, err := filepath.Rel(root, path)
 		if err != nil {
 			return nil
 		}
@@ -417,35 +432,67 @@ func handleSitemap(w http.ResponseWriter, r *http.Request) {
 		if strings.HasPrefix(rel, "_") || strings.Contains(rel, "/_") {
 			return nil
 		}
-		loc := "https://aaron.beago-cirius.ts.net/" + rel
+		loc := sitemapBase + rel
 		if strings.HasSuffix(loc, "/index") {
 			loc = strings.TrimSuffix(loc, "index")
 		} else if rel == "index" {
-			loc = "https://aaron.beago-cirius.ts.net/"
+			loc = sitemapBase
 		}
 		content, err := os.ReadFile(path)
 		if err != nil {
 			return nil
 		}
 		_, _, date := stripFrontMatter(content)
-		url := URL{Loc: loc}
+		u := URL{Loc: loc}
 		if date != "" {
-			url.LastMod = date
+			u.LastMod = date
 		} else {
-			url.LastMod = info.ModTime().Format("2006-01-02")
+			u.LastMod = info.ModTime().Format("2006-01-02")
 		}
-		urls = append(urls, url)
+		urls = append(urls, u)
 		return nil
 	})
+	return urls, err
+}
 
-	sitemap := Sitemap{
+func buildSitemap(root string) (Sitemap, error) {
+	urls, err := collectSitemapURLs(root)
+	if err != nil {
+		return Sitemap{}, err
+	}
+	return Sitemap{
 		XMLns: "http://www.sitemaps.org/schemas/sitemap/0.9",
 		URLs:  urls,
-	}
+	}, nil
+}
 
-	w.Header().Set("Content-Type", "application/xml")
-	w.Write([]byte(xml.Header))
-	if err := xml.NewEncoder(w).Encode(sitemap); err != nil {
-		log.Println(err)
+func writeSitemapFile(root, outPath string) error {
+	sitemap, err := buildSitemap(root)
+	if err != nil {
+		return err
 	}
+	var buf bytes.Buffer
+	buf.WriteString(xml.Header)
+	enc := xml.NewEncoder(&buf)
+	enc.Indent("", "  ")
+	if err := enc.Encode(sitemap); err != nil {
+		return err
+	}
+	_ = buf.WriteByte('\n')
+	return os.WriteFile(outPath, buf.Bytes(), 0644)
+}
+
+func handleSitemapFile(w http.ResponseWriter, r *http.Request) {
+	log.Printf("%s %s", r.Method, r.URL.Path)
+	path := filepath.Join(mdDir, "sitemap.xml")
+	if _, err := os.Stat(path); err != nil {
+		if os.IsNotExist(err) {
+			http.Error(w, "sitemap not generated: run with -write-sitemap", 404)
+			return
+		}
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	w.Header().Set("Content-Type", "application/xml")
+	http.ServeFile(w, r, path)
 }
