@@ -80,13 +80,32 @@ func main() {
 	http.HandleFunc("/sitemap.xml", handleSitemapFile)
 	http.Handle("/style.css", http.FileServer(http.Dir(wd)))
 	http.Handle("/favicon.ico", http.FileServer(http.Dir(wd)))
+	http.Handle("/robots.txt", http.FileServer(http.Dir(wd)))
 	http.Handle("/media/", http.StripPrefix("/media/", http.FileServer(http.Dir(filepath.Join(wd, "media")))))
 	log.Printf("Serving at http://localhost:%d", port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), nil))
 }
 
+func pathHasUnderscoreSegment(p string) bool {
+	p = strings.Trim(filepath.ToSlash(p), "/")
+	if p == "" {
+		return false
+	}
+	for _, seg := range strings.Split(p, "/") {
+		if strings.HasPrefix(seg, "_") {
+			return true
+		}
+	}
+	return false
+}
+
 func handleRequest(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s %s", r.Method, r.URL.Path)
+
+	if pathHasUnderscoreSegment(r.URL.Path) {
+		http.Error(w, "Not Found", 404)
+		return
+	}
 
 	path := r.URL.Path
 
@@ -179,6 +198,9 @@ func serveDirIndex(dirPath string, w http.ResponseWriter, r *http.Request) {
 	var links []Link
 	relDir, _ := filepath.Rel(mdDir, dirPath)
 	for _, e := range entries {
+		if strings.HasPrefix(e.Name(), "_") {
+			continue
+		}
 		if e.IsDir() {
 			ep := filepath.Join(relDir, e.Name())
 			ep = strings.TrimPrefix(ep, string(filepath.Separator))
