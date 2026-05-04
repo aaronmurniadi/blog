@@ -20,8 +20,6 @@
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/go.min.js"></script>
 
-    <script src="https://unpkg.com/tex-linebreak2@0.8/dist/lib.js"></script>
-
 
     <script>hljs.highlightAll();</script>
     <script>
@@ -59,17 +57,6 @@
         document.querySelectorAll('.para-num p').forEach((p, i) => {
             if (i > 0) p.setAttribute('data-pnum', i);
         });
-        const justifiedPar = Array.from(document.querySelectorAll('main p')).filter(p => {
-            const style = window.getComputedStyle(p);
-            return style.textAlign === 'justify';
-        });
-
-        if (window.innerWidth > 600) {
-            const myOptions = new TexLinebreakOptions({
-                leftHangingPunctuation: false
-            });
-            texLinebreak.texLinebreakDOM(justifiedPar, myOptions);
-        }
     </script>
 </body>
 
