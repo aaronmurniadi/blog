@@ -1,0 +1,24 @@
+# --- Public Entrance ---
+:8002 {
+    # Send everything to Anubis (assuming Anubis runs on 3000)
+    reverse_proxy localhost:3000 {
+        # Pass the real IP so Anubis can track the client
+        header_up X-Real-Ip {remote_host}
+    }
+}
+
+# --- Internal "Clean" Backend ---
+:8003 {
+    # Bind to localhost so this port isn't exposed to the internet
+    bind 127.0.0.1
+    
+    root * /home/aaron/blog/_site
+    
+    # Speed optimizations from before
+    encode zstd gzip
+    file_server
+    
+    # Optional: Aggressive Caching
+    @static path *.ico *.css *.js *.gif *.jpg *.jpeg *.png *.svg *.woff *.woff2
+    header @static Cache-Control "public, max-age=31536000"
+}

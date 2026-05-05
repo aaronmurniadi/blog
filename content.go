@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"html/template"
+	"io"
 	"io/fs"
 	"log"
 	"net/http"
@@ -15,6 +16,12 @@ import (
 	"time"
 
 	"gopkg.in/yaml.v3"
+)
+
+var (
+	errDirNotFound   = errors.New("directory not found")
+	errDirForbidden  = errors.New("directory forbidden")
+	errDirNotADir    = errors.New("not a directory")
 )
 
 // Page is data for default.html.
@@ -185,37 +192,31 @@ func linkSortTime(date string) string {
 	return ""
 }
 
-// serveDirListing lists child directories and .md files for a path ending in /.
-func (s *Server) serveDirListing(w http.ResponseWriter, r *http.Request, urlPath string) {
+// writeDirListing lists child directories and .md files for a path ending in /.
+func (s *Server) writeDirListing(w io.Writer, urlPath string) error {
 	rel := strings.TrimPrefix(filepath.ToSlash(strings.TrimSpace(urlPath)), "/")
 	rel = strings.TrimSuffix(rel, "/")
 	absDir, err := s.safePathUnderContent(rel)
 	if err != nil {
 		if errors.Is(err, errPathTraversal) {
-			http.Error(w, "Forbidden", http.StatusForbidden)
-			return
+			return errDirForbidden
 		}
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		return err
 	}
 	st, err := os.Stat(absDir)
 	if err != nil {
 		if os.IsNotExist(err) {
-			http.NotFound(w, r)
-			return
+			return errDirNotFound
 		}
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		return err
 	}
 	if !st.IsDir() {
-		http.NotFound(w, r)
-		return
+		return errDirNotADir
 	}
 
 	entries, err := os.ReadDir(absDir)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		return err
 	}
 
 	var links []Link
@@ -288,14 +289,28 @@ func (s *Server) serveDirListing(w http.ResponseWriter, r *http.Request, urlPath
 	var body bytes.Buffer
 	data := DirIndexData{DirTitle: dirTitle, Links: links}
 	if err := s.templates.ExecuteTemplate(&body, "dirindex.html", data); err != nil {
-		log.Printf("dirindex template: %v", err)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
+		return fmt.Errorf("dirindex template: %w", err)
 	}
 
-	page := Page{Title: dirTitle, Path: r.URL.Path, HTML: template.HTML(body.String()), Nav: nav}
+	page := Page{Title: dirTitle, Path: urlPath, HTML: template.HTML(body.String()), Nav: nav}
 	if err := s.templates.ExecuteTemplate(w, "default.html", page); err != nil {
-		log.Println(err)
+		return fmt.Errorf("execute default.html: %w", err)
+	}
+	return nil
+}
+
+// serveDirListing lists child directories and .md files for a path ending in /.
+func (s *Server) serveDirListing(w http.ResponseWriter, r *http.Request, urlPath string) {
+	if err := s.writeDirListing(w, urlPath); err != nil {
+		switch {
+		case errors.Is(err, errDirForbidden):
+			http.Error(w, "Forbidden", http.StatusForbidden)
+		case errors.Is(err, errDirNotFound), errors.Is(err, errDirNotADir):
+			http.NotFound(w, r)
+		default:
+			log.Println(err)
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		}
 	}
 }
 

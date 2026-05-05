@@ -11,12 +11,11 @@ import (
 	"strings"
 )
 
-// ServerConfig holds paths and behavior flags for the HTTP server.
+// ServerConfig holds paths and behavior flags for the site generator.
 type ServerConfig struct {
 	SiteRoot        string
 	ContentRoot     string
 	SitemapBase     string
-	Dev             bool
 	ParaNumPrefixes []string
 }
 
@@ -72,18 +71,6 @@ func (s *Server) parseTemplates() (*template.Template, error) {
 	tmplDir := filepath.Join(s.cfg.SiteRoot, "templates")
 	templates := template.New("").Funcs(s.funcMap)
 	return templates.ParseGlob(filepath.Join(tmplDir, "*.html"))
-}
-
-func (s *Server) ensureTemplates() error {
-	if !s.cfg.Dev {
-		return nil
-	}
-	tmpl, err := s.parseTemplates()
-	if err != nil {
-		return err
-	}
-	s.templates = tmpl
-	return nil
 }
 
 var errPathTraversal = errors.New("path escapes content root")
@@ -155,12 +142,6 @@ func (s *Server) handleRequest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	log.Printf("%s %s", r.Method, r.URL.Path)
-
-	if err := s.ensureTemplates(); err != nil {
-		log.Println("templates:", err)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
 
 	if pathHasUnderscoreSegment(r.URL.Path) {
 		http.NotFound(w, r)

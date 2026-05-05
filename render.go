@@ -2,8 +2,10 @@ package main
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"html/template"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -17,6 +19,8 @@ import (
 	"github.com/yuin/goldmark/renderer/html"
 )
 
+var errInvalidFrontMatter = errors.New("invalid front matter")
+
 func newTemplateFuncMap() template.FuncMap {
 	return template.FuncMap{
 		"trim": strings.TrimSpace,
@@ -29,16 +33,14 @@ func newTemplateFuncMap() template.FuncMap {
 	}
 }
 
-func (s *Server) serveMarkdownPage(w http.ResponseWriter, abs, rel, urlPath string) error {
+func (s *Server) writeMarkdownPage(w io.Writer, abs, rel, urlPath string) error {
 	content, err := os.ReadFile(abs)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return nil
+		return err
 	}
 	body, fm, err := parseFrontMatter(content)
 	if err != nil {
-		http.Error(w, "Invalid front matter", http.StatusInternalServerError)
-		return nil
+		return errInvalidFrontMatter
 	}
 	if fm.Title == "" {
 		fm.Title = extractH1(body)
@@ -49,8 +51,7 @@ func (s *Server) serveMarkdownPage(w http.ResponseWriter, abs, rel, urlPath stri
 
 	htmlStr, err := mdToHTML(body)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return nil
+		return err
 	}
 
 	headerTitle := "Home"
@@ -71,6 +72,18 @@ func (s *Server) serveMarkdownPage(w http.ResponseWriter, abs, rel, urlPath stri
 	page := Page{Title: headerTitle, Path: urlPath, HTML: pageHTML, Nav: nav}
 	if err := s.templates.ExecuteTemplate(w, "default.html", page); err != nil {
 		return fmt.Errorf("execute default.html: %w", err)
+	}
+	return nil
+}
+
+func (s *Server) serveMarkdownPage(w http.ResponseWriter, abs, rel, urlPath string) error {
+	if err := s.writeMarkdownPage(w, abs, rel, urlPath); err != nil {
+		if errors.Is(err, errInvalidFrontMatter) {
+			http.Error(w, "Invalid front matter", http.StatusInternalServerError)
+			return nil
+		}
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return nil
 	}
 	return nil
 }
