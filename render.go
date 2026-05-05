@@ -60,10 +60,15 @@ func (s *Server) writeMarkdownPage(w io.Writer, abs, rel, urlPath string) error 
 	}
 
 	headerTitle := "Home"
-	nav, err := buildNav(s)
-	if err != nil {
-		log.Println("buildNav:", err)
-		nav = nil
+	hideNav := fm.NavBar != nil && !*fm.NavBar
+	var nav []Link
+	if !hideNav {
+		var err error
+		nav, err = buildNav(s)
+		if err != nil {
+			log.Println("buildNav:", err)
+			nav = nil
+		}
 	}
 
 	pageHTML := template.HTML(htmlStr)
@@ -74,7 +79,10 @@ func (s *Server) writeMarkdownPage(w io.Writer, abs, rel, urlPath string) error 
 	if s.shouldApplyParaNum(webRel) {
 		pageHTML = template.HTML(`<div class="para-num">` + string(pageHTML) + `</div>`)
 	}
-	page := Page{Title: headerTitle, Path: urlPath, HTML: pageHTML, Nav: nav}
+	if fm.Title != "" {
+		headerTitle = fm.Title
+	}
+	page := Page{Title: headerTitle, Path: urlPath, HTML: pageHTML, Nav: nav, HideNav: hideNav}
 	if err := s.templates.ExecuteTemplate(w, "default.html", page); err != nil {
 		return fmt.Errorf("execute default.html: %w", err)
 	}

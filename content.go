@@ -26,10 +26,11 @@ var (
 
 // Page is data for default.html.
 type Page struct {
-	Title string
-	Path  string
-	HTML  template.HTML
-	Nav   []Link
+	Title   string
+	Path    string
+	HTML    template.HTML
+	Nav     []Link
+	HideNav bool
 }
 
 // Link is a nav or directory-listing entry.
@@ -48,8 +49,9 @@ type DirIndexData struct {
 
 // FrontMatter holds parsed YAML front matter fields we care about.
 type FrontMatter struct {
-	Title string `yaml:"title"`
-	Date  string `yaml:"date"`
+	Title  string `yaml:"title"`
+	Date   string `yaml:"date"`
+	NavBar *bool  `yaml:"nav_bar"` // nil = show nav; explicit false hides <nav>
 }
 
 // parseFrontMatter splits YAML front matter from body; body is trimmed.
