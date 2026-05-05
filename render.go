@@ -49,6 +49,11 @@ func (s *Server) writeMarkdownPage(w io.Writer, abs, rel, urlPath string) error 
 		fm.Title = extractTitleFromPath(abs)
 	}
 
+	body, err = s.expandPostListTags(body)
+	if err != nil {
+		return err
+	}
+
 	htmlStr, err := mdToHTML(body)
 	if err != nil {
 		return err
@@ -92,11 +97,11 @@ func mdToHTML(md []byte) (string, error) {
 	md = bytes.ReplaceAll(md, []byte("\r\n"), []byte("\n"))
 	markdown := goldmark.New(
 		goldmark.WithExtensions(
+			figure.Figure,
+			goldmarklinkedimages.LinkedImages,
 			extension.Footnote,
 			extension.Table,
 			extension.Typographer,
-			figure.Figure,
-			goldmarklinkedimages.LinkedImages,
 		),
 		goldmark.WithRendererOptions(html.WithUnsafe()),
 	)
