@@ -192,6 +192,70 @@ func linkSortTime(date string) string {
 	return ""
 }
 
+func sortLinksByDateDesc(links []Link) {
+	sort.Slice(links, func(i, j int) bool {
+		if links[i].SortDate == links[j].SortDate {
+			return links[i].Title < links[j].Title
+		}
+		if links[i].SortDate == "" {
+			return false
+		}
+		if links[j].SortDate == "" {
+			return true
+		}
+		return links[i].SortDate > links[j].SortDate
+	})
+}
+
+// linksForMarkdownFilesInDir returns one Link per *.md file directly in absDir (non-recursive).
+func (s *Server) linksForMarkdownFilesInDir(absDir string) ([]Link, error) {
+	entries, err := os.ReadDir(absDir)
+	if err != nil {
+		return nil, err
+	}
+	contentRoot := s.contentDir()
+	var links []Link
+	for _, e := range entries {
+		if e.IsDir() || strings.HasPrefix(e.Name(), "_") {
+			continue
+		}
+		if !strings.HasSuffix(e.Name(), ".md") {
+			continue
+		}
+		entryPath := filepath.Join(absDir, e.Name())
+		relItem, err := filepath.Rel(contentRoot, entryPath)
+		if err != nil {
+			continue
+		}
+		relItem = filepath.ToSlash(relItem)
+		content, err := os.ReadFile(entryPath)
+		if err != nil {
+			continue
+		}
+		body, meta, perr := parseFrontMatter(content)
+		if perr != nil {
+			continue
+		}
+		title := meta.Title
+		if title == "" {
+			title = extractH1(body)
+		}
+		if title == "" {
+			title = titleCaseDir(strings.TrimSuffix(e.Name(), ".md"))
+		}
+		web := "/" + strings.TrimSuffix(relItem, ".md")
+		date := meta.Date
+		links = append(links, Link{
+			Path:     web,
+			Title:    title,
+			Date:     date,
+			SortDate: linkSortTime(date),
+		})
+	}
+	sortLinksByDateDesc(links)
+	return links, nil
+}
+
 // writeDirListing lists child directories and .md files for a path ending in /.
 func (s *Server) writeDirListing(w io.Writer, urlPath string) error {
 	rel := strings.TrimPrefix(filepath.ToSlash(strings.TrimSpace(urlPath)), "/")
@@ -235,46 +299,15 @@ func (s *Server) writeDirListing(w io.Writer, urlPath string) error {
 			})
 			continue
 		}
-		if !strings.HasSuffix(e.Name(), ".md") {
-			continue
-		}
-		content, err := os.ReadFile(entryPath)
-		if err != nil {
-			continue
-		}
-		_, meta, perr := parseFrontMatter(content)
-		if perr != nil {
-			continue
-		}
-		title := meta.Title
-		if title == "" {
-			title = extractH1(content)
-		}
-		if title == "" {
-			title = titleCaseDir(strings.TrimSuffix(e.Name(), ".md"))
-		}
-		web := "/" + strings.TrimSuffix(relItem, ".md")
-		date := meta.Date
-		links = append(links, Link{
-			Path:     web,
-			Title:    title,
-			Date:     date,
-			SortDate: linkSortTime(date),
-		})
 	}
 
-	sort.Slice(links, func(i, j int) bool {
-		if links[i].SortDate == links[j].SortDate {
-			return links[i].Title < links[j].Title
-		}
-		if links[i].SortDate == "" {
-			return false
-		}
-		if links[j].SortDate == "" {
-			return true
-		}
-		return links[i].SortDate > links[j].SortDate
-	})
+	fileLinks, err := s.linksForMarkdownFilesInDir(absDir)
+	if err != nil {
+		return err
+	}
+	links = append(links, fileLinks...)
+
+	sortLinksByDateDesc(links)
 
 	dirTitle := titleCaseDir(filepath.Base(absDir))
 	if rel == "" {
