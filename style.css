@@ -1,3 +1,12 @@
+@font-face {
+  font-family: 'Georgia';
+  src: url('fonts/Georgia.woff2') format('woff2'),
+       url('fonts/Georgia.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
 	--bg: #fafafa;
 	--text: #444444;
@@ -30,7 +39,7 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 	text-rendering: optimizeLegibility;
 	-webkit-text-size-adjust: 100%;
-	font-family: Georgia, "Times New Roman", Times, serif, sans-serif;
+	font-family: Georgia, "Times New Roman", Times, serif;
 	font-size: var(--base-font-size);
 	line-height: 1.5;
 	color: var(--text);

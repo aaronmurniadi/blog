@@ -133,6 +133,13 @@ func (s *Server) generateStaticSite(outRoot string) error {
 		}
 	}
 
+	fontsSrc := filepath.Join(s.cfg.SiteRoot, "fonts")
+	if st, err := os.Stat(fontsSrc); err == nil && st.IsDir() {
+		if err := copyTree(fontsSrc, filepath.Join(outRoot, "fonts")); err != nil {
+			return fmt.Errorf("copy fonts: %w", err)
+		}
+	}
+
 	contentRoot := s.cfg.ContentRoot
 	err := filepath.WalkDir(contentRoot, func(path string, d fs.DirEntry, walkErr error) error {
 		if walkErr != nil {
