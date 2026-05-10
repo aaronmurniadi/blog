@@ -397,7 +397,7 @@ own_" (BK 600).
   _Gregorianum_ 88, no. 3 (2007): 587–603.
 
 - [TI] Levinas, Emmanuel. _Totality and Infinity: An Essay on Exteriority_,
-  (terj. Alphonso Lingis. Pittsburgh: Duquesne University Press, 1969.
+  terj. Alphonso Lingis. Pittsburgh: Duquesne University Press, 1969.
 
 - [EL] Levinas, Emmanuel. "Martin Buber and the Theory of Knowledge," dalam _The
   Levinas Reader_. Translated by Seán Hand. Oxford: Basil Blackwell, 1989.
