@@ -34,16 +34,20 @@ func main() {
 	}
 
 	prefixes := parseCommaPrefixes(*paraNumPaths)
+	log.Printf("blog: cwd=%s contentRoot=%s out=%q sitemap-base=%q para-num-paths=%q",
+		wd, contentRoot, *outDir, *sitemapBase, *paraNumPaths)
 
 	if *writeSitemap {
 		out := filepath.Join(wd, "sitemap.xml")
+		log.Printf("blog: -write-sitemap only, output %s", out)
 		if err := writeSitemapFile(wd, contentRoot, *sitemapBase, out); err != nil {
 			log.Fatal(err)
 		}
-		log.Printf("wrote %s", out)
+		log.Printf("blog: done (-write-sitemap)")
 		return
 	}
 
+	log.Printf("blog: loading templates and nav (content root %s)", contentRoot)
 	srv, err := NewServer(ServerConfig{
 		SiteRoot:        wd,
 		ContentRoot:     contentRoot,
@@ -55,10 +59,11 @@ func main() {
 	}
 
 	outAbs := filepath.Join(wd, *outDir)
+	log.Printf("blog: generating static site -> %s", outAbs)
 	if err := srv.generateStaticSite(outAbs); err != nil {
 		log.Fatal(err)
 	}
-	log.Printf("wrote site to %s", outAbs)
+	log.Printf("blog: done (wrote site to %s)", outAbs)
 }
 
 func parseCommaPrefixes(s string) []string {

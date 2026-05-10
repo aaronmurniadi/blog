@@ -64,6 +64,7 @@ func NewServer(cfg ServerConfig) (*Server, error) {
 		return nil, err
 	}
 	s.templates = tmpl
+	log.Printf("blog: server ready siteRoot=%s contentRoot=%s", siteRoot, contentRoot)
 	return s, nil
 }
 

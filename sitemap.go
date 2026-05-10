@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/xml"
 	"io/fs"
+	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -110,5 +111,9 @@ func writeSitemapFile(_, contentRoot, base, outPath string) error {
 		return err
 	}
 	_ = buf.WriteByte('\n')
-	return os.WriteFile(outPath, buf.Bytes(), 0644)
+	if err := os.WriteFile(outPath, buf.Bytes(), 0644); err != nil {
+		return err
+	}
+	log.Printf("sitemap: wrote %d URL(s) -> %s", len(sitemap.URLs), outPath)
+	return nil
 }
