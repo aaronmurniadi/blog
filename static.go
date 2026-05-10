@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"io/fs"
+	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -97,6 +98,7 @@ func copyTree(srcDir, dstDir string) error {
 }
 
 func (s *Server) generateStaticSite(outRoot string) error {
+	log.Printf("site: clear output %s", outRoot)
 	if err := os.RemoveAll(outRoot); err != nil {
 		return fmt.Errorf("clear output: %w", err)
 	}
@@ -104,6 +106,7 @@ func (s *Server) generateStaticSite(outRoot string) error {
 		return fmt.Errorf("mkdir output: %w", err)
 	}
 
+	log.Printf("site: copy static assets from site root")
 	for _, name := range staticFileNames {
 		src := filepath.Join(s.cfg.SiteRoot, name)
 		if _, err := os.Stat(src); err != nil {
@@ -116,6 +119,7 @@ func (s *Server) generateStaticSite(outRoot string) error {
 		if err := copyFile(src, dst); err != nil {
 			return fmt.Errorf("copy %s: %w", name, err)
 		}
+		log.Printf("site: static %s", name)
 	}
 	for _, extra := range []string{"404.html"} {
 		src := filepath.Join(s.cfg.SiteRoot, extra)
@@ -123,24 +127,34 @@ func (s *Server) generateStaticSite(outRoot string) error {
 			if err := copyFile(src, filepath.Join(outRoot, extra)); err != nil {
 				return fmt.Errorf("copy %s: %w", extra, err)
 			}
+			log.Printf("site: static %s", extra)
 		}
 	}
 
 	mediaSrc := filepath.Join(s.cfg.SiteRoot, "media")
 	if st, err := os.Stat(mediaSrc); err == nil && st.IsDir() {
-		if err := copyTree(mediaSrc, filepath.Join(outRoot, "media")); err != nil {
+		log.Printf("site: media %s -> %s", mediaSrc, filepath.Join(outRoot, "media"))
+		if err := copyMediaTreeAsWebP(mediaSrc, filepath.Join(outRoot, "media")); err != nil {
 			return fmt.Errorf("copy media: %w", err)
 		}
+		log.Printf("site: media done")
+	} else {
+		log.Printf("site: skip media (missing or not a directory)")
 	}
 
 	fontsSrc := filepath.Join(s.cfg.SiteRoot, "fonts")
 	if st, err := os.Stat(fontsSrc); err == nil && st.IsDir() {
+		log.Printf("site: fonts %s -> %s", fontsSrc, filepath.Join(outRoot, "fonts"))
 		if err := copyTree(fontsSrc, filepath.Join(outRoot, "fonts")); err != nil {
 			return fmt.Errorf("copy fonts: %w", err)
 		}
+		log.Printf("site: fonts done")
+	} else {
+		log.Printf("site: skip fonts (missing or not a directory)")
 	}
 
 	contentRoot := s.cfg.ContentRoot
+	log.Printf("site: render markdown from %s", contentRoot)
 	err := filepath.WalkDir(contentRoot, func(path string, d fs.DirEntry, walkErr error) error {
 		if walkErr != nil {
 			return walkErr
@@ -182,18 +196,20 @@ func (s *Server) generateStaticSite(outRoot string) error {
 		if err != nil {
 			return err
 		}
-		if err := s.writeMarkdownPage(f, path, relSlash, urlPath); err != nil {
+		if err := s.writeMarkdownPage(f, path, relSlash, urlPath, true); err != nil {
 			f.Close()
 			return fmt.Errorf("%s: %w", relSlash, err)
 		}
 		if err := f.Close(); err != nil {
 			return err
 		}
+		log.Printf("site: page %s -> %s", relSlash, outPath)
 		return nil
 	})
 	if err != nil {
 		return err
 	}
+	log.Printf("site: markdown pass done")
 
 	err = filepath.WalkDir(contentRoot, func(path string, d fs.DirEntry, walkErr error) error {
 		if walkErr != nil {
@@ -253,15 +269,22 @@ func (s *Server) generateStaticSite(outRoot string) error {
 			f.Close()
 			return fmt.Errorf("dir index %s: %w", relSlash, err)
 		}
-		return f.Close()
+		if err := f.Close(); err != nil {
+			return err
+		}
+		log.Printf("site: dir index %s -> %s", urlPath, outPath)
+		return nil
 	})
 	if err != nil {
 		return err
 	}
+	log.Printf("site: directory listing pass done")
 
 	sitemapOut := filepath.Join(outRoot, "sitemap.xml")
+	log.Printf("site: sitemap -> %s", sitemapOut)
 	if err := writeSitemapFile(s.cfg.SiteRoot, contentRoot, s.cfg.SitemapBase, sitemapOut); err != nil {
 		return fmt.Errorf("sitemap: %w", err)
 	}
+	log.Printf("site: generate complete")
 	return nil
 }

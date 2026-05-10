@@ -336,6 +336,7 @@ func (s *Server) writeDirListing(w io.Writer, urlPath string) error {
 
 // serveDirListing lists child directories and .md files for a path ending in /.
 func (s *Server) serveDirListing(w http.ResponseWriter, r *http.Request, urlPath string) {
+	log.Printf("http: dir listing %s", urlPath)
 	if err := s.writeDirListing(w, urlPath); err != nil {
 		switch {
 		case errors.Is(err, errDirForbidden):

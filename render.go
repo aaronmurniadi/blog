@@ -33,7 +33,7 @@ func newTemplateFuncMap() template.FuncMap {
 	}
 }
 
-func (s *Server) writeMarkdownPage(w io.Writer, abs, rel, urlPath string) error {
+func (s *Server) writeMarkdownPage(w io.Writer, abs, rel, urlPath string, rewriteMediaWebp bool) error {
 	content, err := os.ReadFile(abs)
 	if err != nil {
 		return err
@@ -57,6 +57,9 @@ func (s *Server) writeMarkdownPage(w io.Writer, abs, rel, urlPath string) error 
 	htmlStr, err := mdToHTML(body)
 	if err != nil {
 		return err
+	}
+	if rewriteMediaWebp {
+		htmlStr = rewriteMediaRasterToWebP(htmlStr)
 	}
 
 	headerTitle := "Home"
@@ -90,7 +93,8 @@ func (s *Server) writeMarkdownPage(w io.Writer, abs, rel, urlPath string) error 
 }
 
 func (s *Server) serveMarkdownPage(w http.ResponseWriter, abs, rel, urlPath string) error {
-	if err := s.writeMarkdownPage(w, abs, rel, urlPath); err != nil {
+	log.Printf("http: markdown %s (%s)", urlPath, rel)
+	if err := s.writeMarkdownPage(w, abs, rel, urlPath, false); err != nil {
 		if errors.Is(err, errInvalidFrontMatter) {
 			http.Error(w, "Invalid front matter", http.StatusInternalServerError)
 			return nil
