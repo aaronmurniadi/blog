@@ -27,6 +27,7 @@ type Server struct {
 }
 
 var staticFileNames = []string{
+	"beago-cirius-logo-white.svg",
 	"style.css",
 	"favicon.ico",
 	"favicon-32x32.png",

@@ -1,10 +1,10 @@
 @font-face {
-  font-family: 'Georgia';
-  src: url('fonts/Georgia.woff2') format('woff2'),
-       url('fonts/Georgia.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+	font-family: 'Georgia';
+	src: url('fonts/Georgia.woff2') format('woff2'),
+		url('fonts/Georgia.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
 }
 
 :root {
@@ -132,14 +132,38 @@ h3 {
 #page>header {
 	grid-area: head;
 	background-color: var(--header-bg);
-	padding: 20px 20px 0px 15px;
+	padding: 20px 20px 12px 15px;
+	overflow: visible;
+}
+
+#page>header .site-brand {
+	display: flex;
+	align-items: flex-end;
+	justify-content: flex-end;
+	gap: 0.625rem;
+	font-size: 30px;
+	text-align: right;
+	/* Contain logo baseline nudge so it isn't clipped by the header box */
+	padding-bottom: 0.14em;
+}
+
+#page>header .site-logo {
+	display: block;
+	/* Tall viewBox: size so the B body matches cap height; star extends above */
+	height: 1.5em;
+	width: auto;
+	flex-shrink: 0;
+	border: none;
+	margin-bottom: -0.14em;
 }
 
 #page>header h1 {
-	font-size: 28px;
+	font-size: 1em;
+	line-height: 1;
 	font-weight: normal;
 	color: var(--text-light);
 	text-align: right;
+	margin-bottom: 0;
 }
 
 #page>nav {
@@ -258,6 +282,19 @@ figcaption a:hover {
 }
 
 @media (max-width: 700px) {
+	#page>header {
+		padding-bottom: 16px;
+	}
+
+	#page>header h1 {
+		text-align: left;
+	}
+
+	#page>header .site-brand {
+		text-align: left;
+		justify-content: flex-start;
+	}
+
 	figure {
 		margin: 50px 0;
 	}
