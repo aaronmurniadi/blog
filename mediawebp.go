@@ -55,6 +55,9 @@ func copyMediaTreeAsWebP(srcDir, dstDir string) error {
 		ext := filepath.Ext(path)
 		if mediaRasterToWebPExt(ext) {
 			target = strings.TrimSuffix(target, ext) + ".webp"
+			if _, err := os.Stat(target); err == nil {
+				return nil
+			}
 			convertJobs = append(convertJobs, struct{ src, dst string }{path, target})
 			return nil
 		}
@@ -111,6 +114,9 @@ func copyMediaTreeAsWebP(srcDir, dstDir string) error {
 }
 
 func convertImageFileToWebP(src, dst string) error {
+	if _, err := os.Stat(dst); err == nil {
+		return nil
+	}
 	in, err := os.Open(src)
 	if err != nil {
 		return err

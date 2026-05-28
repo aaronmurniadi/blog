@@ -98,10 +98,7 @@ func copyTree(srcDir, dstDir string) error {
 }
 
 func (s *Server) generateStaticSite(outRoot string) error {
-	log.Printf("site: clear output %s", outRoot)
-	if err := os.RemoveAll(outRoot); err != nil {
-		return fmt.Errorf("clear output: %w", err)
-	}
+	log.Printf("site: prepare output %s", outRoot)
 	if err := os.MkdirAll(outRoot, 0755); err != nil {
 		return fmt.Errorf("mkdir output: %w", err)
 	}
