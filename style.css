@@ -74,7 +74,7 @@ body p {
 			"nav main"
 			"nav foot";
 		grid-template-rows: auto 1fr auto;
-		grid-template-columns: minmax(auto, 15ch) minmax(0, var(--max-width));
+		grid-template-columns: 1fr 2.25fr;
 	}
 
 	body p {
@@ -139,6 +139,7 @@ h3 {
 	font-size: 28px;
 	font-weight: normal;
 	color: var(--text-light);
+	text-align: right;
 }
 
 #page>nav {
@@ -149,6 +150,7 @@ h3 {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 15px;
+	text-align: right;
 }
 
 #page>nav a {
