@@ -20,6 +20,13 @@ Note: You can click on the images to view in PDF format.
 </figure>
 
 <figure>
+  <a href="/media/typst/mini_compressed.pdf">
+    <img src="/media/typst/mini_compressed.webp" alt="Mini book sample">
+  </a>
+  <figcaption>Mini book sample—<a href="/media/typst/mini.typ">Source</a></figcaption>
+</figure>
+
+<figure>
   <a href="/media/typst/confo.pdf">
     <img src="/media/typst/confo.webp" alt="Interview Template">
   </a>
