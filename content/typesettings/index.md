@@ -20,6 +20,13 @@ Note: You can click on the images to view in PDF format.
 </figure>
 
 <figure>
+  <a href="/media/typst/campbell_last_evolution.pdf">
+    <img src="/media/typst/campbell_last_evolution.webp" alt="The Last Evolution by John W. Campbell, Jr.">
+  </a>
+  <figcaption>John W. Campbell, Jr.'s "The Last Evolution". <a href="https://www.gutenberg.org/ebooks/27462">Original</a>—<a href="/media/typst/campbell_last_evolution.typ">Source</a></figcaption>
+</figure>
+
+<figure>
   <a href="/media/typst/mini_compressed.pdf">
     <img src="/media/typst/mini_compressed.webp" alt="Mini book sample">
   </a>
