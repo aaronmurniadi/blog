@@ -245,7 +245,7 @@ X-Trans I film simulation recipes. Tap a card for the full recipe.
 
 <script>
 (() => {
-  const ENDPOINT = 'https://script.google.com/macros/s/AKfycbyS1R5CmVxt0Wmaap1a9zvS4sLKmHAMaTfa13_MmO3wYn5efhcl4Z4DGv9PywbAfr5w/exec';
+  const ENDPOINT = 'https://script.google.com/macros/s/AKfycbztLAAqQQyJfWY4YRizaPfARQdmTWADZ9Ny9-LreqfImiRSBYX62u6IBe6Wz72GBC8/exec';
   const LIMIT = 9;
   const FIELDS = [
     ['ISO', 'iso'],
