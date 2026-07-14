@@ -100,6 +100,12 @@ X-Trans I film simulation recipes. Tap a card for the full recipe.
   display: grid;
   grid-template-rows: minmax(40vh, 55vh) 1fr;
 }
+.fujipes-gallery {
+  position: relative;
+  min-height: 0;
+  background: #1a2a32;
+  overflow: hidden;
+}
 .fujipes-modal-img,
 .fujipes-modal-ph {
   width: 100%;
@@ -108,6 +114,7 @@ X-Trans I film simulation recipes. Tap a card for the full recipe.
   border: none;
   margin: 0;
   background: #1a2a32;
+  display: block;
 }
 .fujipes-modal-ph {
   display: grid;
@@ -116,6 +123,51 @@ X-Trans I film simulation recipes. Tap a card for the full recipe.
   font-family: var(--heading-font-family);
   letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+.fujipes-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid rgba(255,255,255,0.35);
+  background: rgba(0,0,0,0.45);
+  color: #fff;
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.fujipes-nav:hover { background: rgba(0,0,0,0.65); }
+.fujipes-nav-prev { left: 0.75rem; }
+.fujipes-nav-next { right: 0.75rem; }
+.fujipes-dots {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.85rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.4rem;
+  pointer-events: none;
+}
+.fujipes-dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+}
+.fujipes-dot.is-active { background: #fff; }
+.fujipes-count {
+  position: absolute;
+  top: 0.85rem;
+  left: 0.85rem;
+  z-index: 1;
+  padding: 0.2rem 0.5rem;
+  background: rgba(0,0,0,0.45);
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-size: 0.8rem;
 }
 .fujipes-modal-details {
   padding: 1.25rem 1.25rem 2.5rem;
@@ -151,8 +203,7 @@ X-Trans I film simulation recipes. Tap a card for the full recipe.
     grid-template-columns: 1.1fr 1fr;
     min-height: 100vh;
   }
-  .fujipes-modal-img,
-  .fujipes-modal-ph { min-height: 100vh; }
+  .fujipes-gallery { min-height: 100vh; }
   .fujipes-modal-details {
     padding: 3rem 2rem;
     align-self: center;
@@ -162,7 +213,7 @@ X-Trans I film simulation recipes. Tap a card for the full recipe.
 
 <script>
 (() => {
-  const ENDPOINT = 'https://script.google.com/macros/s/AKfycbxQhmyoV3Lgkmplj2SXrEnC_nescagGvYrWqqTeCA6JmVQgmxQT_NF1OZ1OFztaux37/exec';
+  const ENDPOINT = 'https://script.google.com/macros/s/AKfycbwlon6V1OsYZ_zvfrnrOzJdEpc_bKeZQtN4s0w9fMeQco7Getff08jqeAX_Bn-zZO64/exec';
   const FIELDS = [
     ['ISO', 'iso'],
     ['Dynamic range', 'dynamic_range'],
@@ -185,6 +236,8 @@ X-Trans I film simulation recipes. Tap a card for the full recipe.
   const body = modal.querySelector('.fujipes-modal-body');
   const closeBtn = modal.querySelector('.fujipes-close');
   let recipes = [];
+  let slide = 0;
+  let slides = [];
 
   const esc = (s) => String(s ?? '')
     .replace(/&/g, '&amp;')
@@ -193,15 +246,50 @@ X-Trans I film simulation recipes. Tap a card for the full recipe.
     .replace(/"/g, '&quot;');
 
   const isURL = (s) => /^https?:\/\//i.test(s || '');
+  const imgs = (r) => (Array.isArray(r.images) ? r.images : []).filter(Boolean);
 
-  function mediaHTML(r, kind) {
-    if (r.image) {
-      const cls = kind === 'card' ? 'fujipes-card-img' : 'fujipes-modal-img';
-      return `<img class="${cls}" src="${esc(r.image)}" alt="${esc(r.name)}" loading="lazy">`;
+  function cardMedia(r) {
+    const list = imgs(r);
+    if (list[0]) {
+      return `<img class="fujipes-card-img" src="${esc(list[0])}" alt="${esc(r.name)}" loading="lazy">`;
     }
-    const cls = kind === 'card' ? 'fujipes-card-ph' : 'fujipes-modal-ph';
     const label = r.base_film_simulation || 'No preview';
-    return `<div class="${cls}" aria-hidden="true">${esc(label)}</div>`;
+    return `<div class="fujipes-card-ph" aria-hidden="true">${esc(label)}</div>`;
+  }
+
+  function showSlide(n) {
+    if (!slides.length) return;
+    slide = (n + slides.length) % slides.length;
+    const img = body.querySelector('.fujipes-modal-img');
+    const count = body.querySelector('.fujipes-count');
+    const dots = body.querySelectorAll('.fujipes-dot');
+    if (img) {
+      img.src = slides[slide];
+      img.alt = `${body.dataset.name || ''} (${slide + 1}/${slides.length})`;
+    }
+    if (count) count.textContent = `${slide + 1} / ${slides.length}`;
+    dots.forEach((d, i) => d.classList.toggle('is-active', i === slide));
+  }
+
+  function galleryHTML(r) {
+    slides = imgs(r);
+    slide = 0;
+    if (!slides.length) {
+      const label = r.base_film_simulation || 'No preview';
+      return `<div class="fujipes-gallery"><div class="fujipes-modal-ph">${esc(label)}</div></div>`;
+    }
+    const multi = slides.length > 1;
+    const controls = multi ? `
+      <button type="button" class="fujipes-nav fujipes-nav-prev" aria-label="Previous image">‹</button>
+      <button type="button" class="fujipes-nav fujipes-nav-next" aria-label="Next image">›</button>
+      <div class="fujipes-count">1 / ${slides.length}</div>
+      <div class="fujipes-dots">${slides.map((_, i) =>
+        `<span class="fujipes-dot${i === 0 ? ' is-active' : ''}"></span>`).join('')}</div>` : '';
+    return `
+      <div class="fujipes-gallery">
+        <img class="fujipes-modal-img" src="${esc(slides[0])}" alt="${esc(r.name)}" >
+        ${controls}
+      </div>`;
   }
 
   function openRecipe(i) {
@@ -217,8 +305,9 @@ X-Trans I film simulation recipes. Tap a card for the full recipe.
         ? `<p class="fujipes-source"><a href="${esc(r.source)}" target="_blank" rel="noopener">Source</a></p>`
         : `<p class="fujipes-source">${esc(r.source)}</p>`;
     }
+    body.dataset.name = r.name || '';
     body.innerHTML = `
-      ${mediaHTML(r, 'modal')}
+      ${galleryHTML(r)}
       <div class="fujipes-modal-details">
         <h2>${esc(r.name)}</h2>
         <dl class="fujipes-dl">${rows}</dl>
@@ -230,7 +319,7 @@ X-Trans I film simulation recipes. Tap a card for the full recipe.
   function render() {
     grid.innerHTML = recipes.map((r, i) => `
       <button type="button" class="fujipes-card" data-i="${i}">
-        ${mediaHTML(r, 'card')}
+        ${cardMedia(r)}
         <span class="fujipes-card-name">${esc(r.name)}</span>
       </button>`).join('');
     status.hidden = true;
@@ -241,12 +330,19 @@ X-Trans I film simulation recipes. Tap a card for the full recipe.
     const card = e.target.closest('.fujipes-card');
     if (card) openRecipe(+card.dataset.i);
   });
+  body.addEventListener('click', (e) => {
+    if (e.target.closest('.fujipes-nav-prev')) showSlide(slide - 1);
+    if (e.target.closest('.fujipes-nav-next')) showSlide(slide + 1);
+  });
   closeBtn.addEventListener('click', () => modal.close());
   modal.addEventListener('click', (e) => {
     if (e.target === modal) modal.close();
   });
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.open) modal.close();
+    if (!modal.open) return;
+    if (e.key === 'Escape') modal.close();
+    if (e.key === 'ArrowLeft') showSlide(slide - 1);
+    if (e.key === 'ArrowRight') showSlide(slide + 1);
   });
 
   fetch(ENDPOINT)
