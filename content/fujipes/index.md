@@ -9,6 +9,7 @@ X-Trans I film simulation recipes. Tap a card for the full recipe.
 <div id="fujipes" class="fujipes">
   <p class="fujipes-status">Loading recipes…</p>
   <div class="fujipes-grid" hidden></div>
+  <nav class="fujipes-pager" hidden aria-label="Recipe pages"></nav>
 </div>
 
 <dialog id="fujipes-modal" class="fujipes-modal">
@@ -197,6 +198,37 @@ X-Trans I film simulation recipes. Tap a card for the full recipe.
   font-size: 0.9rem;
   word-break: break-word;
 }
+.fujipes-pager {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0 2rem;
+}
+.fujipes-pager button {
+  font: inherit;
+  font-family: var(--heading-font-family);
+  font-size: 0.95rem;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--text);
+  cursor: pointer;
+}
+.fujipes-pager button:hover:not(:disabled) { border-color: var(--header-bg); }
+.fujipes-pager button:disabled { opacity: 0.4; cursor: default; }
+.fujipes-pager button.is-active {
+  border-color: var(--header-bg);
+  background: var(--header-bg);
+  color: #fff;
+}
+.fujipes-pager-meta {
+  color: #888;
+  font-family: var(--heading-font-family);
+  font-size: 0.9rem;
+  margin: 0 0.25rem;
+}
 @media (min-width: 700px) {
   .fujipes-modal-body {
     grid-template-rows: none;
@@ -213,7 +245,8 @@ X-Trans I film simulation recipes. Tap a card for the full recipe.
 
 <script>
 (() => {
-  const ENDPOINT = 'https://script.google.com/macros/s/AKfycbwlon6V1OsYZ_zvfrnrOzJdEpc_bKeZQtN4s0w9fMeQco7Getff08jqeAX_Bn-zZO64/exec';
+  const ENDPOINT = 'https://script.google.com/macros/s/AKfycbyS1R5CmVxt0Wmaap1a9zvS4sLKmHAMaTfa13_MmO3wYn5efhcl4Z4DGv9PywbAfr5w/exec';
+  const LIMIT = 9;
   const FIELDS = [
     ['ISO', 'iso'],
     ['Dynamic range', 'dynamic_range'],
@@ -232,10 +265,13 @@ X-Trans I film simulation recipes. Tap a card for the full recipe.
   const root = document.getElementById('fujipes');
   const status = root.querySelector('.fujipes-status');
   const grid = root.querySelector('.fujipes-grid');
+  const pager = root.querySelector('.fujipes-pager');
   const modal = document.getElementById('fujipes-modal');
   const body = modal.querySelector('.fujipes-modal-body');
   const closeBtn = modal.querySelector('.fujipes-close');
   let recipes = [];
+  let page = 1;
+  let totalPages = 1;
   let slide = 0;
   let slides = [];
 
@@ -246,7 +282,17 @@ X-Trans I film simulation recipes. Tap a card for the full recipe.
     .replace(/"/g, '&quot;');
 
   const isURL = (s) => /^https?:\/\//i.test(s || '');
-  const imgs = (r) => (Array.isArray(r.images) ? r.images : []).filter(Boolean);
+  const toImgURL = (v) => {
+    if (!v) return '';
+    if (isURL(v)) return v;
+    return 'https://lh3.googleusercontent.com/u/0/d/' + v;
+  };
+  const imgs = (r) => {
+    const raw = r.images;
+    if (Array.isArray(raw)) return raw.map(toImgURL).filter(Boolean);
+    if (typeof raw !== 'string' || !raw.trim()) return [];
+    return raw.split(/[,\s]+/).map(toImgURL).filter(Boolean);
+  };
 
   function cardMedia(r) {
     const list = imgs(r);
@@ -287,7 +333,7 @@ X-Trans I film simulation recipes. Tap a card for the full recipe.
         `<span class="fujipes-dot${i === 0 ? ' is-active' : ''}"></span>`).join('')}</div>` : '';
     return `
       <div class="fujipes-gallery">
-        <img class="fujipes-modal-img" src="${esc(slides[0])}" alt="${esc(r.name)}" >
+        <img class="fujipes-modal-img" src="${esc(slides[0])}" alt="${esc(r.name)}">
         ${controls}
       </div>`;
   }
@@ -316,19 +362,70 @@ X-Trans I film simulation recipes. Tap a card for the full recipe.
     if (!modal.open) modal.showModal();
   }
 
+  function renderPager() {
+    if (totalPages <= 1) {
+      pager.hidden = true;
+      pager.innerHTML = '';
+      return;
+    }
+    const nums = Array.from({ length: totalPages }, (_, i) => i + 1)
+      .map((n) => `<button type="button" data-page="${n}" class="${n === page ? 'is-active' : ''}" ${n === page ? 'aria-current="page"' : ''}>${n}</button>`)
+      .join('');
+    pager.innerHTML = `
+      <button type="button" data-page="${page - 1}" ${page <= 1 ? 'disabled' : ''}>Prev</button>
+      ${nums}
+      <span class="fujipes-pager-meta">${page} / ${totalPages}</span>
+      <button type="button" data-page="${page + 1}" ${page >= totalPages ? 'disabled' : ''}>Next</button>`;
+    pager.hidden = false;
+  }
+
   function render() {
     grid.innerHTML = recipes.map((r, i) => `
       <button type="button" class="fujipes-card" data-i="${i}">
         ${cardMedia(r)}
         <span class="fujipes-card-name">${esc(r.name)}</span>
       </button>`).join('');
+    renderPager();
     status.hidden = true;
     grid.hidden = false;
+  }
+
+  function loadPage(n) {
+    status.hidden = false;
+    status.textContent = 'Loading recipes…';
+    grid.hidden = true;
+    pager.hidden = true;
+    fetch(`${ENDPOINT}?page=${n}&limit=${LIMIT}`)
+      .then((res) => {
+        if (!res.ok) throw new Error(res.statusText);
+        return res.json();
+      })
+      .then((json) => {
+        const meta = json.metadata || {};
+        page = meta.current_page || n;
+        totalPages = meta.total_pages || 1;
+        recipes = Array.isArray(json.data) ? json.data : [];
+        if (!recipes.length) {
+          status.textContent = 'No recipes found.';
+          return;
+        }
+        render();
+        root.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      })
+      .catch((err) => {
+        status.textContent = 'Could not load recipes: ' + err.message;
+      });
   }
 
   grid.addEventListener('click', (e) => {
     const card = e.target.closest('.fujipes-card');
     if (card) openRecipe(+card.dataset.i);
+  });
+  pager.addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-page]');
+    if (!btn || btn.disabled) return;
+    const n = +btn.dataset.page;
+    if (n >= 1 && n <= totalPages && n !== page) loadPage(n);
   });
   body.addEventListener('click', (e) => {
     if (e.target.closest('.fujipes-nav-prev')) showSlide(slide - 1);
@@ -345,21 +442,6 @@ X-Trans I film simulation recipes. Tap a card for the full recipe.
     if (e.key === 'ArrowRight') showSlide(slide + 1);
   });
 
-  fetch(ENDPOINT)
-    .then((res) => {
-      if (!res.ok) throw new Error(res.statusText);
-      return res.json();
-    })
-    .then((json) => {
-      recipes = Array.isArray(json.data) ? json.data : [];
-      if (!recipes.length) {
-        status.textContent = 'No recipes found.';
-        return;
-      }
-      render();
-    })
-    .catch((err) => {
-      status.textContent = 'Could not load recipes: ' + err.message;
-    });
+  loadPage(1);
 })();
 </script>
