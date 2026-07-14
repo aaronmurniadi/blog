@@ -232,7 +232,7 @@ X-Trans I film simulation recipes. Tap a card for the full recipe.
 @media (min-width: 700px) {
   .fujipes-modal-body {
     grid-template-rows: none;
-    grid-template-columns: 1.1fr 1fr;
+    grid-template-columns: 2fr 1fr;
     min-height: 100vh;
   }
   .fujipes-gallery { min-height: 100vh; }
@@ -274,6 +274,7 @@ X-Trans I film simulation recipes. Tap a card for the full recipe.
   let totalPages = 1;
   let slide = 0;
   let slides = [];
+  let clearingURL = false;
 
   const esc = (s) => String(s ?? '')
     .replace(/&/g, '&amp;')
@@ -282,6 +283,23 @@ X-Trans I film simulation recipes. Tap a card for the full recipe.
     .replace(/"/g, '&quot;');
 
   const isURL = (s) => /^https?:\/\//i.test(s || '');
+  const slugify = (name) => String(name || '')
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_|_$/g, '');
+  const readSlug = () => {
+    const s = location.search;
+    if (s.startsWith('?=')) return decodeURIComponent(s.slice(2));
+    return new URLSearchParams(s).get('') || '';
+  };
+  const setRecipeURL = (slug, replace = false) => {
+    const next = slug
+      ? `${location.pathname}?=${encodeURIComponent(slug)}`
+      : location.pathname;
+    if (location.pathname + location.search === next) return;
+    history[replace ? 'replaceState' : 'pushState']({ recipe: slug || null }, '', next);
+  };
   const toImgURL = (v) => {
     if (!v) return '';
     if (isURL(v)) return v;
@@ -338,8 +356,7 @@ X-Trans I film simulation recipes. Tap a card for the full recipe.
       </div>`;
   }
 
-  function openRecipe(i) {
-    const r = recipes[i];
+  function openRecipe(r, { syncURL = true } = {}) {
     if (!r) return;
     const rows = FIELDS
       .filter(([, key]) => r[key] != null && r[key] !== '')
@@ -359,6 +376,7 @@ X-Trans I film simulation recipes. Tap a card for the full recipe.
         <dl class="fujipes-dl">${rows}</dl>
         ${source}
       </div>`;
+    if (syncURL) setRecipeURL(slugify(r.name));
     if (!modal.open) modal.showModal();
   }
 
@@ -390,36 +408,65 @@ X-Trans I film simulation recipes. Tap a card for the full recipe.
     grid.hidden = false;
   }
 
-  function loadPage(n) {
+  function fetchPage(n) {
+    return fetch(`${ENDPOINT}?page=${n}&limit=${LIMIT}`).then((res) => {
+      if (!res.ok) throw new Error(res.statusText);
+      return res.json();
+    });
+  }
+
+  function applyPage(json, n) {
+    const meta = json.metadata || {};
+    page = meta.current_page || n;
+    totalPages = meta.total_pages || 1;
+    recipes = Array.isArray(json.data) ? json.data : [];
+  }
+
+  function loadPage(n, { scroll = true } = {}) {
     status.hidden = false;
     status.textContent = 'Loading recipes…';
     grid.hidden = true;
     pager.hidden = true;
-    fetch(`${ENDPOINT}?page=${n}&limit=${LIMIT}`)
-      .then((res) => {
-        if (!res.ok) throw new Error(res.statusText);
-        return res.json();
-      })
+    return fetchPage(n)
       .then((json) => {
-        const meta = json.metadata || {};
-        page = meta.current_page || n;
-        totalPages = meta.total_pages || 1;
-        recipes = Array.isArray(json.data) ? json.data : [];
+        applyPage(json, n);
         if (!recipes.length) {
           status.textContent = 'No recipes found.';
           return;
         }
         render();
-        root.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (scroll) root.scrollIntoView({ behavior: 'smooth', block: 'start' });
       })
       .catch((err) => {
         status.textContent = 'Could not load recipes: ' + err.message;
       });
   }
 
+  async function openFromSlug(slug) {
+    if (!slug) return;
+    let hit = recipes.find((r) => slugify(r.name) === slug);
+    if (hit) {
+      openRecipe(hit, { syncURL: false });
+      return;
+    }
+    for (let p = 1; p <= totalPages; p++) {
+      if (p === page && recipes.length) continue;
+      try {
+        const json = await fetchPage(p);
+        applyPage(json, p);
+        render();
+        hit = recipes.find((r) => slugify(r.name) === slug);
+        if (hit) {
+          openRecipe(hit, { syncURL: false });
+          return;
+        }
+      } catch (_) { /* keep looking */ }
+    }
+  }
+
   grid.addEventListener('click', (e) => {
     const card = e.target.closest('.fujipes-card');
-    if (card) openRecipe(+card.dataset.i);
+    if (card) openRecipe(recipes[+card.dataset.i]);
   });
   pager.addEventListener('click', (e) => {
     const btn = e.target.closest('button[data-page]');
@@ -435,6 +482,23 @@ X-Trans I film simulation recipes. Tap a card for the full recipe.
   modal.addEventListener('click', (e) => {
     if (e.target === modal) modal.close();
   });
+  modal.addEventListener('close', () => {
+    if (clearingURL) return;
+    if (readSlug()) {
+      clearingURL = true;
+      setRecipeURL('', true);
+      clearingURL = false;
+    }
+  });
+  window.addEventListener('popstate', () => {
+    const slug = readSlug();
+    if (slug) openFromSlug(slug);
+    else if (modal.open) {
+      clearingURL = true;
+      modal.close();
+      clearingURL = false;
+    }
+  });
   document.addEventListener('keydown', (e) => {
     if (!modal.open) return;
     if (e.key === 'Escape') modal.close();
@@ -442,6 +506,9 @@ X-Trans I film simulation recipes. Tap a card for the full recipe.
     if (e.key === 'ArrowRight') showSlide(slide + 1);
   });
 
-  loadPage(1);
+  const initialSlug = readSlug();
+  loadPage(1, { scroll: false }).then(() => {
+    if (initialSlug) openFromSlug(initialSlug);
+  });
 })();
 </script>
