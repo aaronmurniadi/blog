@@ -1,10 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{or .Lang "en"}}">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beago Cirius - {{.Title | titlecase}}</title>
+    <title>{{if eq .Path "/"}}Beago Cirius{{else}}{{.Title}} · Beago Cirius{{end}}</title>
+    {{if .Description}}<meta name="description" content="{{.Description}}">{{end}}
+    <link rel="canonical" href="{{.Canonical}}">
+    <meta name="author" content="Aaron P. Murniadi">
+    <meta name="robots" content="index, follow">
+    <meta name="generator" content="Beago Cirius static site generator">
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="{{.SiteName}}">
+    <meta property="og:type" content="{{.Type}}">
+    <meta property="og:title" content="{{if eq .Path "/"}}Beago Cirius{{else}}{{with .Title}}{{.}}{{else}}Beago Cirius{{end}}{{end}}">
+    <meta property="og:description" content="{{with .Description}}{{.}}{{else}}Writing about technology, philosophy, photography, and document typesetting.{{end}}">
+    <meta property="og:url" content="{{.Canonical}}">
+    <meta property="og:image" content="{{absURL .Canonical (or .Image .SiteImage)}}">
+    <meta property="og:locale" content="{{or .Lang "en"}}">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@aaronpmurniadi">
+    <meta name="twitter:title" content="{{if eq .Path "/"}}Beago Cirius{{else}}{{with .Title}}{{.}}{{else}}Beago Cirius{{end}}{{end}}">
+    <meta name="twitter:description" content="{{.Description}}">
+    <meta name="twitter:image" content="{{absURL .Canonical (or .Image .SiteImage)}}">
+
     <link rel="icon" href="/favicon.ico" sizes="any">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">

@@ -26,6 +26,29 @@ func newTemplateFuncMap() template.FuncMap {
 			}
 			return strings.ToUpper(s[:1]) + strings.ToLower(s[1:])
 		},
+		// absURL turns a site-relative path like "/avatar.jpg" into an absolute
+		// URL using the origin from a canonical base URL (needed by OG scrapers).
+		"absURL": func(canonical, path string) string {
+			path = strings.TrimSpace(path)
+			if strings.Contains(path, "://") || strings.HasPrefix(path, "//") {
+				return path
+			}
+			base := canonical
+			if base == "" || base == "/" {
+				return path
+			}
+			segs := strings.Split(base, "/")
+			const minSegs = 2 // protocol, host
+			if len(segs) < minSegs+1 {
+				return path
+			}
+			origin := strings.Join(segs[:minSegs+1], "/")
+			rel := strings.TrimLeft(path, "/")
+			if rel == "" {
+				return origin
+			}
+			return origin + "/" + rel
+		},
 	}
 }
 
@@ -81,11 +104,90 @@ func (s *Site) writeMarkdownPage(w io.Writer, abs, rel, urlPath string, rewriteM
 	if fm.Title != "" {
 		headerTitle = fm.Title
 	}
-	page := Page{Title: headerTitle, Path: urlPath, HTML: pageHTML, Nav: nav, HideNav: hideNav}
+	page := Page{
+		Title:       headerTitle,
+		Path:        publicPath(urlPath),
+		HTML:        pageHTML,
+		Nav:         nav,
+		HideNav:     hideNav,
+		Canonical:   s.canonicalURL(urlPath),
+		Description: fm.metaDescription(body),
+		Image:       firstNonEmpty(fm.Image, "/avatar.jpg"),
+		SiteName:    "Beago Cirius",
+		SiteImage:   "/beago-cirius-logo-white.svg",
+		Lang:        pageLang(fm, webRel),
+		Type:        pageTypeFor(webRel),
+	}
 	if err := s.templates.ExecuteTemplate(w, "default.html", page); err != nil {
 		return fmt.Errorf("execute default.html: %w", err)
 	}
 	return nil
+}
+
+// publicPath normalises a content URL like "/index.md" or "/typesettings/index.md"
+// to its public form "/" or "/typesettings/".
+func publicPath(urlPath string) string {
+	path := strings.TrimSpace(urlPath)
+	path = strings.TrimSuffix(path, ".md")
+	nestedIndex := strings.HasSuffix(path, "/index")
+	path = strings.TrimSuffix(path, "/index")
+	if path == "" || path == "/" {
+		return "/"
+	}
+	if nestedIndex {
+		return strings.TrimRight(path, "/") + "/"
+	}
+	return path
+}
+
+// canonicalURL returns the absolute, canonical form of every page URL using the
+// configured sitemap base (normalised to end with '/'). The input is a content
+// URL like "/index.md" or "/articles/foo" and is normalised to its public form.
+func (s *Site) canonicalURL(urlPath string) string {
+	base := strings.TrimRight(s.cfg.SitemapBase, "/") + "/"
+	path := strings.TrimSpace(urlPath)
+	path = strings.TrimSuffix(path, ".md")
+	nestedIndex := strings.HasSuffix(path, "/index")
+	path = strings.TrimSuffix(path, "/index")
+	if path == "" || path == "/" || path == "/index" {
+		return base
+	}
+	rel := "/" + strings.Trim(path, "/")
+	if nestedIndex {
+		rel = rel + "/"
+	}
+	return base + strings.TrimLeft(rel, "/")
+}
+
+// pageTypeFor classifies a content-relative path into an Open Graph type.
+func pageTypeFor(webRel string) string {
+	for _, p := range []string{"posts/", "summaries/", "articles/"} {
+		if strings.HasPrefix(webRel, p) {
+			return "article"
+		}
+	}
+	return "website"
+}
+
+// pageLang chooses an article language: explicit front-matter lang wins,
+// otherwise Indonesian for paths under articles/, else English.
+func pageLang(fm FrontMatter, webRel string) string {
+	if fm.Lang != "" {
+		return fm.Lang
+	}
+	if strings.HasPrefix(webRel, "articles/") {
+		return "id"
+	}
+	return "en"
+}
+
+func firstNonEmpty(vals ...string) string {
+	for _, v := range vals {
+		if v != "" {
+			return v
+		}
+	}
+	return ""
 }
 
 func mdToHTML(md []byte) (string, error) {
