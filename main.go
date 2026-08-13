@@ -6,6 +6,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	"blog/generator"
 )
 
 func main() {
@@ -40,7 +42,7 @@ func main() {
 	if *writeSitemap {
 		out := filepath.Join(wd, "sitemap.xml")
 		log.Printf("blog: -write-sitemap only, output %s", out)
-		if err := writeSitemapFile(wd, contentRoot, *sitemapBase, out); err != nil {
+		if err := generator.WriteSitemapFile(contentRoot, *sitemapBase, out); err != nil {
 			log.Fatal(err)
 		}
 		log.Printf("blog: done (-write-sitemap)")
@@ -48,7 +50,7 @@ func main() {
 	}
 
 	log.Printf("blog: loading templates and nav (content root %s)", contentRoot)
-	srv, err := NewServer(ServerConfig{
+	srv, err := generator.NewSite(generator.SiteConfig{
 		SiteRoot:        wd,
 		ContentRoot:     contentRoot,
 		SitemapBase:     *sitemapBase,
@@ -60,7 +62,7 @@ func main() {
 
 	outAbs := filepath.Join(wd, *outDir)
 	log.Printf("blog: generating static site -> %s", outAbs)
-	if err := srv.generateStaticSite(outAbs); err != nil {
+	if err := srv.GenerateStaticSite(outAbs); err != nil {
 		log.Fatal(err)
 	}
 	log.Printf("blog: done (wrote site to %s)", outAbs)

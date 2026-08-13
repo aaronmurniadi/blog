@@ -1,27 +1,18 @@
-package main
+package generator
 
 import (
 	"bytes"
-	"errors"
 	"fmt"
 	"html/template"
 	"io"
 	"io/fs"
 	"log"
-	"net/http"
 	"os"
 	"path/filepath"
 	"sort"
 	"strings"
-	"time"
 
 	"gopkg.in/yaml.v3"
-)
-
-var (
-	errDirNotFound   = errors.New("directory not found")
-	errDirForbidden  = errors.New("directory forbidden")
-	errDirNotADir    = errors.New("not a directory")
 )
 
 // Page is data for default.html.
@@ -101,14 +92,14 @@ func extractTitleFromPath(path string) string {
 }
 
 // buildNav walks the content tree and returns top-level section links plus Home when index.md exists.
-func buildNav(s *Server) ([]Link, error) {
+func buildNav(s *Site) ([]Link, error) {
 	type dirInfo struct {
 		path  string
 		title string
 	}
 	var dirList []dirInfo
 
-	contentRoot := s.contentDir()
+	contentRoot := s.cfg.ContentRoot
 	err := filepath.WalkDir(contentRoot, func(path string, d fs.DirEntry, err error) error {
 		if err != nil {
 			return err
@@ -120,10 +111,7 @@ func buildNav(s *Server) ([]Link, error) {
 			return nil
 		}
 		name := d.Name()
-		if strings.HasPrefix(name, ".") || strings.HasPrefix(name, "_") {
-			return filepath.SkipDir
-		}
-		if name == "media" || name == "assets" || name == "scripts" || name == "templates" {
+		if skipContentDirName(name) {
 			return filepath.SkipDir
 		}
 		rel, err := filepath.Rel(contentRoot, path)
@@ -178,20 +166,7 @@ func titleCaseDir(name string) string {
 }
 
 func linkSortTime(date string) string {
-	if date == "" {
-		return ""
-	}
-	layouts := []string{
-		"2006-01-02",
-		"January 2, 2006",
-		"Jan 2, 2006",
-	}
-	for _, layout := range layouts {
-		if t, err := time.ParseInLocation(layout, date, time.Local); err == nil {
-			return t.Format("2006-01-02")
-		}
-	}
-	return ""
+	return canonicalDate(date)
 }
 
 func sortLinksByDateDesc(links []Link) {
@@ -210,12 +185,12 @@ func sortLinksByDateDesc(links []Link) {
 }
 
 // linksForMarkdownFilesInDir returns one Link per *.md file directly in absDir (non-recursive).
-func (s *Server) linksForMarkdownFilesInDir(absDir string) ([]Link, error) {
+func (s *Site) linksForMarkdownFilesInDir(absDir string) ([]Link, error) {
 	entries, err := os.ReadDir(absDir)
 	if err != nil {
 		return nil, err
 	}
-	contentRoot := s.contentDir()
+	contentRoot := s.cfg.ContentRoot
 	var links []Link
 	for _, e := range entries {
 		if e.IsDir() || strings.HasPrefix(e.Name(), "_") {
@@ -259,25 +234,19 @@ func (s *Server) linksForMarkdownFilesInDir(absDir string) ([]Link, error) {
 }
 
 // writeDirListing lists child directories and .md files for a path ending in /.
-func (s *Server) writeDirListing(w io.Writer, urlPath string) error {
+func (s *Site) writeDirListing(w io.Writer, urlPath string) error {
 	rel := strings.TrimPrefix(filepath.ToSlash(strings.TrimSpace(urlPath)), "/")
 	rel = strings.TrimSuffix(rel, "/")
 	absDir, err := s.safePathUnderContent(rel)
 	if err != nil {
-		if errors.Is(err, errPathTraversal) {
-			return errDirForbidden
-		}
 		return err
 	}
 	st, err := os.Stat(absDir)
 	if err != nil {
-		if os.IsNotExist(err) {
-			return errDirNotFound
-		}
 		return err
 	}
 	if !st.IsDir() {
-		return errDirNotADir
+		return fmt.Errorf("%s is not a directory", absDir)
 	}
 
 	entries, err := os.ReadDir(absDir)
@@ -291,7 +260,7 @@ func (s *Server) writeDirListing(w io.Writer, urlPath string) error {
 			continue
 		}
 		entryPath := filepath.Join(absDir, e.Name())
-		relItem, _ := filepath.Rel(s.contentDir(), entryPath)
+		relItem, _ := filepath.Rel(s.cfg.ContentRoot, entryPath)
 		relItem = filepath.ToSlash(relItem)
 
 		if e.IsDir() {
@@ -334,26 +303,10 @@ func (s *Server) writeDirListing(w io.Writer, urlPath string) error {
 	return nil
 }
 
-// serveDirListing lists child directories and .md files for a path ending in /.
-func (s *Server) serveDirListing(w http.ResponseWriter, r *http.Request, urlPath string) {
-	log.Printf("http: dir listing %s", urlPath)
-	if err := s.writeDirListing(w, urlPath); err != nil {
-		switch {
-		case errors.Is(err, errDirForbidden):
-			http.Error(w, "Forbidden", http.StatusForbidden)
-		case errors.Is(err, errDirNotFound), errors.Is(err, errDirNotADir):
-			http.NotFound(w, r)
-		default:
-			log.Println(err)
-			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		}
-	}
-}
-
 // shouldApplyParaNum returns true if the URL's content path should use the .para-num wrapper.
-func (s *Server) shouldApplyParaNum(webRel string) bool {
+func (s *Site) shouldApplyParaNum(webRel string) bool {
 	webRel = filepath.ToSlash(webRel)
-	for _, p := range s.paraNumPrefixes() {
+	for _, p := range s.cfg.ParaNumPrefixes {
 		if strings.HasPrefix(webRel, p) {
 			return true
 		}

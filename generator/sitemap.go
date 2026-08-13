@@ -1,4 +1,4 @@
-package main
+package generator
 
 import (
 	"bytes"
@@ -37,8 +37,7 @@ func collectSitemapURLs(contentRoot, base string) ([]SitemapURL, error) {
 			return err
 		}
 		if d.IsDir() {
-			name := d.Name()
-			if name == "node_modules" || strings.HasPrefix(name, ".") {
+			if skipSitemapDirName(d.Name()) {
 				return filepath.SkipDir
 			}
 			return nil
@@ -51,7 +50,7 @@ func collectSitemapURLs(contentRoot, base string) ([]SitemapURL, error) {
 			return nil
 		}
 		rel = filepath.ToSlash(rel)
-		if strings.HasPrefix(rel, "_") || strings.Contains(rel, "/_") {
+		if shouldSkipContentRel(rel) {
 			return nil
 		}
 
@@ -79,7 +78,7 @@ func collectSitemapURLs(contentRoot, base string) ([]SitemapURL, error) {
 		if fm.Date != "" {
 			u.LastMod = fm.Date
 		} else {
-			u.LastMod = info.ModTime().Format("2006-01-02")
+			u.LastMod = info.ModTime().Format(dateCanonicalLayout)
 		}
 		urls = append(urls, u)
 		return nil
@@ -98,7 +97,8 @@ func buildSitemap(contentRoot, base string) (SitemapRoot, error) {
 	}, nil
 }
 
-func writeSitemapFile(_, contentRoot, base, outPath string) error {
+// WriteSitemapFile builds sitemap.xml for contentRoot and writes it to outPath.
+func WriteSitemapFile(contentRoot, base, outPath string) error {
 	sitemap, err := buildSitemap(contentRoot, base)
 	if err != nil {
 		return err

@@ -1,4 +1,4 @@
-package main
+package generator
 
 import (
 	"fmt"
@@ -10,7 +10,7 @@ import (
 
 var postListTagRE = regexp.MustCompile(`\{%\s*postList\s+collections\.([a-zA-Z0-9_-]+)\s*%\}`)
 
-func (s *Server) expandPostListTags(md []byte) ([]byte, error) {
+func (s *Site) expandPostListTags(md []byte) ([]byte, error) {
 	var err error
 	out := postListTagRE.ReplaceAllFunc(md, func(match []byte) []byte {
 		if err != nil {
@@ -21,7 +21,7 @@ func (s *Server) expandPostListTags(md []byte) ([]byte, error) {
 			return match
 		}
 		name := string(sub[1])
-		abs := filepath.Join(s.contentDir(), filepath.FromSlash(name))
+		abs := filepath.Join(s.cfg.ContentRoot, filepath.FromSlash(name))
 		links, e := s.linksForMarkdownFilesInDir(abs)
 		if e != nil {
 			err = fmt.Errorf("postList %q: %w", name, e)
