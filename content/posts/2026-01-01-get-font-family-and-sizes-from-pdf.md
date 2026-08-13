@@ -9,14 +9,14 @@ nav_order: 1
 # Get font family and sizes from PDF
 
 I have a hobby of recreating the typesetting of beautiful documents in
-[LaTeX](<[https://www.latex-project.org/](https://www.latex-project.org/)>) or,
-more recently, [Typst](<[https://typst.app/](https://typst.app/)>).[^1] The first
+[LaTeX](https://www.latex-project.org/) or,
+more recently, [Typst](https://typst.app/).[^1] The first
 step is to obtain the PDF source; ideally, this is the true PDF and not a scan
 of the document. The next step is to find the paper size, which is fairly easy
 to do by checking the document properties. The hard part is identifying the
 fonts the PDF was typeset in, including the specific font sizes. To help with
 this, I turned to
-[Gemini](<[https://gemini.google.com/](https://gemini.google.com/)>) to create a
+[Gemini](https://gemini.google.com/) to create a
 Python script that analyzes the PDF and prints the page size, with the font name
 and size for each paragraph.
 
@@ -72,9 +72,9 @@ for page_no, page_layout in enumerate(extract_pages(path), 1):
 ```
 
 I am using the document
-[25-180 Doe v. Dynamic Physical Therapy, LLC (12/08/2025)](<[https://www.supremecourt.gov/opinions/25pdf/25-180_8m59.pdf](https://www.supremecourt.gov/opinions/25pdf/25-180_8m59.pdf)>)
+[25-180 Doe v. Dynamic Physical Therapy, LLC (12/08/2025)](https://www.supremecourt.gov/opinions/25pdf/25-180_8m59.pdf)
 from the
-[Supreme Court of the United States](<[https://www.supremecourt.gov/](https://www.supremecourt.gov/)>)
+[Supreme Court of the United States](https://www.supremecourt.gov/)
 as an example. The output is as follows:
 
 ```bash

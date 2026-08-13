@@ -35,7 +35,7 @@
     <link rel="manifest" href="/site.webmanifest">
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css">
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css">
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
 
@@ -66,9 +66,10 @@
     <div id="page">
         <header>
             <div class="site-brand">
-                <img src="/beago-cirius-logo-white.svg" alt="" class="site-logo" width="34" height="45">
-                <h1>Beago Cirius</h1>
+                <img src="/beago-cirius-logo-white.svg" alt="" class="site-logo">
+                <h1>Beago Cirius<span class="sub">Aaron P. Murniadi</span></h1>
             </div>
+            <p class="site-tagline">technology · philosophy<br>photography · typesetting</p>
         </header>
         <nav>{{range .Nav}}<a href="{{.Path}}">{{.Title}}</a>{{end}}</nav>
         <main>
@@ -79,6 +80,7 @@
         </footer>
     </div>
     <script>
+        hljs.highlightAll();
         document.querySelectorAll('.para-num p').forEach((p, i) => {
             if (i > 0) p.setAttribute('data-pnum', i);
         });

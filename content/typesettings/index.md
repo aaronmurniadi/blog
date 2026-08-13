@@ -11,6 +11,7 @@ exclusively use <a href="https://typst.app/">Typst</a>.
 
 Note: You can click on the images to view in PDF format.
 
+<div class="gal-grid">
 
 <figure>
   <a href="/media/typst/cv_aaron_murniadi.pdf">
@@ -45,7 +46,7 @@ Note: You can click on the images to view in PDF format.
   <a href="/media/typst/intelligence_memorandum.pdf">
     <img src="/media/typst/intelligence_memorandum.webp" alt="Intelligence Memorandum">
   </a>
-  <figcaption>"Intelligence Memorandum" inspired by <a href="https://www.cia.gov/readingroom/docs/CIA-RDP79T00826A000600010002-7.pdf">CIA's Intelligence Memorandum</a>.—<a href="/media/typst/intelligence_memorandum.pdf">Source</a>.</figcaption>
+  <figcaption>"Intelligence Memorandum" inspired by <a href="https://www.cia.gov/readingroom/docs/CIA-RDP79T00826A000600010002-7.pdf">CIA's Intelligence Memorandum</a>—<a href="/media/typst/intelligence_memorandum.pdf">Source</a></figcaption>
 </figure>
 
 <figure>
@@ -89,3 +90,5 @@ Note: You can click on the images to view in PDF format.
   </a>
   <figcaption>Basic Two Column Article—<a href="/media/typst/two_column_article.typ">Source</a></figcaption>
 </figure>
+
+</div>

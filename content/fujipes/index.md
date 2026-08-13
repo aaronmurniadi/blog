@@ -77,7 +77,7 @@ X-Trans I film simulation recipes. Tap a card for the full recipe.
   max-width: 100vw;
   height: 100vh;
   max-height: 100vh;
-  background: var(--bg);
+  background: #fdfcf9;
   color: var(--text);
 }
 .fujipes-modal::backdrop { background: rgba(10, 30, 40, 0.55); }
