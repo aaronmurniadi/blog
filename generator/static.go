@@ -100,7 +100,7 @@ func (s *Site) GenerateStaticSite(outRoot string) error {
 }
 
 func (s *Site) copySiteAssets(outRoot string) error {
-	for _, name := range append(append([]string{}, staticFileNames...), "404.html") {
+	for _, name := range append(append([]string{}, staticFileNames...), "410.html") {
 		src := filepath.Join(s.cfg.SiteRoot, name)
 		if _, err := os.Stat(src); err != nil {
 			if os.IsNotExist(err) {
