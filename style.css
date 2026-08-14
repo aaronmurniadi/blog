@@ -56,11 +56,27 @@ body {
 	font-kerning: normal;
 	font-variant-ligatures: common-ligatures;
 	font-feature-settings: "liga", "kern";
+	font-optical-sizing: auto;
 }
 
 body p {
 	text-wrap: pretty;
 	text-align: left;
+}
+
+/* Scholarly article body: justify paragraphs with hyphenation on wide screens */
+@media (min-width: 720px) {
+	.para-num p {
+		text-align: justify;
+		text-justify: inter-word; /* better inter-word spacing (microtype-like) */
+		hyphens: manual; /* rely on soft hyphens inserted by hyphen library */
+		text-wrap: pretty; /* avoid orphans/widows */
+		overflow-wrap: break-word;
+		text-hanging-punctuation: allow-end; /* hang ending quotes/commas */
+		font-feature-settings: "liga", "kern", "calt", "lnum", "onum";
+		font-variant-ligatures: contextual common-ligatures;
+		font-kerning: normal;
+	}
 }
 
 p {
@@ -207,6 +223,28 @@ h1 {
 	letter-spacing: -0.02em;
 	margin: 0 0 0.75rem;
 	font-weight: 600;
+}
+
+/* Date label shown above article titles */
+p.subtitle {
+	font-family: var(--sans-font-family);
+	font-size: 0.85rem;
+	font-weight: 500;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	font-variant-numeric: tabular-nums;
+	color: var(--muted);
+	margin: 0 0 0.4rem;
+}
+
+/* Subtitle is a title label, not a body paragraph — don't apply the 
+   paragraph-number inset or numbering */
+.para-num p.subtitle {
+	padding-left: 0;
+}
+
+.para-num p.subtitle::before {
+	content: none;
 }
 
 h2 {

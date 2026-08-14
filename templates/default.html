@@ -35,6 +35,8 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
     <link rel="stylesheet" href="/style.css">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css">
     <script
@@ -80,6 +82,93 @@
             <p>© 2026 Aaron P. Murniadi</p>
         </footer>
     </div>
+    <!-- TeX-quality hyphenation (Liang patterns) for justified body text.
+         Only loads on wide screens AND only when this page has body text to hyphenate,
+         so mobile pages never download the library. -->
+    <script>
+        (function () {
+            var wide = window.matchMedia ? window.matchMedia('(min-width: 720px)') : null;
+
+            function hasParaNum() {
+                return !!document.querySelector('.para-num');
+            }
+
+            function load(src, next) {
+                var s = document.createElement('script');
+                s.async = true;
+                s.src = src;
+                s.onload = next;
+                s.onerror = next;
+                document.head.appendChild(s);
+            }
+
+            function run() {
+                if (!window.createHyphenator) return;
+                var lang = (document.documentElement.lang || 'en').toLowerCase().split('-')[0];
+                var patterns = lang === 'id' ? window.hyphenationPatternsId
+                    : window.hyphenationPatternsEnUs;
+                if (!patterns) return;
+
+                var hyphenate = window.createHyphenator(patterns, { leftmin: 2, rightmin: 3 });
+
+                function hyphenateTexts(rootEl) {
+                    if (!rootEl || (wide && !wide.matches) || !hasParaNum()) return;
+                    var paras = rootEl.querySelectorAll('.para-num p');
+                    for (var i = 0; i < paras.length; i++) {
+                        walk(paras[i], function (text) {
+                            return hyphenate(text);
+                        });
+                    }
+                }
+
+                // Hyphenate only text, skipping elements that must not change (links, code, pre, headings).
+                function walk(node, fn) {
+                    if (node.nodeType === 3) { // text node
+                        if (node.nodeValue && node.nodeValue.trim()) {
+                            node.nodeValue = fn(node.nodeValue);
+                        }
+                        return;
+                    }
+                    if (/^(A|CODE|PRE|SCRIPT|STYLE|H1|H2|H3|H4|H5|H6|FIGCAPTION|SUMMARY|TABLE)$/.test(node.nodeName)) return;
+                    for (var i = 0; i < node.childNodes.length; i++) {
+                        walk(node.childNodes[i], fn);
+                    }
+                }
+
+                // Defer actual work so it never blocks first paint on wide screens.
+                var defer = window.requestIdleCallback || function (cb) { setTimeout(cb, 0); };
+                defer(function () {
+                    hyphenateTexts(document);
+                });
+
+                // Re-hyphenate after SPA-style inline navigation swaps content.
+                var main = document.querySelector('main');
+                if (main) {
+                    new MutationObserver(function () {
+                        if ((!wide || wide.matches) && main.querySelector('.para-num')) {
+                            hyphenateTexts(main);
+                        }
+                    }).observe(main, { childList: true, subtree: true });
+                }
+            }
+
+            // Load the library only if warranted: wide screen AND article body present.
+            if ((!wide || wide.matches) && hasParaNum()) {
+                var whenReady = function () {
+                    load('https://cdn.jsdelivr.net/npm/hyphen@1.14.1/hyphen.js', function () {
+                        load('https://cdn.jsdelivr.net/npm/hyphen@1.14.1/patterns/id.js', function () {
+                            load('https://cdn.jsdelivr.net/npm/hyphen@1.14.1/patterns/en-us.js', run);
+                        });
+                    });
+                };
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', whenReady);
+                } else {
+                    whenReady();
+                }
+            }
+        })();
+    </script>
     <script>
         hljs.highlightAll();
         document.querySelectorAll('.para-num p').forEach((p, i) => {

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Gaya Filsafat Oxford dalam Kritik H.L.A. Hart atas Teori Hukum John Austin"
+title: 'Gaya Filsafat Oxford dalam Kritik H.L.A. Hart atas Teori Hukum John Austin'
 date: 2020-06-04
 nav_order: 4
 ---
@@ -114,18 +114,10 @@ hukum Hart, kiranya baik untuk sedikit diuraikan analisis bahasa yang dilakukan
 kedua tokoh tersebut.
 
 Analisis Austin atas bahasa sehari-hari mengungkapkan sifat _performatif_ dari
-suatu kalimat. Misalnya, jika ada seseorang mengatakan:
-
-\(I\) "Budi adalah orang baik."
-
-Secara tidak langsung ia menyatakan bahwa:
-
-\(II\) "Aku \['yakin', 'percaya', atau 'tahu'\] bahwa Budi adalah orang yang
-baik."
-
-Maka, wajar bila orang lain bertanya padanya:
-
-\(III\) "Bagaimana kamu tahu Budi itu orang yang baik?"
+suatu kalimat. Misalnya, jika ada seseorang mengatakan: (I) "Budi adalah orang baik."
+Secara tidak langsung ia menyatakan bahwa: (II) "Aku ['yakin', 'percaya', atau 'tahu']
+bahwa Budi adalah orang yang baik." Maka, wajar bila orang lain bertanya padanya:
+(III) "Bagaimana kamu tahu Budi itu orang yang baik?"
 
 Austin melihat bahwa pertanyaan yang wajar itu (III) mengungkapkan logika bahasa
 yang sering luput dari perhatian. Menurutnya, "Kecurigaan atau pertanyaan \[itu
