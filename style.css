@@ -582,12 +582,6 @@ ul.dir-list {
 	margin-left: 0;
 }
 
-ul.dir-list li {
-	margin-bottom: 0.75rem;
-	padding: 0.5rem 0;
-	border-bottom: 1px solid var(--rule);
-}
-
 ul.dir-list a {
 	font-weight: 600;
 	color: var(--ink);
