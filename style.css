@@ -68,11 +68,15 @@ body p {
 @media (min-width: 720px) {
 	.para-num p {
 		text-align: justify;
-		text-justify: inter-word; /* better inter-word spacing (microtype-like) */
-		hyphens: manual; /* rely on soft hyphens inserted by hyphen library */
-		text-wrap: pretty; /* avoid orphans/widows */
+		text-justify: inter-word;
+		/* better inter-word spacing (microtype-like) */
+		hyphens: manual;
+		/* rely on soft hyphens inserted by hyphen library */
+		text-wrap: pretty;
+		/* avoid orphans/widows */
 		overflow-wrap: break-word;
-		text-hanging-punctuation: allow-end; /* hang ending quotes/commas */
+		text-hanging-punctuation: allow-end;
+		/* hang ending quotes/commas */
 		font-feature-settings: "liga", "kern", "calt", "lnum", "onum";
 		font-variant-ligatures: contextual common-ligatures;
 		font-kerning: normal;
@@ -124,7 +128,8 @@ strong {
 	height: 2.1em;
 	width: auto;
 	display: block;
-	filter: invert(1) brightness(0.3); /* dark mark on light paper */
+	filter: invert(1) brightness(0.3);
+	/* dark mark on light paper */
 }
 
 #page>header h1 {
@@ -210,7 +215,12 @@ strong {
 }
 
 /* ============ Headings ============ */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
 	font-family: var(--heading-font-family);
 	font-weight: 600;
 	line-height: 1.25;
@@ -269,7 +279,8 @@ h4 {
 	letter-spacing: 0;
 }
 
-h5, h6 {
+h5,
+h6 {
 	font-size: 0.95rem;
 	font-weight: 700;
 	margin: 1.4em 0 0.4em;
@@ -311,7 +322,7 @@ figure {
 }
 
 /* Image-link wrapper: only the direct <a> that wraps <img>, not figcaption links */
-figure > a {
+figure>a {
 	display: inline-block;
 	line-height: 0;
 	max-width: 100%;
@@ -336,10 +347,11 @@ figure > a {
 }
 
 .gal-grid figure {
-	margin: 0; /* grid provides spacing */
+	margin: 0;
+	/* grid provides spacing */
 }
 
-.gal-grid figure > a {
+.gal-grid figure>a {
 	width: 100%;
 	display: block;
 }
@@ -348,7 +360,8 @@ figure > a {
 	width: 100%;
 	max-height: none;
 	object-fit: cover;
-	aspect-ratio: 7 / 10; /* match source thumbnails (portrait A4-ish) */
+	aspect-ratio: 7 / 10;
+	/* match source thumbnails (portrait A4-ish) */
 }
 
 
@@ -443,7 +456,8 @@ pre code {
 }
 
 /* ============ Lists ============ */
-ul, ol {
+ul,
+ol {
 	margin: 0 0 1.25em 1.4em;
 }
 
@@ -455,7 +469,10 @@ li::marker {
 	color: var(--accent);
 }
 
-ul ul, ol ol, ul ol, ol ul {
+ul ul,
+ol ol,
+ul ol,
+ol ul {
 	margin-top: 0.3em;
 }
 
@@ -483,7 +500,8 @@ table {
 	font-size: 0.95rem;
 }
 
-th, td {
+th,
+td {
 	border-bottom: 1px solid var(--rule);
 	padding: 0.6rem 0.9rem;
 	text-align: left;
@@ -531,12 +549,6 @@ hr {
 ul.post-list {
 	list-style: none;
 	margin-left: 0;
-}
-
-ul.post-list li {
-	margin-bottom: 1.1rem;
-	padding: 0.9rem 0;
-	border-bottom: 1px solid var(--rule);
 }
 
 ul.post-list li:last-child {
