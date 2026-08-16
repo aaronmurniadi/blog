@@ -8,7 +8,7 @@ layout: post
 
 > [Check out my Typst templates here](/typesettings)!
 
-While I was working on the [Harvard Law Review–style journal template](/typesettings#journal-template), I rearranged the file one more time: one big `meta` dict for everything the issue needs to know about itself, then the styling and layout after that. Opening the file suddenly meant reading the document first and the machinery second.
+While I worked on the [Harvard Law Review–style journal template](/typesettings#journal-template), I rearranged the file one more time. I moved one big `meta` dict to the top, with everything the issue needs to know about itself. Then I put the styling and layout after it. Opening the file then meant reading the document first and the machinery second.
 
 ```typst
 #let meta = (
@@ -24,13 +24,13 @@ While I was working on the [Harvard Law Review–style journal template](/typese
 )
 ```
 
-That split—data up front, presentation below—felt obvious in hindsight, but it took a few failed layouts to get there. It also made the larger problem visible: Typst gives you a lot of rope, and almost no shared vocabulary for how to organize a real project.
+That split, data up front and presentation below, felt obvious in hindsight. But it took a few failed layouts to get there. It also made the larger problem visible. Typst gives you a lot of rope. But it gives you almost no shared vocabulary for how to organize a real project.
 
 ## Docs teach syntax, not structure
 
-The [official Typst documentation](https://typst.app/docs/) is strong on mechanics. When I need the exact behavior of `show` rules or page setup, I still reach for it first. What it does not try to do is prescribe how a fifty-page report, a book, or a journal issue should be laid out on disk or in memory. Ask "how should I structure this?" in the community and you will get several incompatible answers; there is no "house style" for project shape the way many ecosystems eventually develop.
+The [official Typst documentation](https://typst.app/docs/) is strong on mechanics. When I need the exact behavior of `show` rules or page setup, I still reach for it first. It does not try to prescribe how to lay out a fifty-page report, a book, or a journal issue. It leaves that layout to you, whether on disk or in memory. Ask "how should I structure this?" in the community, and you will get several incompatible answers. There is no "house style" for project shape the way many ecosystems eventually develop.
 
-So this post is not a complaint about the docs. It is a note that we are still missing a layer above them: conventions for document architecture, and honest writeups of what people actually do when the tutorial ends.
+So this post is not a complaint about the docs. It is a note that we are still missing a layer above them. We need conventions for document architecture, and honest writeups of what people actually do when the tutorial ends.
 
 ## What I reach for, depending on the job
 
@@ -48,11 +48,11 @@ For drafts, short letters, or anything disposable, I skip abstraction entirely:
 // Direct content without complex structure
 ```
 
-No template wrapper, no shared config object—just page and paragraph rules, then text. That is often the right amount of structure.
+No template wrapper, no shared config object. Just page and paragraph rules, then text. That is often the right amount of structure.
 
 ### One file, top-down
 
-For [my CV](/typesettings#cv) and other one-off documents, I still use a single file with imports, a few helpers, then the body. Everything reads in order.
+For [my CV](/typesettings#cv) and other one-off documents, I still use a single file. It holds the imports, a few helpers, then the body. Everything reads in order.
 
 ```typst
 #import "@preview/droplet:0.3.1": dropcap
@@ -70,7 +70,7 @@ For [my CV](/typesettings#cv) and other one-off documents, I still use a single 
 #header(name: [Aaron P. Murniadi], contact: [...])
 ```
 
-It is fast to write and easy to read the first time. It falls apart when you need variants or long-term maintenance: I tried multiple CV versions this way and ended up duplicating chunks of logic. For anything with a future, I move on.
+It is fast to write and easy to read the first time. It falls apart when you need variants or long-term maintenance. I tried multiple CV versions this way, and I ended up duplicating chunks of logic. For anything with a future, I move on.
 
 ### Splitting style from content
 
@@ -111,11 +111,11 @@ The manuscript imports what it needs and stays mostly prose:
 // Cover and content
 ```
 
-The tradeoff is navigation: you jump between files and need to remember which symbol lives where. For book-sized work, that cost has been worth it.
+The tradeoff is navigation. You jump between files and need to remember which symbol lives where. For book-sized work, that cost has been worth it.
 
 ### A single `template(...)` wrapper
 
-For submissions where margins and fonts are fixed by someone else’s spec, I use a function that wraps the whole document and applies all the rules in one place:
+For submissions where someone else's spec fixes the margins and fonts, I use one function. It wraps the whole document and applies all the rules in one place:
 
 ```typst
 #let template(
@@ -140,11 +140,11 @@ For submissions where margins and fonts are fixed by someone else’s spec, I us
 )
 ```
 
-That pattern is easy to overuse. I have spent evenings tuning the wrapper instead of writing. I reserve it for cases where the format really is non-negotiable.
+That pattern is easy to overuse. I spent evenings tuning the wrapper instead of writing. I reserve it for cases where the format really is non-negotiable.
 
 ### Configuration objects (including "meta first")
 
-When the same codebase might serve more than one layout, or when the document is really a bundle of fields (title, authors, abstract, body), I push those fields into a single structure and let the rest of the file consume it.
+When the same codebase must serve more than one layout, I push the fields into one structure. This works when the document is a bundle of fields such as title, authors, abstract, and body. The rest of the file then consumes that structure.
 
 Example output for a two-column article: [here](/typesettings#two-column-article).
 
@@ -174,7 +174,7 @@ Example output for a two-column article: [here](/typesettings#two-column-article
 )
 ```
 
-The journal template is the same idea with a dict instead of function arguments: one `meta` object holds the facts, then `#set` / `show` and the final `#meta.body` wire it up.
+The journal template is the same idea with a dict instead of function arguments. A `meta` object holds the facts, then `#set`, `show`, and `#meta.body` wire it up.
 
 ```typst
 #let meta = (
@@ -195,14 +195,14 @@ The journal template is the same idea with a dict instead of function arguments:
 #meta.body
 ```
 
-Edits to journal name, volume, or author string stay localized; styling can change without touching the content block.
+Edits to journal name, volume, or author string stay localized. Styling can change without touching the content block.
 
 ## How I choose
 
-I do not have one pattern for everything. A plain letter stays flat; a one-off can live in a single file until I need variants; book-length work gets a style module; conference-style specs get a wrapping template; journals and anything with multiple outputs lean on a config object or a `meta` dict. Who will maintain it—just me on a deadline, or other people over months—matters as much as document length. I also assume the first layout will be wrong sometimes: refactoring once I understand the content has been routine, not a mistake.
+I do not have one pattern for everything. A plain letter stays flat. A one-off can live in a single file until I need variants. Book-length work gets a style module. Conference-style specs get a wrapping template. Journals and anything with multiple outputs lean on a config object or a `meta` dict. Who will maintain it matters as much as document length. It could be just me on a deadline, or other people over months. I also assume the first layout will be wrong sometimes. Refactoring once I understand the content has been routine, not a mistake.
 
 ## Toward shared patterns
 
-The ecosystem would benefit from more public examples of "how we structured this" alongside "how the syntax works"—especially for large or regulated documents. I have written up what works on my machine; I would like to read the same kind of post from others: layouts that held up, layouts that did not, and why.
+The ecosystem would benefit from more public examples of "how we structured this" alongside "how the syntax works". This matters most for large or regulated documents. I explained what works on my machine. I would like to read the same kind of post from others. I want the layouts that held up, the layouts that did not, and why.
 
 What organizational habits have you settled on in Typst? What broke the first time you tried it?

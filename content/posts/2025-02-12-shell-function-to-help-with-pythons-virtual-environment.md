@@ -9,10 +9,10 @@ nav_order: 5
 # Shell function to help with Python's Virtual Environment
 
 Managing Python projects often involves juggling multiple dependencies and
-Python versions. Virtual environments are a lifesaver, allowing you to isolate
+Python versions. Virtual environments are a lifesaver. They let you isolate
 project dependencies and avoid conflicts. While Python's `venv` module is
 excellent, creating and activating environments can be a bit repetitive. To
-streamline this process, I've created a simple Bash function called `ve()` that
+streamline this process, I created a simple Bash function called `ve()` that
 simplifies virtual environment management:
 
 ```bash
@@ -62,16 +62,16 @@ ve() {
 ```
 
 The function first checks if a virtual environment is already active by looking
-for the `VIRTUAL_ENV` environment variable. If we're in a virtual environment
-already, the script will exit gracefully.
+for the `VIRTUAL_ENV` environment variable. If we are in a virtual environment
+already, the script exits gracefully.
 
-If we are not in a virtual environment AND there's no `.venv` folder found in
-the current directory, it will create a new virtual environment and then
-activates the environment.
+If we are not in a virtual environment AND there is no `.venv` folder found in
+the current directory, it creates a new virtual environment and then activates
+the environment.
 
-Finally, it upgrades pip within the new virtual environment to ensure you have
-the latest version.
+Finally, it upgrades pip within the new virtual environment, so you have the
+latest version.
 
 You can add this function to your shell configuration like `.bashrc`, `.zshrc`,
-or equivalent shell configuration file. This will make the `ve()` function
-available in your terminal.
+or another shell configuration file. This makes the `ve()` function available in
+your terminal.

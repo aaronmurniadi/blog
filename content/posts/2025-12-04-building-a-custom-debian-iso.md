@@ -8,13 +8,12 @@ nav_order: 2
 
 # Building a Custom Debian ISO
 
-Every project must begin with a concise requirements. For me, it was:
+Every project must start with concise requirements. For me, they were:
 
 - Deploy a consistent Linux environment across multiple machines.
 - Deployment must be possible where reliable internet access might not exist.
 - The installation contains everything needed and pre-configured.
-- The machine just need to be turned on and start the app and components
-  automatically.
+- The machine starts the app and components automatically when turned on.
 - As secure as possible.
 
 This is the story of how I built it, the tools I used, and the headaches I
@@ -24,25 +23,25 @@ suffered along the way.
 
 _But how do you actually build a Linux ISO?_
 
-I didn't want to build a new Linux Distro from scratch (Linux From Scratch was a
-bit too ambitious). I wanted a customized **Debian-based** distro which have the
+I did not want to build a new Linux distro from scratch (Linux From Scratch was a
+bit too ambitious). I wanted a customized **Debian-based** distro which has the
 reputation to be stable. My research led me quickly to **Debian Live Build**
-(`live-build`). It's the standard tool used to build official Debian Live
-images. From initial reading, it's powerful, flexible, and the build process is
+(`live-build`). It is the standard tool used to build official Debian Live
+images. From initial reading, it is flexible, and the build process is
 straightforward.
 
 The documentation around `live-build` itself is worth of praise. Detailed yet
-concise, and covered every aspect you need in structured manner:
+concise, and covers every aspect you need in structured manner:
 
 - [https://live-team.pages.debian.net/live-manual/html/live-manual/index.en.html](https://live-team.pages.debian.net/live-manual/html/live-manual/index.en.html)
 
 ## Implementation
 
 First I need to install Debian 13 to use as host machine to build the Debian
-ISO, I got the ISO from [the Debian official
+ISO. I got the ISO from [the Debian official
 site](https://www.debian.org/distrib/).
 
-On the host machine, I need to install the `live-build` alongside some
+On the host machine, I need to install `live-build` alongside some
 dependencies:
 
 ```bash
@@ -67,8 +66,8 @@ git init
 _Yup, I learned the hard way to always use git versioning to save progress along
 the way._
 
-Then, simply run `lb config`. This will create a directory structure for our
-build project, along with some scripts filled with default values.
+Then run `lb config`. This creates a directory structure for our build project,
+along with some scripts filled with default values.
 
 ```bash
 .
@@ -126,7 +125,7 @@ lb config \
 sudo lb build
 ```
 
-This ensures every time I run this script, it'll cleanup left overs artifacts
+This makes sure every time I run this script, it cleans up leftover artifacts
 generated from the previous run.
 
 Explanation about some of the arguments:
@@ -134,19 +133,19 @@ Explanation about some of the arguments:
 | Argument                                                                                                                                 | Description                                                                                                                                                                                             |
 | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `--apt "apt"`                                                                                                                            | Use apt to manage the packages during installation                                                                                                                                                      |
-| `--apt-options '--yes -o Acquire::https::Verify-Peer=false -o Acquire::https::Verify-Host=false -o APT::Get::AllowUnauthenticated=true'` | Disable SSL verification during building the ISO, because `ca-certificate` is not installed during build stage, any custom apt source using https will fail and prevent us from building the ISO image. |
+| `--apt-options '--yes -o Acquire::https::Verify-Peer=false -o Acquire::https::Verify-Host=false -o APT::Get::AllowUnauthenticated=true'` | Disable SSL verification while building the ISO. The build stage has no `ca-certificates`, so an https apt source would fail and block the build.                                                         |
 | `--apt-indices false`<br>`--apt-recommends false`<br>`--backports false`<br>`--proposed-updates false`<br>`--update false`               | This make the ISO images smaller.                                                                                                                                                                       |
-| `--binary-images iso-hybrid`                                                                                                             | Make the ISO able to be flashed to USB or burned to CD/DVDs.                                                                                                                                            |
+| `--binary-images iso-hybrid`                                                                                                             | You can flash the ISO to a USB drive or burn it to a CD or DVD.                                                                                                                                         |
 | `--bootloaders "grub-pc grub-efi"`                                                                                                       | Use Grub and make sure it's compatible with both UEFI and BIOS systems.                                                                                                                                 |
 
 ## Customization Hooks & Packages
 
 _The real magic happens in the `config/` directory._
 
-In `config/package-lists/pkgs.list.chroot`, I put the name of packages I needed
-to install (GNOME, Docker, etc.).
+In `config/package-lists/pkgs.list.chroot`, I put the names of the packages I
+needed to install (GNOME, Docker, etc.).
 
-In the `config/includes.chroot/` directory, any files I put there are copied
+In the `config/includes.chroot/` directory, the build copies any files I put there
 directly into the ISO's filesystem. This is where I put my custom wallpapers,
 configuration files, and the critical `autostart.sh`. The structure inside is
 directly related to the standard Linux system starting from the root `/` :
@@ -167,10 +166,10 @@ config/includes.chroot/
             └── compose.yaml
 ```
 
-Note: `skel` directory is copied to `/home/<username>` during installation.
+Note: the installer copies the `skel` directory to `/home/<username>` during installation.
 
 Another important file is `config/includes.installer/preseed.cfg`. This is the
-preseed file that is used to configure the system during installation. I put the
+preseed file used to configure the system during installation. I put the
 hostname, timezone, and other important settings there.
 
 ```bash
@@ -243,11 +242,11 @@ d-i grub-installer/bootdev string /dev/sda
 
 ## The Offline Challenge
 
-**The Problem:** The ISO needed to install fully offline. This meant I couldn't
-rely on `apt-get install docker-ce` during installation because the target
+**The Problem:** The ISO needed to install fully offline. This meant I could not
+rely on `apt-get install docker-ce` during installation, because the target
 machine might be air-gapped.
 
-So, the docker package must be baked into the generated ISO file. Unfortunately
+So the build must bake the docker package into the generated ISO file. Unfortunately
 `docker-ce` is not available in the default Debian repository. I need to add the
 custom Docker repository to APT's sources list. Easy enough:
 
@@ -283,10 +282,10 @@ gnome-core
 ... (any package you need here)
 ```
 
-The Docker repository’s use of HTTPS breaks the build because SSL certificate
+The Docker repository's use of HTTPS breaks the build, because SSL certificate
 verification fails. The `ca-certificates` package is required, but the build
-cannot install it since the sources must be updated first, creating a bootstrap
-deadlock.
+cannot install it, because it must update the sources first. This creates a
+bootstrap deadlock.
 
 This is why I used this argument to the `lb config` command:
 
@@ -294,11 +293,11 @@ This is why I used this argument to the `lb config` command:
 --apt-options '--yes -o Acquire::https::Verify-Peer=false -o Acquire::https::Verify-Host=false -o APT::Get::AllowUnauthenticated=true'`
 ```
 
-This is unsafe to use in installed system, but okay for building ISO.
+This is unsafe to use in an installed system, but okay for building an ISO.
 
-Finally, just run `lb build` and grab a cup of coffee. The build takes quite a
-long time and generated a lot of new files artifacts that is irrelevant and can
-be ignored in `.gitignore` file:
+Finally, run `lb build` and grab a cup of coffee. The build takes quite a
+long time and generates many new artifacts that are irrelevant and that you can
+ignore in the `.gitignore` file:
 
 ```bash
 .build/
@@ -324,8 +323,8 @@ unpacked-initrd/
 
 ## Conclusion
 
-The result of this process will be generated in the root of the projcet,
-`live-image-amd64.hybrid.iso` a self-contained, automated installer that deploys
-a production-ready environment in minutes.
+This process generates the result in the root of the project,
+`live-image-amd64.hybrid.iso`. It is a self-contained, automated installer that
+deploys a production-ready environment in minutes.
 
 Cheers!
