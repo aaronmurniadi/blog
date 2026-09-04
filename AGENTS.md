@@ -50,9 +50,8 @@ Always run `./formatter.sh` and `./build.sh` after touching content, templates,
 - Scope: families from https://r2src.github.io/top10fonts/ (9 of 10 — Boisik is
   Metafont-sources-only upstream and cannot be vendored, so it is omitted),
   plus Baskervald X, Bembo, Palatino, Crimson. NO system fonts in the dropdown.
-- Site default (base `body`) is the system stack
-  `"Times New Roman", Times, Georgia, ui-serif, serif` — "Default" option =
-  no `data-font` attribute.
+- Site default (base `body`) is Bembo (`"Bembo", Georgia, serif`) —
+  "Default" option = no `data-font` attribute.
 - Adding a font requires ALL of these (they must stay in sync):
   1. `templates/fonts/<name>-400.woff2`, `-400-italic`, `-700`, `-700-italic`
      (omit a style only if upstream never made it — see gaps below) + a license

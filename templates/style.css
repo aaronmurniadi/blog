@@ -35,10 +35,9 @@ body {
   font-kerning: normal;
   text-rendering: optimizeLegibility;
 
-  /* Default face: modern serif stack anchored on Times New Roman
-     (system fonts, no download). The font switcher overrides this via
-     html[data-font]. */
-  font-family: "Times New Roman", Times, Georgia, ui-serif, serif;
+  /* Default face: Bembo (vendored, fbb from CTAN). The font switcher
+     overrides this via html[data-font]. */
+  font-family: "Bembo", Georgia, serif;
 
   /* Modern dimensions: centered fluid column, logical spacing. */
   width: min(100% - 2rem, 42rem);
@@ -85,7 +84,7 @@ select {
    no system stacks remain in the dropdown.
    - Computer Modern Serif: CMU Serif (OFL-cmu-serif.txt) via
      vsalvino/computer-modern (converted from cm-unicode).
-   - Baskervaldx (site default): GPL-baskervaldx-COPYING.txt +
+    - Baskervaldx: GPL-baskervaldx-COPYING.txt +
      NOTICE-baskervaldx.txt, OTF converted to woff2, from CTAN baskervaldx.
    - KP Fonts: KpRoman OTFs from CTAN kpfonts-otf (fonts under OFL,
      OFL-kpfonts-otf.txt carries the README statement).
@@ -103,7 +102,7 @@ select {
    - Bera Serif: Bitstream Vera Serif TTFs (COPYRIGHT-bitstream-vera.txt);
      upstream never made italics, so only 400/700 ship and <em> is
      browser-synthesized.
-   - Bembo: fbb OTFs from CTAN fbb (Bembo-like, OFL-fbb.txt).
+    - Bembo (site default): fbb OTFs from CTAN fbb (Bembo-like, OFL-fbb.txt).
    - Palatino: Domitian OTFs from CTAN domitian (drop-in Palatino
      replacement, OFL-domitian-README.txt carries the README statement).
    - Crimson: Crimson OTFs from CTAN crimson (OFL-crimson.txt).
