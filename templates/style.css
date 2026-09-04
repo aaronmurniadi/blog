@@ -770,6 +770,50 @@ main :where(img, video) {
   margin-block: 1.5rem;
 }
 
+/* Figures: captions sit tight under the image in smaller type. */
+main figcaption {
+  font-size: 0.85rem;
+  line-height: 1.3;
+  text-align: center;
+  margin-block-start: 0.4rem;
+}
+
+main figcaption p {
+  margin-block: 0;
+  text-align: center;
+}
+
+/* Opt-in flowing figures (<figure class="aside">): small, with text
+   wrapping around them on roomy screens and alternating sides;
+   stacked and centered below that. */
+main figure.aside {
+  max-width: 16rem;
+  margin-inline: auto;
+}
+
+main figure.aside img {
+  margin-block: 0;
+}
+
+@media (min-width: 40rem) {
+  main figure.aside:nth-of-type(odd) {
+    float: right;
+    margin-inline: 1rem 0;
+  }
+
+  main figure.aside:nth-of-type(even) {
+    float: left;
+    margin-inline: 0 1rem;
+  }
+}
+
+/* A floated figure must never trap the next section heading beside it
+   (no-op on pages without floats). */
+main h2,
+main h3 {
+  clear: both;
+}
+
 /* Content bullet lists use "-" markers (nav keeps none). */
 main ul {
   padding-inline-start: 1.25rem;

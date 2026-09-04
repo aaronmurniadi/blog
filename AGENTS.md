@@ -22,6 +22,13 @@ Always run `./formatter.sh` and `./build.sh` after touching content, templates,
 - `content/<path>/body.html` — inner `<main>` fragment (no `<main>` tags).
 - `content/media/`, `content/*.{png,ico,svg,txt,webmanifest}` — copied verbatim.
 - `templates/header.html`, `nav.html`, `footer.html` — shell around every page.
+- Article images: full files in `content/media/images/`, 800px thumbs in
+  `content/media/images/thumbnail/` (see `_thumbnail.sh`, magick `800x800>`),
+  embedded as `figure > a[href=full] > img[src=thumb + alt] + figcaption > p`
+  (cf. `content/photography/body.html`). Captions are styled globally (smaller
+  type, tight under the image); `class="aside"` opts a figure into the small
+  floated text-flow treatment (alternating sides, headings clear). Only vendor
+  PD/CC0, or CC BY(-SA) with author + license credited in the caption.
 - `templates/font-switcher.html` — font picker partial, injected by `build.sh`
   as the first child of every page's `<main>` (top-right row).
 - `templates/410.html`, `style.css`, `prism.css/js` — copied verbatim.
@@ -80,6 +87,46 @@ Always run `./formatter.sh` and `./build.sh` after touching content, templates,
   with matching `0.1em` top gap on both. The gap is load-bearing: without it,
   cap overshoot hits the sidebar's `overflow-y` clip edge. Do not use a
   negative margin to compensate (it puts ink back on the clip edge).
+- Date-index listings (`<li><time>date</time> <a>title</a></li>`, e.g. home
+  Recent Posts, `/articles`, `/summaries`) use the `main li:has(> time)` flex
+  rules in `style.css`: the date is a fixed no-wrap tabular-nums column so
+  wrapped titles stay in their own column instead of sliding under the date.
+- Tables use the `main table` grid rules (`border-collapse`, thin borders,
+  top-aligned padded cells, `0.9rem`).
+
+## Article rewrite workflow (repeatable)
+
+First applied to `content/articles/2019-06-11-pertanyaan-pertanyaan-metafisika/`.
+Reuse for other long texts.
+
+- Prose: natural flowing Indonesian, one idea developed per paragraph (never
+  choppy one-sentence-per-line style). NO em dashes anywhere, literal `—` or
+  `&mdash;` — use commas, periods, colons, semicolons, or parentheses instead.
+  The count must be 0 afterwards.
+- Structure: one article = one chapter. `h1` = chapter title (when retitling,
+  update `TITLE_FULL`, `PLAIN_TITLE`, `DESCRIPTION` in `page.meta` too, but
+  keep `CANONICAL` stable so URLs never break). Sections are unnumbered
+  topical `h2`s with `id`s plus `h3` subsections, fronted by a `Daftar Isi`
+  `h2` + `ol` of anchor links (Daftar Pustaka included). Exam-style Q&A
+  headings are rewritten as descriptive headings; question headings with no
+  body are deleted (zero content loss).
+- Quotations are frozen: never edit or translate `<blockquote>` blocks or
+  original-language quotations/terms. Verify afterwards with a
+  whitespace-normalized `<blockquote>` old-vs-new comparison (must report
+  identical).
+- Facts: verify risky claims (page numbers, ordinals, Greek terms, doctrinal
+  attributions) via web search, then cite ORIGINAL BOOKS, never websites:
+  append an `h2#daftar-pustaka` "Daftar Pustaka" — a `ul` of book entries
+  (author, title, editor/translator, publisher, year), each annotated with the
+  cited sections and which part of the article they support. Fix what
+  verification disproves (unattested terms are removed, not footnoted); keep
+  hedges the original already had (e.g. "selalu dianggap").
+- Tables: `thead`+`tbody`, `scope="col"`/`"row"`, no presentational attributes
+  (`cellspacing`, `cellpadding`, `width`, `valign`), no spacer rows, straight
+  `"` in cells → `&ldquo;`/`&rdquo;`. Cells crammed with numbered sub-items
+  are split into clean two/three-column tables.
+- After any rewrite: `./formatter.sh` (+ `--write` if needed) and `./build.sh`
+  must exit 0; re-run the em-dash count and the blockquote-identity check.
 
 ## Verification checklist (after font/layout/build changes)
 
