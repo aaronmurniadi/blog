@@ -1,39 +1,106 @@
-# AGENTS.md
+# AGENTS.md — Beago Cirius tiny static site
 
-Hand-rolled Go static site generator (no Hugo/Jekyll). Markdown in `content/` is rendered to HTML in `_site/` by `go run .`.
+Personal blog. Static HTML built by shell + Python, no framework, no bundler.
 
-## Built-in workflow
+## Commands
 
-- **Run from repo root**: the tool resolves all paths (`content`, `templates`, `media`, `fonts`, static assets) relative to the current working directory. Use `go run .` from the repo root.
-- **Output**: writes `_site/` by default. `_site/` and the compiled `blog` binary are gitignored — never commit build output.
-- **Flags**: `-out`, `-content`, `-sitemap-base` (or `BLOG_SITEMAP_BASE`), `-write-sitemap` (write `sitemap.xml` to cwd and exit), `-para-num-paths` (default `articles/,summaries/`).
-- Two Go packages: the `main` entrypoint (`main.go`, root) imports `blog/generator`. All generator logic lives under `generator/`: the `generator.Site` core type + path-traversal safety (`safePathUnderContent`) in `site.go`, markdown→HTML + front matter in `content.go`/`render.go`, static-site flattening in `static.go`, the reserved-name skip policy in `policy.go`, sitemap in `sitemap.go`, WebP conversion in `mediawebp.go`, and the `{% postList %}` tag in `postlist.go`. Only exported symbols (`NewSite`, `SiteConfig`, `GenerateStaticSite`, `WriteSitemapFile`) are called from `main.go`.
+```bash
+./build.sh            # regenerate public/ (requires: sh + python3)
+./formatter.sh        # gate: prettier --check on HTML sources, sh -n on shell/page.meta, AST parse of smarten.py
+./formatter.sh --write  # prettier --write, then rebuild
+./serve-local.sh [port] # preview public/ (default 8000)
+```
 
-## Content conventions
+Always run `./formatter.sh` and `./build.sh` after touching content, templates,
+`build.sh`, or `smarten.py`. Both must exit 0.
 
-- Markdown files under `content/`. `index.md` at the site root serves `/`. Every other `.md` becomes `/<path>`, and `articles/foo.md` becomes `/articles/foo` (built as `_site/articles/foo/index.html`).
-- **`_`-prefixed** files and dirs (and any dir whose segment starts with `_`) are skipped everywhere — dir listings, nav, sitemap, and generation. These are private/unpublished; files with `.md` under `_drafts/` won't be published.
-- Directories named `media`, `assets`, or `scripts` under content are skipped both in nav and generation.
-- A directory with no `index.md` gets an auto-generated directory-listing page (via `templates/dirindex.html`) listing child dirs and `.md` files, sorted newest-first by `date`. A sibling `X.md` ("shadow") suppresses the listing for `/X` rather than overwrite it.
+## Layout (source of truth)
 
-### Front matter (YAML between `---` delimiters)
+- `content/<path>/page.meta` — shell vars sourced by `build.sh` (`TITLE_FULL`,
+  `PLAIN_TITLE`, `DESCRIPTION`, `CANONICAL`, `OG_TYPE`, `LANG`, `LOCALE`,
+  `DATE`, `SITEMAP`). Must stay valid `sh` (`sh -n` is gated).
+- `content/<path>/body.html` — inner `<main>` fragment (no `<main>` tags).
+- `content/media/`, `content/*.{png,ico,svg,txt,webmanifest}` — copied verbatim.
+- `templates/header.html`, `nav.html`, `footer.html` — shell around every page.
+- `templates/font-switcher.html` — font picker partial, injected by `build.sh`
+  as the first child of every page's `<main>` (top-right row).
+- `templates/410.html`, `style.css`, `prism.css/js` — copied verbatim.
+- `templates/fonts/*.woff2` — copied to `public/fonts/` (license `.txt` files
+  in that dir are NOT copied; they are attribution carriers, keep them).
+- `smarten.py` — stdin→stdout HTML filter, applied to `body.html` only.
+- `public/` — build output. NEVER edit, never format, never commit.
 
-Supported fields: `title`, `date` (used for post-listing sort and sitemap `<lastmod>`; `time.Parse` formats `2006-01-02` or e.g. `January 2, 2006`), and `nav_bar: false` to hide the `<nav>`. `title`/`date` fall back to the first H1 and file mtime respectively. Older posts carry vestigial Jekyll keys (`layout`, `nav_order`) that the parser ignores — don't rely on them.
+## Typography pipeline (quotes)
 
-### Special rendering
+- In `body.html` prose, write plain straight `'` for single quotes/apostrophes.
+  The build smartens them to `‘`/`’` via `smarten.py`.
+- `smarten.py` transforms text nodes only: tags, attributes, entities, comments
+  pass through byte-identical; text inside `<pre>/<code>/<script>/<style>` is
+  skipped so code samples keep straight quotes.
+- Double quotes are HAND-SET as `&ldquo;`/`&rdquo;` in sources (no automation).
+- Do NOT hand-place `‘`/`’` in `body.html` prose (exception: authentic glyphs
+  inside `<code>`, e.g. PDF extracts — leave those alone).
+- `page.meta` values are copied verbatim (no smartening) AND cannot contain
+  straight `'` (single-quoted shell syntax). Use entities or curly chars there.
 
-- **Nav** is built automatically by walking top-level `content/` dirs that contain `.md` files (plus a Home link when `content/index.md` exists). You don't maintain nav by hand.
-- **Paragraph numbers**: URLs under the `-para-num-paths` prefixes (default `articles/`, `summaries/`) get wrapped in `<div class="para-num">`, and the `default.html` template numbers each `p` after the first.
-- **`{% postList collections.<name> %}`** in markdown body expands to a `<ul class="post-list">` of `content/<name>/`'s `.md` files, sorted by date desc.
-- **WebP media**: during static generation, raster images under `media/` (`jpeg/png/gif`) are converted to WebP (quality 90, concurrency 4) into `_site/media/`; the rendered HTML has any `/media/...` raster URL rewritten to `.webp`. Output is idempotent (skips existing targets). The URL rewrite deliberately requires a leading quote so absolute off-site URLs aren't touched.
-- Markdown rendering uses goldmark with figure, linked-images, footnote, table, and typographer extensions; `WithUnsafe()` is enabled, so raw HTML in markdown passes through.
+## Font system
 
-## Security-sensitive areas (be careful when editing)
+- Dropdown lives in `templates/font-switcher.html` (top-right row of `<main>`,
+  injected by `build.sh`; + mirrored markup in `templates/410.html`).
+- Scope: families from https://r2src.github.io/top10fonts/ (9 of 10 — Boisik is
+  Metafont-sources-only upstream and cannot be vendored, so it is omitted),
+  plus Baskervald X, Bembo, Palatino, Crimson. NO system fonts in the dropdown.
+- Site default (base `body`) is the system stack
+  `"Times New Roman", Times, Georgia, ui-serif, serif` — "Default" option =
+  no `data-font` attribute.
+- Adding a font requires ALL of these (they must stay in sync):
+  1. `templates/fonts/<name>-400.woff2`, `-400-italic`, `-700`, `-700-italic`
+     (omit a style only if upstream never made it — see gaps below) + a license
+     file (`OFL-*.txt`, `LICENCE-*`, `COPYRIGHT-*`, …).
+  2. `@font-face` blocks + `html[data-font="<value>"] body` rule in
+     `templates/style.css` (document source/license in the switcher comment).
+  3. `<option value="<value>">` in BOTH `font-switcher.html` and `410.html`.
+  4. The value in the `ok={...}` allowlist in BOTH inline scripts
+     (`build.sh` printf line + `410.html`) — stale stored values fall back
+     to default.
+- Known gaps (documented in the CSS comment, do not "fix" by synthesis):
+  URW Antiqua ships regular-only; Bera Serif never had italics
+  (browser-synthesized); Utopia entry uses Erewhon outlines (Utopia-derived).
+- Conversions: OTF/TTF→woff2 via `fontTools` (`TTFont.flavor = "woff2"`,
+  needs `brotli`); Type1 PFB→OTF via AFDKO `makeotf` (`tx -dump` to inspect;
+  verify glyph/cmap counts — subset TeX fonts like pxfonts `rpx*` are traps).
+  Sources: `https://mirrors.ctan.org/fonts/<pkg>.zip`,
+  metadata: `https://ctan.org/json/2.0/pkg/<pkg>`.
 
-- `generator/site.go` defends against path traversal (`safePathUnderContent`). Don't weaken this check; it's the boundary between the renderer and the filesystem (used to render dir-listing pages).
-- Reserved dir names (`media`, `assets`, `scripts`, `templates`) and the `_`-prefix rule are centralized in `generator/policy.go` (`skipContentDir`, `skipContentDirName`, `shouldSkipContentRel`); `content.go`, `static.go`, `sitemap.go` all use it. Keep policy changes there, not at call sites.
-- Production is served by Caddy + Anubis in a two-port layout (see `Caddyfile`); the live site content root is registered at `/home/aaron/blog/_site`. Sitemap base defaults to `https://aaron.beago-cirius.ts.net/`.
+## CSS layout notes
 
-## Tests and verification
+- Narrow: single centered column `min(100% - 2rem, 42rem)`.
+- Wide (`@media (min-width: 60rem)`): grid `55rem` total, `13rem` sidebar +
+  `1fr` main, gap `clamp(1.5rem, 4vw, 3rem)`. Keep main ≈39rem when retuning.
+- Flush tops: `text-box-trim: trim-start` on `header h1` + `main > :first-child`,
+  with matching `0.1em` top gap on both. The gap is load-bearing: without it,
+  cap overshoot hits the sidebar's `overflow-y` clip edge. Do not use a
+  negative margin to compensate (it puts ink back on the clip edge).
 
-Unit tests live next to the sources (`*_test.go`); run with `go test ./...`. After changing the generator, verify by running `go run .` from the repo root and inspecting the regenerated `_site/` for affected pages.
+## Verification checklist (after font/layout/build changes)
+
+- `./formatter.sh` and `./build.sh` exit 0.
+- If inline JS changed: `node --check` the extracted `<script>` from both
+  `public/index.html` and `public/410.html`.
+- If fonts changed: every dropdown `value` (minus `default`) has a `data-font`
+  rule; every `url("/fonts/...")` exists in `public/fonts/`; no references to
+  retired families remain in CSS/HTML.
+
+## Notes
+
+- `README.md` dependency line predates `smarten.py` (build needs `python3`).
+- Prettier formats HTML sources only; `public/` is excluded by scope, not by
+  `.prettierignore` (there is none).
+
+## Maintaining this file
+
+- Keep `AGENTS.md` current in the same change: when you find important repo
+  facts a future agent needs (moved files, renamed templates, new or changed
+  constraints, anything above gone stale), update the relevant section here.
+  Docs and code must stay in sync — a correct change with a stale doc is
+  incomplete.

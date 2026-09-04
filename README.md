@@ -1,101 +1,77 @@
 # blog
 
-Small Go static site: markdown under `content/`, HTML under `_site/`.
+Beago Cirius tiny static site.
 
-## Run
+Build only depends on: `sh`, `cat`, `printf`, `mkdir`, `cp`, `find`, `sort`, `date`.
 
-From repo root (paths are relative to cwd):
+## Layout
+
+| Path                                                                        | What it is                                                                                                                   |
+| --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `content/<path>/page.meta`                                                  | Per-page shell vars: `TITLE_FULL`, `PLAIN_TITLE`, `DESCRIPTION`, `CANONICAL`, `OG_TYPE`, `LANG`, `LOCALE`, `DATE`, `SITEMAP` |
+| `content/<path>/body.html`                                                  | Inner `<main>` fragment (no `<main>` tags)                                                                                   |
+| `content/media/`                                                            | Site media (`images/`, `typst/`, …), copied verbatim to `public/media/`                                                      |
+| `content/*.{png,ico,svg,txt,webmanifest}`                                   | Site-root static files (favicons, `robots.txt`, `site.webmanifest`, logo), copied to `public/`                               |
+| `templates/header.html`, `nav.html`, `footer.html`                          | Shell wrapped around every page                                                                                              |
+| `templates/410.html`, `style.css`, `prism.css`, `prism.js`, `fonts/*.woff2` | Copied verbatim to `public/`                                                                                                 |
+| `public/`                                                                   | Build output, git-ignored (`.gitignore`)                                                                                     |
+| `build.sh`                                                                  | The site builder                                                                                                             |
+| `formatter.sh`                                                              | `prettier --check` on HTML sources + `sh -n` on shell/`page.meta`; `--write` formats and rebuilds                            |
+| `serve-local.sh`                                                            | Local preview: `python3 -m http.server --directory public`                                                                   |
+| `Caddyfile`                                                                 | Local/prod static server for `public/` with 410 handling                                                                     |
+
+## Build
 
 ```bash
-go run .
+./build.sh
 ```
 
-Writes `_site/` by default. Useful flags:
+1. Pages: `content/<stem>/` → `public/<stem>/index.html` (`content/index/` → `public/index.html`).
+2. Copies: `templates/410.html`, `style.css`, `prism.css/js`, `fonts/*.woff2`; site-root files + `media/` from `content/`.
+3. Sitemap: `public/sitemap.xml` from `page.meta` (`CANONICAL` + `DATE`; `DATE=''` means build date, `SITEMAP=0` excludes).
 
-| Flag | Default | Notes |
-|------|---------|--------|
-| `-content` | `content` | Markdown tree |
-| `-out` | `_site` | Output directory |
-| `-sitemap-base` | `BLOG_SITEMAP_BASE` or built-in URL | Trailing `/` added if missing |
-| `-write-sitemap` | off | Writes `sitemap.xml` in cwd and exits |
-| `-para-num-paths` | `articles/,summaries/` | Comma-separated path prefixes for paragraph numbering |
-
-Example:
+## Add a page
 
 ```bash
-BLOG_SITEMAP_BASE=https://example.com/ go run .
+mkdir content/<path>
+# write content/<path>/page.meta + content/<path>/body.html
+./build.sh
+```
+
+## Format / check
+
+```bash
+./formatter.sh          # prettier --check on content/**/body.html + templates/*.html, sh -n on shell files
+./formatter.sh --write  # prettier --write, then rebuild via build.sh
+```
+
+`public/` is never formatted.
+
+## Preview
+
+```bash
+./serve-local.sh        # PORT env or arg, default 8000
+./serve-local.sh 8080
+```
+
+Or via Caddy (serves `public/` on `127.0.0.1:8002`, missing paths → `410.html` with 410 status, long cache on static assets):
+
+```bash
+caddy run --config Caddyfile
 ```
 
 ## Deploy layout (Caddy + Anubis)
 
-Repo includes `Caddyfile` for a two-port setup:
+`Caddyfile` in repo is the internal static backend:
 
 ```caddy
-# --- Public Entrance ---
 :8002 {
-    # Send everything to Anubis (assuming Anubis runs on 3000)
-    reverse_proxy localhost:3000 {
-        # Pass the real IP so Anubis can track the client
-        header_up X-Real-Ip {remote_host}
-    }
-}
-
-# --- Internal "Clean" Backend ---
-:8003 {
-    # Bind to localhost so this port isn't exposed to the internet
-    bind 127.0.0.1
-    
-    root * /home/aaron/blog/_site
-    
-    # Speed optimizations from before
-    encode zstd gzip
-    file_server
-    
-    # Optional: Aggressive Caching
-    @static path *.ico *.css *.js *.gif *.jpg *.jpeg *.png *.svg *.woff *.woff2
-    header @static Cache-Control "public, max-age=31536000"
+	bind 127.0.0.1
+	root * public
+	encode zstd gzip
+	# …long cache on *.ico *.gif *.jpg *.jpeg *.png *.svg *.woff *.woff2,
+	# missing paths raise 410 and serve /410.html with X-Robots-Tag: noindex
 }
 ```
 
-1. **`:8002` (public)** — reverse proxy to Anubis on `localhost:3000`, passes `X-Real-Ip`.
-2. **`:8003` (localhost only)** — serves `_site` with `file_server`, zstd/gzip, long cache on static assets.
-
-Regenerate `_site` after editing content, then reload Caddy if needed.
-
-```bash
-caddy start
-```
-
-Anubis should sit between public Caddy and the inner static server: set its upstream to the internal listener (e.g. `http://127.0.0.1:8003`). Exact variable names depend on your Anubis version; keep them in a dedicated env file.
-
-## Anubis env
-
-Production env for this stack lives at:
-
-`/etc/anubis/blog.env`
-
-```bash
-# The port Anubis will listen on (for Caddy port 8002 to point to)
-BIND=127.0.0.1:3000
-
-# The port where Caddy is "secretly" serving your files
-TARGET=http://127.0.0.1:8003
-
-# The URL users see in their browser
-PUBLIC_URL=http://localhost:8002
-
-# Challenge difficulty (4 is standard)
-DIFFICULTY=4
-
-# Automatically block common AI scrapers
-SERVE_ROBOTS_TXT=true
-```
-
-Start anubis with:
-
-```bash
-sudo systemctl enable --now anubis@blog.service
-systemctl status anubis@blog.service
-```
-
-Point your Anubis systemd unit (or container) `EnvironmentFile=` at that path so secrets and `TARGET` (or equivalent upstream URL) stay out of the repo.
+Regenerate `public/` after editing content, then reload Caddy if needed.

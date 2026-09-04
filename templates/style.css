@@ -1,0 +1,914 @@
+/* 1. Design tokens */
+:root {
+  /* size of h1 — set this to whatever you want */
+  --max-font-size: 1.5rem;
+  /* smaller ratio = tighter scaling */
+  --scale-ratio: 1.15;
+
+  --step-5: var(--max-font-size);
+  --step-4: calc(var(--step-5) / var(--scale-ratio));
+  --step-3: calc(var(--step-4) / var(--scale-ratio));
+  --step-2: calc(var(--step-3) / var(--scale-ratio));
+  --step-1: calc(var(--step-2) / var(--scale-ratio));
+  --step-0: calc(var(--step-1) / var(--scale-ratio));
+}
+
+/* 2. Reset: normalize box model, strip default spacing. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 112.5%;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* 3. Base elements */
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  font-kerning: normal;
+  text-rendering: optimizeLegibility;
+
+  /* Default face: modern serif stack anchored on Times New Roman
+     (system fonts, no download). The font switcher overrides this via
+     html[data-font]. */
+  font-family: "Times New Roman", Times, Georgia, ui-serif, serif;
+
+  /* Modern dimensions: centered fluid column, logical spacing. */
+  width: min(100% - 2rem, 42rem);
+  margin-inline: auto;
+  padding-block: clamp(1rem, 3vh, 2rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 3vh, 2rem);
+}
+
+h1,
+h2 {
+  text-wrap: balance;
+  font-optical-sizing: auto;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Font switcher (top-right of <main>): one family for the whole site.
+   Families follow https://r2src.github.io/top10fonts/ (Top 10 LaTeX Fonts),
+   plus Baskervaldx. Everything is vendored under
+   templates/fonts/ as woff2 (OTF/TTF converted with fontTools, unless noted);
+   no system stacks remain in the dropdown.
+   - Computer Modern Serif: CMU Serif (OFL-cmu-serif.txt) via
+     vsalvino/computer-modern (converted from cm-unicode).
+   - Baskervaldx (site default): GPL-baskervaldx-COPYING.txt +
+     NOTICE-baskervaldx.txt, OTF converted to woff2, from CTAN baskervaldx.
+   - KP Fonts: KpRoman OTFs from CTAN kpfonts-otf (fonts under OFL,
+     OFL-kpfonts-otf.txt carries the README statement).
+   - GFS Didot: OTFs from CTAN gfsdidot (OFL-gfsdidot.txt).
+   - Utopia: Erewhon OTFs from CTAN erewhon (Utopia-derived, OFL-erewhon.txt).
+   - Venturis ADF: serif OTFs from CTAN venturisadf (Utopia-derived, under the
+     Utopia license, LICENSE-venturis-utopia.txt).
+   - Linux Libertine: LinLibertine OTFs from CTAN libertine
+     (LICENCE-libertine.txt).
+   - TeX Gyre Bonum/Pagella/Schola/Termes: OTFs from CTAN tex-gyre
+     (GUST-FONT-LICENSE.txt).
+   - URW Antiqua: REGULAR ONLY — upstream ships just the roman PFB
+     (CTAN fonts/urw/antiqua, GPL-urwantiqua-README.txt; PFB converted via
+     AFDKO makeotf). Bold/italic are browser-synthesized.
+   - Bera Serif: Bitstream Vera Serif TTFs (COPYRIGHT-bitstream-vera.txt);
+     upstream never made italics, so only 400/700 ship and <em> is
+     browser-synthesized.
+   - Bembo: fbb OTFs from CTAN fbb (Bembo-like, OFL-fbb.txt).
+   - Palatino: Domitian OTFs from CTAN domitian (drop-in Palatino
+     replacement, OFL-domitian-README.txt carries the README statement).
+   - Crimson: Crimson OTFs from CTAN crimson (OFL-crimson.txt).
+   (Boisik, #10 on the list, is Metafont-sources-only upstream and cannot be
+   vendored as outlines, so it is omitted.) */
+@font-face {
+  font-family: "Computer Modern Serif";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/computermodern-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Computer Modern Serif";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/computermodern-400-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Computer Modern Serif";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/computermodern-700.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Computer Modern Serif";
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/computermodern-700-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Baskervaldx";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/baskervaldx-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Baskervaldx";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/baskervaldx-400-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Baskervaldx";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/baskervaldx-700.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Baskervaldx";
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/baskervaldx-700-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "KP Fonts";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/kpfonts-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "KP Fonts";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/kpfonts-400-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "KP Fonts";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/kpfonts-700.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "KP Fonts";
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/kpfonts-700-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "GFS Didot";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/gfsdidot-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "GFS Didot";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/gfsdidot-400-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "GFS Didot";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/gfsdidot-700.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "GFS Didot";
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/gfsdidot-700-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Utopia";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/utopia-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Utopia";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/utopia-400-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Utopia";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/utopia-700.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Utopia";
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/utopia-700-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Venturis ADF";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/venturis-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Venturis ADF";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/venturis-400-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Venturis ADF";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/venturis-700.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Venturis ADF";
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/venturis-700-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Linux Libertine";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/libertine-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Linux Libertine";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/libertine-400-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Linux Libertine";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/libertine-700.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Linux Libertine";
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/libertine-700-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "TeX Gyre Bonum";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/gyrebonum-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "TeX Gyre Bonum";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/gyrebonum-400-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "TeX Gyre Bonum";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/gyrebonum-700.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "TeX Gyre Bonum";
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/gyrebonum-700-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "TeX Gyre Pagella";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/gyrepagella-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "TeX Gyre Pagella";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/gyrepagella-400-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "TeX Gyre Pagella";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/gyrepagella-700.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "TeX Gyre Pagella";
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/gyrepagella-700-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "TeX Gyre Schola";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/gyreschola-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "TeX Gyre Schola";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/gyreschola-400-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "TeX Gyre Schola";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/gyreschola-700.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "TeX Gyre Schola";
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/gyreschola-700-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "TeX Gyre Termes";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/gyretermes-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "TeX Gyre Termes";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/gyretermes-400-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "TeX Gyre Termes";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/gyretermes-700.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "TeX Gyre Termes";
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/gyretermes-700-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "URW Antiqua";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/antiqua-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Bera Serif";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/bera-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Bera Serif";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/bera-700.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Bembo";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/bembo-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Bembo";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/bembo-400-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Bembo";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/bembo-700.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Bembo";
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/bembo-700-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Palatino";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/palatino-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Palatino";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/palatino-400-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Palatino";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/palatino-700.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Palatino";
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/palatino-700-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Crimson";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/crimson-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Crimson";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/crimson-400-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Crimson";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/crimson-700.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Crimson";
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/crimson-700-italic.woff2") format("woff2");
+}
+
+html[data-font="computermodern"] body {
+  font-family: "Computer Modern Serif", Georgia, serif;
+}
+
+html[data-font="baskervaldx"] body {
+  font-family: "Baskervaldx", Georgia, serif;
+}
+
+html[data-font="kpfonts"] body {
+  font-family: "KP Fonts", Georgia, serif;
+}
+
+html[data-font="gfsdidot"] body {
+  font-family: "GFS Didot", Georgia, serif;
+}
+
+html[data-font="utopia"] body {
+  font-family: "Utopia", Georgia, serif;
+}
+
+html[data-font="venturis"] body {
+  font-family: "Venturis ADF", Georgia, serif;
+}
+
+html[data-font="libertine"] body {
+  font-family: "Linux Libertine", Georgia, serif;
+}
+
+html[data-font="gyrebonum"] body {
+  font-family: "TeX Gyre Bonum", Georgia, serif;
+}
+
+html[data-font="gyrepagella"] body {
+  font-family: "TeX Gyre Pagella", Georgia, serif;
+}
+
+html[data-font="gyreschola"] body {
+  font-family: "TeX Gyre Schola", Georgia, serif;
+}
+
+html[data-font="gyretermes"] body {
+  font-family: "TeX Gyre Termes", Georgia, serif;
+}
+
+html[data-font="antiqua"] body {
+  font-family: "URW Antiqua", Georgia, serif;
+}
+
+html[data-font="bera"] body {
+  font-family: "Bera Serif", Georgia, serif;
+}
+
+html[data-font="bembo"] body {
+  font-family: "Bembo", Georgia, serif;
+}
+
+html[data-font="palatino"] body {
+  font-family: "Palatino", Georgia, serif;
+}
+
+html[data-font="crimson"] body {
+  font-family: "Crimson", Georgia, serif;
+}
+
+
+/* 4. Type scale */
+main h1 {
+  font-size: var(--step-5);
+}
+
+main h2 {
+  font-size: var(--step-4);
+}
+
+main h3 {
+  font-size: var(--step-3);
+}
+
+main h4 {
+  font-size: var(--step-2);
+}
+
+main h5 {
+  font-size: var(--step-1);
+}
+
+main h6 {
+  font-size: var(--step-0);
+}
+
+/* 5. Layout */
+.sidebar {
+  display: contents;
+}
+
+header,
+nav,
+main,
+footer {
+  width: 100%;
+}
+
+blockquote {
+  padding: 0 1rem;
+  font-size: 0.925rem;
+}
+
+main {
+  flex: 1;
+  padding-top: 0.5rem !important;
+}
+
+header>*+*,
+main>*+*,
+footer>*+* {
+  margin-block-start: 1rem;
+}
+
+header {
+  padding-block-end: 0.5rem;
+}
+
+.font-switcher-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-block-end: 0.5rem;
+}
+
+/* The picker row is <main>'s first child: keep page content tight under it
+   instead of taking the generic main rhythm. */
+main>.font-switcher-row+* {
+  margin-block-start: 0;
+}
+
+.font-switcher-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+}
+
+nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  padding-block: 0.5rem;
+}
+
+nav li {
+  margin: 0;
+}
+
+/* 6. Main content */
+main :where(p, ul, ol) {
+  margin-block: 1rem;
+}
+
+main> :first-child {
+  margin-block-start: 0;
+}
+
+main :where(li + li) {
+  margin-block-start: 0.5rem;
+}
+
+main :where(img, video) {
+  margin-block: 1.5rem;
+}
+
+/* Content bullet lists use "-" markers (nav keeps none). */
+main ul {
+  padding-inline-start: 1.25rem;
+}
+
+/* Content ordered lists use decimal markers. */
+main ol {
+  list-style: decimal outside;
+  padding-inline-start: 1.5rem;
+}
+
+/* 7. Code blocks */
+pre {
+  padding: 1em;
+  border: solid black;
+  border-width: thin;
+  font-size: 0.875em;
+  white-space: pre;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* Match Prism-highlighted blocks to plain pre: size the pre itself, since
+   its font sets the strut (line boxes), padding, and margins — sizing only
+   the inner code leaves 1em/24px lines. Beats the vendored theme selector. */
+main pre[class*="language-"] {
+  font-size: 0.7125em;
+  line-height: 1.5;
+}
+
+/* 8. Footnotes: inline refs are <sup id="fnref:N"><a href="#fn:N">,
+   definitions live in <section class="footnotes"><ol><li id="fn:N">.
+   The generic `ol { list-style: none }` above is re-enabled here so
+   footnote numbers render. */
+sup[id^="fnref:"] {
+  font-size: 0.75em;
+  vertical-align: super;
+  line-height: 0;
+}
+
+sup[id^="fnref:"] a {
+  text-decoration: none;
+}
+
+.footnotes {
+  margin-block-start: 2rem;
+  padding-block-start: 1rem;
+  border-block-start: 1px solid currentColor;
+  font-size: 0.9rem;
+}
+
+.footnotes hr {
+  display: none;
+}
+
+.footnotes ol {
+  list-style: decimal outside;
+  padding-inline-start: 1.5rem;
+}
+
+.footnotes :where(p, ul, ol) {
+  margin-block: 0.35rem;
+}
+
+.footnotes li:target,
+sup[id^="fnref:"]:target {
+  outline: 1px dotted currentColor;
+  outline-offset: 2px;
+}
+
+.footnotes a[role="doc-backlink"] {
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* 9. Wide screens: nav as left sidebar, main content on the right. */
+@media (min-width: 60rem) {
+  body {
+    width: min(100% - 2rem, 55rem);
+    display: grid;
+    grid-template-columns: 13rem 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+      "sidebar main"
+      "sidebar main"
+      "footer footer";
+    column-gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: start;
+  }
+
+  .sidebar {
+    grid-area: sidebar;
+    position: sticky;
+    top: clamp(1rem, 3vh, 2rem);
+    align-self: start;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    max-height: calc(100vh - clamp(1rem, 3vh, 2rem) * 2);
+    max-height: calc(100dvh - clamp(1rem, 3vh, 2rem) * 2);
+    overflow-y: auto;
+  }
+
+  header {
+    text-align: right;
+  }
+
+  /* Flush tops: trim the leading above the first cap-height in both
+     columns, so sidebar title and content start on the same pixel.
+     Both sides get a matching 0.1em top gap: trimming pulls cap
+     overshoot (e.g. the rounded tops of B, C, O) outside the title's
+     box, and without room that ink hits the sidebar's overflow-y clip
+     edge. (Older browsers ignore trim and fall back to line-height.) */
+  header h1,
+  main> :first-child {
+    text-box-trim: trim-start;
+    text-box-edge: cap alphabetic;
+  }
+
+  header h1 {
+    line-height: 1.3;
+    padding-block-start: 0.1em;
+  }
+
+  nav {
+    text-align: right;
+  }
+
+  nav ul {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.25rem;
+  }
+
+  main {
+    grid-area: main;
+    min-width: 0;
+    /* Same top gap as the sidebar title (see above): keeps both
+       columns starting flush while the title keeps its clip room. */
+    padding-block-start: 0.1em;
+  }
+
+  main p {
+    text-align: justify;
+    text-justify: inter-word;
+    hyphens: auto;
+    overflow-wrap: break-word;
+    font-kerning: normal;
+    hanging-punctuation: first last;
+  }
+
+  footer {
+    grid-area: footer;
+  }
+}
+
+table {
+  padding: 1rem;
+  width: -webkit-fill-available;
+  border: solid black;
+  border-width: 1px;
+}

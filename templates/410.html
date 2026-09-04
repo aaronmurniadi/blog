@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>410 Gone &middot; Beago Cirius</title>
+    <meta name="description" content="The requested page no longer exists." />
+    <link rel="canonical" href="https://aaron.beago-cirius.ts.net/410" />
+    <meta name="author" content="Aaron P. Murniadi" />
+    <meta name="robots" content="noindex, follow" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="stylesheet" href="/style.css" />
+    <script>
+      try {
+        var f = localStorage.getItem("site-font");
+        if (f) document.documentElement.setAttribute("data-font", f);
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div class="sidebar">
+      <header>
+        <h1>Beago Cirius</h1>
+        <p>Aaron P. Murniadi</p>
+      </header>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+        </ul>
+      </nav>
+    </div>
+    <main>
+      <div class="font-switcher-row">
+        <label class="font-switcher-label"
+          >Font:
+          <select id="font-switcher" aria-label="Font">
+            <option value="default">Default (Times New Roman)</option>
+            <option value="baskervaldx">Baskervald X</option>
+            <option value="computermodern">Computer Modern</option>
+            <option value="kpfonts">KP Fonts</option>
+            <option value="gfsdidot">GFS Didot</option>
+            <option value="utopia">Utopia</option>
+            <option value="venturis">Venturis ADF</option>
+            <option value="libertine">Linux Libertine</option>
+            <option value="gyrebonum">TeX Gyre Bonum</option>
+            <option value="gyrepagella">TeX Gyre Pagella</option>
+            <option value="gyreschola">TeX Gyre Schola</option>
+            <option value="gyretermes">TeX Gyre Termes</option>
+            <option value="antiqua">URW Antiqua</option>
+            <option value="bera">Bera Serif</option>
+            <option value="bembo">Bembo</option>
+            <option value="palatino">Palatino</option>
+            <option value="crimson">Crimson</option>
+          </select>
+        </label>
+      </div>
+      <section>
+        <h1>410</h1>
+        <p><strong>Gone :(</strong></p>
+        <p>The requested page no longer exists.</p>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; 2026 Aaron P. Murniadi</p>
+    </footer>
+    <script>
+      (function () {
+        var s = document.getElementById("font-switcher");
+        if (!s) return;
+        var ok = {
+          default: 1,
+          baskervaldx: 1,
+          computermodern: 1,
+          kpfonts: 1,
+          gfsdidot: 1,
+          utopia: 1,
+          venturis: 1,
+          libertine: 1,
+          gyrebonum: 1,
+          gyrepagella: 1,
+          gyreschola: 1,
+          gyretermes: 1,
+          antiqua: 1,
+          bera: 1,
+          bembo: 1,
+          palatino: 1,
+          crimson: 1,
+        };
+        var f = "default";
+        try {
+          f = document.documentElement.getAttribute("data-font") || "default";
+        } catch (e) {}
+        if (!ok[f]) {
+          // Stored value from a retired font option: fall back to default.
+          f = "default";
+          try {
+            document.documentElement.removeAttribute("data-font");
+            localStorage.removeItem("site-font");
+          } catch (e) {}
+        }
+        s.value = f;
+        s.addEventListener("change", function () {
+          var v = s.value;
+          try {
+            if (v === "default") {
+              document.documentElement.removeAttribute("data-font");
+              localStorage.removeItem("site-font");
+            } else {
+              document.documentElement.setAttribute("data-font", v);
+              localStorage.setItem("site-font", v);
+            }
+          } catch (e) {}
+        });
+      })();
+    </script>
+  </body>
+</html>

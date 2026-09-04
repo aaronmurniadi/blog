@@ -3,13 +3,13 @@
 	# Bind to localhost so this port isn't exposed to the internet
 	bind 127.0.0.1
 
-	root * /home/aaron/blog/_site
+	root * public
 
 	# Speed optimizations from before
 	encode zstd gzip
 
 	# Optional: Aggressive Caching
-	@static path *.ico *.css *.js *.gif *.jpg *.jpeg *.png *.svg *.woff *.woff2
+	@static path *.ico *.gif *.jpg *.jpeg *.png *.svg *.woff *.woff2
 	header @static Cache-Control "public, max-age=31536000"
 
 	# Any missing page returns 410 Gone so stale URLs drop out of search
@@ -17,7 +17,6 @@
 	# error, then serve the styled 410 page with that status intact.
 	handle {
 		@missing not file {
-			root *
 			try_files {path} {path}/ {path}.html {path}/index.html
 		}
 		error @missing 410

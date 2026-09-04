@@ -1,0 +1,74 @@
+<p><time datetime="2025-02-12">2025-02-12</time></p>
+<h1>Shell function to help with Python's Virtual Environment</h1>
+<p>
+  Managing Python projects often involves juggling multiple dependencies and
+  Python versions. Virtual environments are a lifesaver. They let you isolate
+  project dependencies and avoid conflicts. While Python's
+  <code>venv</code> module is excellent, creating and activating environments
+  can be a bit repetitive. To streamline this process, I created a simple Bash
+  function called <code>ve()</code> that simplifies virtual environment
+  management:
+</p>
+<pre><code class="language-bash">ve() {
+    local py=&quot;${1:-python}&quot;
+    local venv=&quot;${2:-.venv}&quot;
+    local venv_path=&quot;./${venv}&quot;
+    local activate_script=&quot;${venv_path}/bin/activate&quot;
+
+    # Already inside a virtual environment?
+    if [[ -n &quot;$VIRTUAL_ENV&quot; ]]; then
+        echo &quot;Already in a virtual environment: $VIRTUAL_ENV&quot;
+        return 0
+    fi
+
+    # Prefer uv if installed
+    if command -v uv &gt;/dev/null 2&gt;&amp;1; then
+        if [[ ! -d &quot;$venv_path&quot; ]]; then
+            echo &quot;Creating virtual environment with uv: $venv_path&quot;
+            uv venv &quot;$venv_path&quot; --python &quot;$py&quot; || return 1
+        else
+            echo &quot;Using existing uv virtual environment: $venv_path&quot;
+        fi
+    else
+        # Fallback to Python venv
+        if [[ ! -d &quot;$venv_path&quot; ]]; then
+            echo &quot;Creating virtual environment with python: $venv_path&quot;
+            &quot;$py&quot; -m venv &quot;$venv_path&quot; --system-site-packages || return 1
+
+            echo &quot;export PYTHON=$py&quot; &gt;&gt; &quot;$activate_script&quot;
+
+            echo &quot;Upgrading pip in new virtual environment...&quot;
+            source &quot;$activate_script&quot;
+            &quot;$py&quot; -m pip install --upgrade pip || return 1
+            deactivate
+            echo &quot;Virtual environment created and pip upgraded.&quot;
+        else
+            echo &quot;Activating existing python virtual environment: $venv_path&quot;
+        fi
+    fi
+
+    # Activate regardless of method
+    source &quot;$activate_script&quot; || return 1
+    echo &quot;Virtual environment activated: $venv_path&quot;
+}
+
+</code></pre>
+<p>
+  The function first checks if a virtual environment is already active by
+  looking for the <code>VIRTUAL_ENV</code> environment variable. If we are in a
+  virtual environment already, the script exits gracefully.
+</p>
+<p>
+  If we are not in a virtual environment AND there is no
+  <code>.venv</code> folder found in the current directory, it creates a new
+  virtual environment and then activates the environment.
+</p>
+<p>
+  Finally, it upgrades pip within the new virtual environment, so you have the
+  latest version.
+</p>
+<p>
+  You can add this function to your shell configuration like
+  <code>.bashrc</code>, <code>.zshrc</code>, or another shell configuration
+  file. This makes the <code>ve()</code> function available in your terminal.
+</p>

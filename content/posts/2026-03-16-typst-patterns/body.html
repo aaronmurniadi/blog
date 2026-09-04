@@ -1,0 +1,245 @@
+<p><time datetime="2026-03-16">2026-03-16</time></p>
+<h1>How I Found My Typst Patterns (and Why the Community Needs More)</h1>
+<blockquote>
+  <p><a href="/typesettings">Check out my Typst templates here</a>!</p>
+</blockquote>
+<p>
+  While I worked on the
+  <a href="/typesettings#journal-template"
+    >Harvard Law Review–style journal template</a
+  >, I rearranged the file one more time. I moved one big <code>meta</code> dict
+  to the top, with everything the issue needs to know about itself. Then I put
+  the styling and layout after it. Opening the file then meant reading the
+  document first and the machinery second.
+</p>
+<pre><code class="language-typst">#let meta = (
+  journal: &quot;Typst Type Review&quot;,
+  year: &quot;1958&quot;, 
+  month: &quot;February&quot;,
+  volume: &quot;71&quot;,
+  number: &quot;4&quot;,
+  title: &quot;The Foundations of Visual Language: The Law of Typography&quot;,
+  author: &quot;Aaron P. Murniadi&quot;,
+  abstract: [...],
+  body: [...],
+)
+</code></pre>
+<p>
+  That split, data up front and presentation below, felt obvious in hindsight.
+  But it took a few failed layouts to get there. It also made the larger problem
+  visible. Typst gives you a lot of rope. But it gives you almost no shared
+  vocabulary for how to organize a real project.
+</p>
+<h2>Docs teach syntax, not structure</h2>
+<p>
+  The <a href="https://typst.app/docs/">official Typst documentation</a> is
+  strong on mechanics. When I need the exact behavior of <code>show</code> rules
+  or page setup, I still reach for it first. It does not try to prescribe how to
+  lay out a fifty-page report, a book, or a journal issue. It leaves that layout
+  to you, whether on disk or in memory. Ask &ldquo;how should I structure
+  this?&rdquo; in the community, and you will get several incompatible answers.
+  There is no &ldquo;house style&rdquo; for project shape the way many
+  ecosystems eventually develop.
+</p>
+<p>
+  So this post is not a complaint about the docs. It is a note that we are still
+  missing a layer above them. We need conventions for document architecture, and
+  honest writeups of what people actually do when the tutorial ends.
+</p>
+<h2>What I reach for, depending on the job</h2>
+<h3>Plain <code>#set</code> and content</h3>
+<p>
+  For drafts, short letters, or anything disposable, I skip abstraction
+  entirely:
+</p>
+<pre><code class="language-typst">#set page(...)
+#set text(...)
+#set par(...)
+
+#align(center)[SUPREME COURT OF THE UNITED STATES]
+
+// Direct content without complex structure
+</code></pre>
+<p>
+  No template wrapper, no shared config object. Just page and paragraph rules,
+  then text. That is often the right amount of structure.
+</p>
+<h3>One file, top-down</h3>
+<p>
+  For <a href="/typesettings#cv">my CV</a> and other one-off documents, I still
+  use a single file. It holds the imports, a few helpers, then the body.
+  Everything reads in order.
+</p>
+<pre><code class="language-typst">#import &quot;@preview/droplet:0.3.1&quot;: dropcap
+
+#set document(title: &quot;Aaron P. Murniadi's CV&quot;)
+
+#let section-block(title, content) = [
+  #text(size: 1.25em, style: &quot;italic&quot;, title)
+  #block(inset: (left: 2em))[#content]
+  #v(0.5em)
+]
+
+// ... more function definitions ...
+
+#header(name: [Aaron P. Murniadi], contact: [...])
+</code></pre>
+<p>
+  It is fast to write and easy to read the first time. It falls apart when you
+  need variants or long-term maintenance. I tried multiple CV versions this way,
+  and I ended up duplicating chunks of logic. For anything with a future, I move
+  on.
+</p>
+<h3>Splitting style from content</h3>
+<p>
+  The book-length
+  <a href="/typesettings#maid-of-orleans">&ldquo;Maid of Orleans&rdquo;</a>
+  project taught me that one giant file does not scale. The layout I use now
+  looks like this:
+</p>
+<pre><code>maid_of_orleans/
+├── maid_of_orleans.typ       # Main content
+├── maid_of_orleans_style.typ # Style definitions
+└── main.typ                  # Alternative layout
+</code></pre>
+<p>The style module owns the template and helpers:</p>
+<pre><code class="language-typst">#import &quot;@preview/droplet:0.3.1&quot;: dropcap
+#import &quot;@preview/typearea:0.2.0&quot;: typearea
+
+#let template(body) = {
+  // Page setup and styling
+  show: typearea.with(...)
+  set text(...)
+  set par(...)
+  // Custom styling rules
+  body
+}
+
+#let framed-image(img-path, cap) = { ... }
+#let dropped(first, rest) = { ... }
+</code></pre>
+<p>The manuscript imports what it needs and stays mostly prose:</p>
+<pre><code class="language-typst">#import &quot;maid_of_orleans_style.typ&quot;: dropped, framed-image, template, typearea
+#show: template
+
+// Cover and content
+</code></pre>
+<p>
+  The tradeoff is navigation. You jump between files and need to remember which
+  symbol lives where. For book-sized work, that cost has been worth it.
+</p>
+<h3>A single <code>template(...)</code> wrapper</h3>
+<p>
+  For submissions where someone else's spec fixes the margins and fonts, I use
+  one function. It wraps the whole document and applies all the rules in one
+  place:
+</p>
+<pre><code class="language-typst">#let template(
+  title: none,
+  abstract: none,
+  authors: (),
+  date: &quot;©2025&quot;,
+  doc,
+) = {
+  set page(...)
+  set text(...)
+  set par(...)
+  // All styling rules
+  doc
+}
+
+#show: doc =&gt; template(
+  title: [Nine Things I Learned in Ninety Years],
+  authors: ([Edward Packard],),
+  abstract: [...],
+  doc,
+)
+</code></pre>
+<p>
+  That pattern is easy to overuse. I spent evenings tuning the wrapper instead
+  of writing. I reserve it for cases where the format really is non-negotiable.
+</p>
+<h3>Configuration objects (including &ldquo;meta first&rdquo;)</h3>
+<p>
+  When the same codebase must serve more than one layout, I push the fields into
+  one structure. This works when the document is a bundle of fields such as
+  title, authors, abstract, and body. The rest of the file then consumes that
+  structure.
+</p>
+<p>
+  Example output for a two-column article:
+  <a href="/typesettings#two-column-article">here</a>.
+</p>
+<pre><code class="language-typst">#let config(
+  column: 2,
+  size: 10pt,
+  font: &quot;Libertinus Serif&quot;,
+  paper: &quot;a4&quot;,
+  title: none,
+  authors: (),
+  abstract: [],
+  doc,
+) = {
+  // Apply configuration
+  set page(paper: paper, ...)
+  set text(font: font, size: size, ...)
+  // ... rest of styling
+}
+
+#show: document =&gt; config(
+  column: 2,
+  title: [Article Title],
+  authors: (...),
+  abstract: [...],
+  document,
+)
+</code></pre>
+<p>
+  The journal template is the same idea with a dict instead of function
+  arguments. A <code>meta</code> object holds the facts, then <code>#set</code>,
+  <code>show</code>, and <code>#meta.body</code> wire it up.
+</p>
+<pre><code class="language-typst">#let meta = (
+  institution: &quot;Typst University&quot;,
+  journal: &quot;Typst Type Review&quot;, 
+  year: &quot;1958&quot;,
+  title: &quot;The Foundations of Visual Language&quot;,
+  author: &quot;Aaron P. Murniadi&quot;,
+  abstract: [...],
+  body: [...]
+)
+
+// Styling and setup using meta object
+#set text(...)
+#set page(...)
+
+// Document content
+#meta.body
+</code></pre>
+<p>
+  Edits to journal name, volume, or author string stay localized. Styling can
+  change without touching the content block.
+</p>
+<h2>How I choose</h2>
+<p>
+  I do not have one pattern for everything. A plain letter stays flat. A one-off
+  can live in a single file until I need variants. Book-length work gets a style
+  module. Conference-style specs get a wrapping template. Journals and anything
+  with multiple outputs lean on a config object or a <code>meta</code> dict. Who
+  will maintain it matters as much as document length. It could be just me on a
+  deadline, or other people over months. I also assume the first layout will be
+  wrong sometimes. Refactoring once I understand the content has been routine,
+  not a mistake.
+</p>
+<h2>Toward shared patterns</h2>
+<p>
+  The ecosystem would benefit from more public examples of &ldquo;how we
+  structured this&rdquo; alongside &ldquo;how the syntax works&rdquo;. This
+  matters most for large or regulated documents. I explained what works on my
+  machine. I would like to read the same kind of post from others. I want the
+  layouts that held up, the layouts that did not, and why.
+</p>
+<p>
+  What organizational habits have you settled on in Typst? What broke the first
+  time you tried it?
+</p>
