@@ -733,6 +733,22 @@ nav li {
 }
 
 /* 6. Main content */
+main {
+  counter-reset: para;
+}
+
+main h1~p:not(:where(figcaption *)) {
+  counter-increment: para;
+}
+
+main h1~p:not(:where(figcaption *))::before {
+  content: "[" counter(para) "] ";
+  font-size: 0.75em;
+  line-height: inherit;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.45;
+}
+
 main :where(p, ul, ol) {
   margin-block: 1rem;
 }
@@ -754,13 +770,13 @@ main li:has(> time) {
   align-items: baseline;
 }
 
-main li:has(> time) > time {
+main li:has(> time)>time {
   flex: none;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 
-main li:has(> time) > a {
+main li:has(> time)>a {
   min-width: 0;
   overflow-wrap: break-word;
   text-underline-offset: 0.15em;
@@ -963,6 +979,17 @@ sup[id^="fnref:"]:target {
     overflow-wrap: break-word;
     font-kerning: normal;
     hanging-punctuation: first last;
+  }
+
+  main h1~p:not(:where(figcaption *)) {
+    position: relative;
+  }
+
+  main h1~p:not(:where(figcaption *))::before {
+    content: counter(para);
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-end: -1.25rem;
   }
 
   footer {
