@@ -63,9 +63,10 @@ for typfile in "${typ_files[@]}"; do
     pdffile="${base}.pdf"
     webpfile="${base}.webp"
 
-    # Compile .typ to .pdf
+    # Compile .typ to .pdf. --root .. (i.e. content/media/) widens the sandbox
+    # so sources may reference sibling media (e.g. mini.typ's ../images/...).
     echo "Compiling $typfile to $pdffile"
-    typst compile "$typfile" "$pdffile"
+    typst compile --root .. "$typfile" "$pdffile"
     if [ $? -ne 0 ]; then
         echo "Error compiling $typfile"
         continue

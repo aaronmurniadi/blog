@@ -27,7 +27,8 @@ Always run `./formatter.sh` and `./build.sh` after touching content, templates,
   embedded as `figure > a[href=full] > img[src=thumb + alt] + figcaption > p`
   (cf. `content/photography/body.html`). Captions are styled globally (smaller
   type, tight under the image); `class="aside"` opts a figure into the small
-  floated text-flow treatment (alternating sides, headings clear). Only vendor
+  floated text-flow treatment (alternating sides by default; `aside-left` /
+  `aside-right` force a side, headings clear). Only vendor
   PD/CC0, or CC BY(-SA) with author + license credited in the caption.
 - `templates/font-switcher.html` — font picker partial, injected by `build.sh`
   as the first child of every page's `<main>` (top-right row).
@@ -52,8 +53,8 @@ Always run `./formatter.sh` and `./build.sh` after touching content, templates,
 
 ## Font system
 
-- Dropdown lives in `templates/font-switcher.html` (top-right row of `<main>`,
-  injected by `build.sh`; + mirrored markup in `templates/410.html`).
+- Dropdown lives in `templates/font-switcher.html` (injected into the sidebar
+  by `build.sh`, after `<nav>`; + mirrored markup in `templates/410.html`).
 - Scope: families from https://r2src.github.io/top10fonts/ (9 of 10 — Boisik is
   Metafont-sources-only upstream and cannot be vendored, so it is omitted),
   plus Baskervald X, Bembo, Palatino, Crimson. NO system fonts in the dropdown.
@@ -78,6 +79,23 @@ Always run `./formatter.sh` and `./build.sh` after touching content, templates,
   Sources: `https://mirrors.ctan.org/fonts/<pkg>.zip`,
   metadata: `https://ctan.org/json/2.0/pkg/<pkg>`.
 
+## Theme switcher (dark/light)
+
+- Dropdown lives in `templates/theme-switcher.html` (injected into the sidebar
+  by `build.sh`, after the font switcher; + mirrored markup in
+  `templates/410.html`).
+- Writes/reads `localStorage` key `site-theme`; stored value is applied to the
+  `data-theme` attribute on `<html>` plus `style.colorScheme` (so native
+  controls, scrollbars, and form fields match). Both persisted in the `<head>`
+  inline script and the trailing control script in `build.sh`/`410.html`.
+- Dark theme CSS lives at the bottom of `templates/style.css`
+  (`html[data-theme="dark"]` rules). Text is inherited (`currentColor`), so
+  borders/boxes adapt automatically — keep any hardcoded colors out of the CSS.
+  When adding dark styles, keep the palette consistent (near-black bg
+  `#1a1816`, warm off-white text `#e6e2dd`).
+- The selected value is never allowlisted (only `light`/`dark` are offered), so
+  the theme script needs no `ok={...}` stale-value guard (unlike fonts).
+
 ## CSS layout notes
 
 - Narrow: single centered column `min(100% - 2rem, 42rem)`.
@@ -93,6 +111,8 @@ Always run `./formatter.sh` and `./build.sh` after touching content, templates,
   wrapped titles stay in their own column instead of sliding under the date.
 - Tables use the `main table` grid rules (`border-collapse`, thin borders,
   top-aligned padded cells, `0.9rem`).
+- Figure images get a `1px solid currentColor` frame (`main figure img`),
+  matching the caption treatment and the dark-theme "no hardcoded colors" rule.
 
 ## Article rewrite workflow (repeatable)
 

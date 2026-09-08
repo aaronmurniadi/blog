@@ -81,19 +81,20 @@ render_page() {
         printf '    <link rel="manifest" href="/site.webmanifest">\n'
         printf '    <link rel="stylesheet" href="/style.css">\n'
         printf '    <link rel="stylesheet" href="/prism.css">\n'
-        printf '    <script>try{var f=localStorage.getItem("site-font");if(f)document.documentElement.setAttribute("data-font",f)}catch(e){}</script>\n'
+        printf '    <script>try{var f=localStorage.getItem("site-font");if(f)document.documentElement.setAttribute("data-font",f)}catch(e){}try{var t=localStorage.getItem("site-theme");if(t){document.documentElement.setAttribute("data-theme",t);document.documentElement.style.colorScheme=t==="dark"?"dark":"light"}}catch(e){}</script>\n'
         printf '\n    \n\n    \n\n    \n</head>\n\n<body>\n    \n'
         printf '        <div class="sidebar">\n'
         cat "$T/header.html"
         cat "$T/nav.html"
+        cat "$T/font-switcher.html"
+        cat "$T/theme-switcher.html"
         printf '        </div>\n'
         printf '        <main>\n'
-        cat "$T/font-switcher.html"
         python3 ./smarten.py < "$body"
         printf '        </main>\n'
         cat "$T/footer.html"
         printf '    <script src="/prism.js" defer></script>\n'
-        printf '    <script>(function(){var s=document.getElementById("font-switcher");if(!s)return;var ok={default:1,baskervaldx:1,computermodern:1,kpfonts:1,gfsdidot:1,utopia:1,venturis:1,libertine:1,gyrebonum:1,gyrepagella:1,gyreschola:1,gyretermes:1,antiqua:1,bera:1,bembo:1,palatino:1,crimson:1};var f="default";try{f=document.documentElement.getAttribute("data-font")||"default"}catch(e){}if(!ok[f]){f="default";try{document.documentElement.removeAttribute("data-font");localStorage.removeItem("site-font")}catch(e){}}s.value=f;s.addEventListener("change",function(){var v=s.value;try{if(v==="default"){document.documentElement.removeAttribute("data-font");localStorage.removeItem("site-font")}else{document.documentElement.setAttribute("data-font",v);localStorage.setItem("site-font",v)}}catch(e){}})})();</script>\n'
+        printf '    <script>(function(){var s=document.getElementById("font-switcher");if(s){var ok={default:1,baskervaldx:1,computermodern:1,kpfonts:1,gfsdidot:1,utopia:1,venturis:1,libertine:1,gyrebonum:1,gyrepagella:1,gyreschola:1,gyretermes:1,antiqua:1,bera:1,bembo:1,palatino:1,crimson:1};var f="default";try{f=document.documentElement.getAttribute("data-font")||"default"}catch(e){}if(!ok[f]){f="default";try{document.documentElement.removeAttribute("data-font");localStorage.removeItem("site-font")}catch(e){}}s.value=f;s.addEventListener("change",function(){var v=s.value;try{if(v==="default"){document.documentElement.removeAttribute("data-font");localStorage.removeItem("site-font")}else{document.documentElement.setAttribute("data-font",v);localStorage.setItem("site-font",v)}}catch(e){}});}var t=document.getElementById("theme-switcher");if(t){var th="light";try{th=document.documentElement.getAttribute("data-theme")||"light"}catch(e){}t.value=th;t.addEventListener("change",function(){var v=t.value;try{document.documentElement.setAttribute("data-theme",v);document.documentElement.style.colorScheme=v==="dark"?"dark":"light";localStorage.setItem("site-theme",v)}catch(e){}});}})();</script>\n'
         printf '\n    \n    \n</body>\n\n</html>'
     } > "$out"
 }
@@ -119,6 +120,14 @@ cp "$T/prism.css" "$OUT/prism.css"
 cp "$T/prism.js" "$OUT/prism.js"
 mkdir -p "$OUT/fonts"
 cp "$T/fonts/"*.woff2 "$OUT/fonts/"
+
+# 2a. Compile Typst sources to PDF + first-page webp previews. The generated
+# files live alongside the .typ sources, so they are picked up by the
+# content/media/ -> public/media/ copy below. --all recompiles every source so
+# the build is always self-consistent (see content/media/typst/build_typst.sh).
+if [ -f "$C/media/typst/build_typst.sh" ] && command -v typst >/dev/null 2>&1; then
+    (cd "$C/media/typst" && bash build_typst.sh --all)
+fi
 
 # 2b. Static assets from content/: site-root files + media/
 # Any regular file directly under content/ (favicons, robots.txt,

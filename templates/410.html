@@ -17,6 +17,14 @@
         var f = localStorage.getItem("site-font");
         if (f) document.documentElement.setAttribute("data-font", f);
       } catch (e) {}
+      try {
+        var t = localStorage.getItem("site-theme");
+        if (t) {
+          document.documentElement.setAttribute("data-theme", t);
+          document.documentElement.style.colorScheme =
+            t === "dark" ? "dark" : "light";
+        }
+      } catch (e) {}
     </script>
   </head>
   <body>
@@ -30,8 +38,6 @@
           <li><a href="/">Home</a></li>
         </ul>
       </nav>
-    </div>
-    <main>
       <div class="font-switcher-row">
         <label class="font-switcher-label"
           >Font:
@@ -56,6 +62,17 @@
           </select>
         </label>
       </div>
+      <div class="theme-switcher-row">
+        <label class="theme-switcher-label"
+          >Theme:
+          <select id="theme-switcher" aria-label="Theme">
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </label>
+      </div>
+    </div>
+    <main>
       <section>
         <h1>410</h1>
         <p><strong>Gone :(</strong></p>
@@ -68,51 +85,69 @@
     <script>
       (function () {
         var s = document.getElementById("font-switcher");
-        if (!s) return;
-        var ok = {
-          default: 1,
-          baskervaldx: 1,
-          computermodern: 1,
-          kpfonts: 1,
-          gfsdidot: 1,
-          utopia: 1,
-          venturis: 1,
-          libertine: 1,
-          gyrebonum: 1,
-          gyrepagella: 1,
-          gyreschola: 1,
-          gyretermes: 1,
-          antiqua: 1,
-          bera: 1,
-          bembo: 1,
-          palatino: 1,
-          crimson: 1,
-        };
-        var f = "default";
-        try {
-          f = document.documentElement.getAttribute("data-font") || "default";
-        } catch (e) {}
-        if (!ok[f]) {
-          // Stored value from a retired font option: fall back to default.
-          f = "default";
+        if (s) {
+          var ok = {
+            default: 1,
+            baskervaldx: 1,
+            computermodern: 1,
+            kpfonts: 1,
+            gfsdidot: 1,
+            utopia: 1,
+            venturis: 1,
+            libertine: 1,
+            gyrebonum: 1,
+            gyrepagella: 1,
+            gyreschola: 1,
+            gyretermes: 1,
+            antiqua: 1,
+            bera: 1,
+            bembo: 1,
+            palatino: 1,
+            crimson: 1,
+          };
+          var f = "default";
           try {
-            document.documentElement.removeAttribute("data-font");
-            localStorage.removeItem("site-font");
+            f = document.documentElement.getAttribute("data-font") || "default";
           } catch (e) {}
-        }
-        s.value = f;
-        s.addEventListener("change", function () {
-          var v = s.value;
-          try {
-            if (v === "default") {
+          if (!ok[f]) {
+            // Stored value from a retired font option: fall back to default.
+            f = "default";
+            try {
               document.documentElement.removeAttribute("data-font");
               localStorage.removeItem("site-font");
-            } else {
-              document.documentElement.setAttribute("data-font", v);
-              localStorage.setItem("site-font", v);
-            }
+            } catch (e) {}
+          }
+          s.value = f;
+          s.addEventListener("change", function () {
+            var v = s.value;
+            try {
+              if (v === "default") {
+                document.documentElement.removeAttribute("data-font");
+                localStorage.removeItem("site-font");
+              } else {
+                document.documentElement.setAttribute("data-font", v);
+                localStorage.setItem("site-font", v);
+              }
+            } catch (e) {}
+          });
+        }
+        var t = document.getElementById("theme-switcher");
+        if (t) {
+          var th = "light";
+          try {
+            th = document.documentElement.getAttribute("data-theme") || "light";
           } catch (e) {}
-        });
+          t.value = th;
+          t.addEventListener("change", function () {
+            var v = t.value;
+            try {
+              document.documentElement.setAttribute("data-theme", v);
+              document.documentElement.style.colorScheme =
+                v === "dark" ? "dark" : "light";
+              localStorage.setItem("site-theme", v);
+            } catch (e) {}
+          });
+        }
       })();
     </script>
   </body>

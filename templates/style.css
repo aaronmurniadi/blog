@@ -702,19 +702,15 @@ header {
   padding-block-end: 0.5rem;
 }
 
-.font-switcher-row {
+.font-switcher-row,
+.theme-switcher-row {
   display: flex;
   justify-content: flex-end;
   margin-block-end: 0.5rem;
 }
 
-/* The picker row is <main>'s first child: keep page content tight under it
-   instead of taking the generic main rhythm. */
-main>.font-switcher-row+* {
-  margin-block-start: 0;
-}
-
-.font-switcher-label {
+.font-switcher-label,
+.theme-switcher-label {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -791,7 +787,17 @@ main figcaption {
   font-size: 0.85rem;
   line-height: 1.3;
   text-align: center;
-  margin-block-start: 0.4rem;
+  margin-block-start: 0.2rem;
+}
+
+/* Thin frame + snug caption gap for framed figure images (adapts to dark
+   theme). The media rule `main :where(img, video)` sets margin-block: 1.5rem
+   on images; here we kill the bottom margin so the img-to-figcaption gap is
+   just the figcaption's own small margin-block-start (adjacent margins would
+   otherwise collapse to the larger 1.5rem). */
+main figure img {
+  border: 1px solid currentColor;
+  margin-block-end: 0;
 }
 
 main figcaption p {
@@ -799,25 +805,35 @@ main figcaption p {
   text-align: center;
 }
 
-/* Opt-in flowing figures (<figure class="aside">): small, with text
-   wrapping around them on roomy screens and alternating sides;
-   stacked and centered below that. */
-main figure.aside {
+/* Opt-in flowing figures (<figure class="aside">, or aside-left /
+   aside-right to fix a side): small, text wraps on roomy screens;
+   plain aside alternates sides; stacked and centered below 40rem. */
+main figure:is(.aside, .aside-left, .aside-right) {
   max-width: 16rem;
   margin-inline: auto;
 }
 
-main figure.aside img {
+main figure:is(.aside, .aside-left, .aside-right) img {
   margin-block: 0;
 }
 
 @media (min-width: 40rem) {
-  main figure.aside:nth-of-type(odd) {
+  main figure.aside-left {
+    float: left;
+    margin-inline: 0 1rem;
+  }
+
+  main figure.aside-right {
     float: right;
     margin-inline: 1rem 0;
   }
 
-  main figure.aside:nth-of-type(even) {
+  main figure.aside:not(.aside-left):not(.aside-right):nth-of-type(odd) {
+    float: right;
+    margin-inline: 1rem 0;
+  }
+
+  main figure.aside:not(.aside-left):not(.aside-right):nth-of-type(even) {
     float: left;
     margin-inline: 0 1rem;
   }
@@ -844,7 +860,7 @@ main ol {
 /* 7. Code blocks */
 pre {
   padding: 1em;
-  border: solid black;
+  border: solid currentColor;
   border-width: thin;
   font-size: 0.875em;
   white-space: pre;
@@ -1012,4 +1028,14 @@ main td {
   text-align: left;
   vertical-align: top;
   overflow-wrap: break-word;
+}
+
+/* 10. Dark mode */
+html[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+html[data-theme="dark"] body {
+  color: #e6e2dd;
+  background-color: #1a1816;
 }
