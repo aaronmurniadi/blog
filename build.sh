@@ -123,10 +123,10 @@ cp "$T/fonts/"*.woff2 "$OUT/fonts/"
 
 # 2a. Compile Typst sources to PDF + first-page webp previews. The generated
 # files live alongside the .typ sources, so they are picked up by the
-# content/media/ -> public/media/ copy below. --all recompiles every source so
-# the build is always self-consistent (see content/media/typst/build_typst.sh).
+# content/media/ -> public/media/ copy below. Default: (re)build when pdf/webp
+# are missing or older than the .typ (pass --all to build_typst.sh to force all).
 if [ -f "$C/media/typst/build_typst.sh" ] && command -v typst >/dev/null 2>&1; then
-    (cd "$C/media/typst" && bash build_typst.sh --all)
+    (cd "$C/media/typst" && bash build_typst.sh)
 fi
 
 # 2b. Static assets from content/: site-root files + media/

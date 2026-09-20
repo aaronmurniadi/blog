@@ -9,7 +9,7 @@ for arg in "$@"; do
         --all) rebuild_all=true ;;
         *)
             echo "Usage: $0 [--all]"
-            echo "  --all  Regenerate first-page webp for every .typ (default: only git-changed)"
+            echo "  --all  Recompile every .typ (default: missing/stale pdf or webp)"
             exit 1
             ;;
     esac
@@ -33,28 +33,48 @@ if ! command -v cwebp &> /dev/null; then
     exit 1
 fi
 
-if [ "$rebuild_all" = true ]; then
-    # All standalone .typ under this dir (skip style-only import bundle)
-    typ_files=()
-    while IFS= read -r line; do
-        [ -n "$line" ] && typ_files+=("$line")
-    done < <(find . -name '*.typ' ! -name 'maid_of_orleans_style.typ' ! -path './.git/*' -print | sed 's|^\./||' | sort -u)
-    echo "Regenerating all first-page images (${#typ_files[@]} .typ files)"
-else
-    # Changed .typ only (paths relative to this dir, same as git media/typst/)
-    typ_files=()
-    while IFS= read -r line; do
-        [ -n "$line" ] && typ_files+=("$line")
-    done < <(git status --porcelain | grep '^...media/typst/.*\.typ$' | sed 's/^...//' | sed 's|media/typst/||')
-fi
+list_typ_sources() {
+    find . -name '*.typ' ! -name 'maid_of_orleans_style.typ' ! -path './.git/*' -print |
+        sed 's|^\./||' | sort -u
+}
 
-if [ ${#typ_files[@]} -eq 0 ]; then
+# Rebuild when outputs are absent, the source is newer, or a co-located .typ
+# import bundle changed (e.g. maid_of_orleans_style.typ). Does not use git status,
+# so pull/clone with gitignored pdf/webp still compiles.
+typ_needs_build() {
+    local typfile=$1
+    local base="${typfile%.typ}"
+    local pdffile="${base}.pdf"
+    local webpfile="${base}.webp"
+    local dir
+
+    [ ! -f "$pdffile" ] || [ ! -f "$webpfile" ] && return 0
+    [ "$typfile" -nt "$pdffile" ] || [ "$typfile" -nt "$webpfile" ] && return 0
+
+    dir=$(dirname "$typfile")
+    [ "$dir" = "." ] || dir="./$dir"
+    while IFS= read -r sibling; do
+        [ -n "$sibling" ] && { [ "$sibling" -nt "$pdffile" ] || [ "$sibling" -nt "$webpfile" ]; } && return 0
+    done < <(find "$dir" -maxdepth 1 -name '*.typ' -print 2>/dev/null)
+
+    return 1
+}
+
+typ_files=()
+while IFS= read -r line; do
+    [ -z "$line" ] && continue
+    if [ "$rebuild_all" = true ] || typ_needs_build "$line"; then
+        typ_files+=("$line")
+    fi
+done < <(list_typ_sources)
+
+if [ "$rebuild_all" = true ]; then
+    echo "Regenerating all first-page images (${#typ_files[@]} .typ files)"
+elif [ ${#typ_files[@]} -eq 0 ]; then
     echo "No .typ files to process."
     exit 0
-fi
-
-if [ "$rebuild_all" != true ]; then
-    echo "Found changed .typ files: ${typ_files[*]}"
+else
+    echo "Stale or missing outputs for: ${typ_files[*]}"
 fi
 
 shopt -s nullglob
