@@ -98,7 +98,10 @@ Always run `./formatter.sh` and `./build.sh` after touching content, templates,
 
 ## CSS layout notes
 
-- Narrow: single centered column `min(100% - 2rem, 42rem)`.
+- Narrow (`max-width: 59.99rem`): single centered column
+  `min(100% - 1rem, 42rem)` with safe-area padding; body `grid-template-areas`
+  put `<main>` before font/theme switchers (sidebar still `display: contents`).
+  Below `28rem`, date-index rows stack date above title.
 - Wide (`@media (min-width: 60rem)`): grid `55rem` total, `13rem` sidebar +
   `1fr` main, gap `clamp(1.5rem, 4vw, 3rem)`. Keep main ≈39rem when retuning.
 - Flush tops: `text-box-trim: trim-start` on `header h1` + `main > :first-child`,
@@ -112,7 +115,10 @@ Always run `./formatter.sh` and `./build.sh` after touching content, templates,
 - Tables use the `main table` grid rules (`border-collapse`, thin borders,
   top-aligned padded cells, `0.9rem`).
 - Figure images get a `1px solid currentColor` frame (`main figure img`),
-  matching the caption treatment and the dark-theme "no hardcoded colors" rule.
+  `max-height: 90dvh` with `width: auto` / `max-width: 100%` so aspect ratio
+  is preserved. `main figure` is `display: table` with `figcaption` as
+  `table-caption` so caption width matches the image, not the column. Matches
+  the dark-theme "no hardcoded colors" rule.
 
 ## Article rewrite workflow (repeatable)
 
