@@ -1,0 +1,81 @@
+<p><time datetime="2026-09-27">2026-09-27</time></p>
+<h1>Why I built OFX Raw Host</h1>
+<p>
+  I keep finding OpenFX plugins I want to try on a still photo, and then
+  realizing the only way to run them is to open a full video host. Resolve,
+  Nuke, something else with a timeline I do not need. For a look on one RAW
+  file, that felt backwards.
+</p>
+<p>
+  So I built
+  <a href="https://github.com/aaronmurniadi/ofxrawhost">OFX Raw Host</a>: a
+  small desktop app that loads a still (RAW, TIFF, PNG, JPEG, EXR), runs it
+  through one or more OFX filter plugins, shows a preview, and exports. No
+  timeline. No NLE. Just the image and the effects.
+</p>
+<figure>
+  <a href="/media/images/ofx-raw-host-screenshot.png"
+    ><img
+      src="/media/images/thumbnail/ofx-raw-host-screenshot.png"
+      alt="OFX Raw Host with a photo and a chain of OFX plugin nodes"
+  /></a>
+  <figcaption>
+    <p>OFX Raw Host: open a still, stack OFX filters, preview, export.</p>
+  </figcaption>
+</figure>
+<h2>The itch</h2>
+<p>
+  OpenFX is a real standard. Plugin authors ship film sims, analog dirt, grade
+  tools, and more under that API. A lot of that work lives inside hosts aimed at
+  motion. If you are a photographer, or you just want to audition a look on one
+  frame, you still pay the cost of a video app: project setup, clip import,
+  render settings you do not care about.
+</p>
+<p>
+  I wanted the opposite shape. Drop a photo in. Pick a plugin (or a short
+  chain). Tweak params. See the result. Export a JPEG or PNG. That is the whole
+  loop.
+</p>
+<p>
+  There was also a selfish reason. Effects like
+  <a href="https://github.com/chaert-s/spektrafilm-ofx">spektrafilm-ofx</a> and
+  <a href="https://github.com/valadaptive/ntsc-rs">ntsc-rs</a> are interesting
+  to me as still-image looks, not only as video treatments. Sitting in Resolve
+  just to try grain and print simulation on a DNG was getting old.
+</p>
+<h2>What I hoped to make</h2>
+<p>
+  A host that stays small on purpose. C++17, Dear ImGui, LibRaw for camera
+  files, a simple node list you can reorder and bypass. Preview at a few
+  resolutions so you are not waiting on full-res every slider move. Export when
+  you are ready.
+</p>
+<p>
+  It is not trying to replace a finishing pipeline. Color management is
+  practical, not a full ACES suite. Plugin support is &ldquo;filters that behave
+  like still processors,&rdquo; not every OFX context under the sun. If
+  something needs a proper timeline or multi-clip graph, use a real NLE.
+</p>
+<p>
+  macOS gets packaged DMGs for Apple Silicon and Intel. The codebase is meant to
+  build elsewhere too; Windows and Linux installers are still on the roadmap.
+</p>
+<h2>Who I hope it helps</h2>
+<p>
+  Photographers and stills people who want OFX looks without learning a video
+  editor first. Plugin authors who want a quick host for testing a filter on
+  real photos. Anyone curious about film sims, VHS-style tools, or other OFX
+  toys, and who would rather spend five minutes in a small app than twenty
+  setting up a project they will delete later.
+</p>
+<p>
+  If that is you: grab a release from
+  <a href="https://github.com/aaronmurniadi/ofxrawhost/releases">GitHub</a>,
+  drop an image in, and see what your installed OFX plugins do. If a plugin
+  works well on stills and is not listed yet, a PR to the tested table is
+  welcome.
+</p>
+<p>
+  I built this because I needed it. I am putting it out because I suspect a few
+  other people needed the same shortcut.
+</p>
