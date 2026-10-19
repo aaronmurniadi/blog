@@ -183,7 +183,7 @@
   costs: (hyphenation: 30%),
   size: 12pt,
   number-type: "old-style",
-  font: "Gill Sans",
+  font: "Gillius ADF",
 )
 
 #set par(
