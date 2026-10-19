@@ -47,15 +47,28 @@ typ_needs_build() {
     local pdffile="${base}.pdf"
     local webpfile="${base}.webp"
     local dir
+    local script="${BASH_SOURCE[0]}"
 
     [ ! -f "$pdffile" ] || [ ! -f "$webpfile" ] && return 0
     [ "$typfile" -nt "$pdffile" ] || [ "$typfile" -nt "$webpfile" ] && return 0
+    [ "$script" -nt "$pdffile" ] || [ "$script" -nt "$webpfile" ] && return 0
 
     dir=$(dirname "$typfile")
     [ "$dir" = "." ] || dir="./$dir"
-    while IFS= read -r sibling; do
-        [ -n "$sibling" ] && { [ "$sibling" -nt "$pdffile" ] || [ "$sibling" -nt "$webpfile" ]; } && return 0
-    done < <(find "$dir" -maxdepth 1 -name '*.typ' -print 2>/dev/null)
+
+    # Rebuild if a local .typ imported/included by this document changed
+    # (e.g. maid_of_orleans.typ imports maid_of_orleans_style.typ). Package
+    # imports like "@preview/..." do not end in .typ and are ignored.
+    while IFS= read -r dep; do
+        [ -n "$dep" ] || continue
+        case "$dep" in
+            /*) ;;
+            *) dep="$dir/$dep" ;;
+        esac
+        [ -f "$dep" ] || continue
+        [ "$dep" -nt "$pdffile" ] || [ "$dep" -nt "$webpfile" ] && return 0
+    done < <(grep -oE '#(import|include)[[:space:]]+"[^"]+\.typ"' "$typfile" \
+        | sed -E 's/^#[a-z]+[[:space:]]+"//; s/"$//')
 
     return 1
 }
@@ -78,6 +91,7 @@ else
 fi
 
 shopt -s nullglob
+errors=0
 for typfile in "${typ_files[@]}"; do
     base="${typfile%.typ}"
     pdffile="${base}.pdf"
@@ -86,9 +100,9 @@ for typfile in "${typ_files[@]}"; do
     # Compile .typ to .pdf. --root .. (i.e. content/media/) widens the sandbox
     # so sources may reference sibling media (e.g. mini.typ's ../images/...).
     echo "Compiling $typfile to $pdffile"
-    typst compile --root .. "$typfile" "$pdffile"
-    if [ $? -ne 0 ]; then
+    if ! typst compile --root .. "$typfile" "$pdffile"; then
         echo "Error compiling $typfile"
+        errors=1
         continue
     fi
 
@@ -96,17 +110,19 @@ for typfile in "${typ_files[@]}"; do
     echo "Converting first page of $pdffile to $webpfile"
     tmpdir=$(mktemp -d)
     tmpbase="$tmpdir/page"
-    pdftocairo -png -r 300 -singlefile "$pdffile" "$tmpbase"
-    if [ $? -ne 0 ]; then
+    if ! pdftocairo -png -r 300 -singlefile "$pdffile" "$tmpbase"; then
         echo "Error rasterizing $pdffile to png"
         rm -rf "$tmpdir"
+        errors=1
         continue
     fi
-    cwebp -q 90 -quiet "${tmpbase}.png" -o "$webpfile"
-    status=$?
-    rm -rf "$tmpdir"
-    if [ $status -ne 0 ]; then
+    if ! cwebp -q 90 -quiet "${tmpbase}.png" -o "$webpfile"; then
         echo "Error converting $pdffile to webp"
+        rm -rf "$tmpdir"
+        errors=1
         continue
     fi
+    rm -rf "$tmpdir"
 done
+
+exit "$errors"

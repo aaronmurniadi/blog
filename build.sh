@@ -25,6 +25,11 @@
 set -e
 cd "$(dirname "$0")"
 
+# Include user-local tools (typst/cwebp installed without root) as well as the
+# system locations. /usr/local/bin stays first so a system-wide install wins.
+PATH="/usr/local/bin:${HOME:-/root}/.local/bin:$PATH"
+export PATH
+
 command -v python3 >/dev/null || {
     echo "build.sh needs python3 (smarten.py quote filter)" >&2
     exit 1
@@ -33,6 +38,7 @@ command -v python3 >/dev/null || {
 T=templates
 C=content
 OUT=public
+typst_failed=0
 
 render_page() {
     meta=$1
@@ -123,10 +129,23 @@ cp "$T/fonts/"*.woff2 "$OUT/fonts/"
 
 # 2a. Compile Typst sources to PDF + first-page webp previews. The generated
 # files live alongside the .typ sources, so they are picked up by the
-# content/media/ -> public/media/ copy below. Default: (re)build when pdf/webp
-# are missing or older than the .typ (pass --all to build_typst.sh to force all).
-if [ -f "$C/media/typst/build_typst.sh" ] && command -v typst >/dev/null 2>&1; then
-    (cd "$C/media/typst" && bash build_typst.sh)
+# content/media/ -> public/media/ copy below. build_typst.sh only rebuilds
+# sources whose .pdf/.webp are missing or older than the .typ (or a local
+# .typ import), so a cron run does no Typst work when nothing changed.
+if [ -f "$C/media/typst/build_typst.sh" ]; then
+    typst_missing=
+    command -v typst >/dev/null 2>&1 || typst_missing="$typst_missing typst"
+    command -v pdftocairo >/dev/null 2>&1 || typst_missing="$typst_missing pdftocairo"
+    command -v cwebp >/dev/null 2>&1 || typst_missing="$typst_missing cwebp"
+
+    if [ -n "$typst_missing" ]; then
+        printf 'warning: Typst toolchain incomplete:%s\n' "$typst_missing" >&2
+        printf 'warning: run ~/scripts/setup-blog-typst.sh to install it\n' >&2
+        typst_failed=1
+    elif ! (cd "$C/media/typst" && bash build_typst.sh); then
+        printf 'warning: Typst build failed; existing PDFs/WebPs were kept\n' >&2
+        typst_failed=1
+    fi
 fi
 
 # 2b. Static assets from content/: site-root files + media/
@@ -158,3 +177,9 @@ fi
     done
     printf '</urlset>\n'
 } > "$OUT/sitemap.xml"
+
+# The HTML site is complete even if Typst failed, but return nonzero so the
+# cron job logs the problem instead of silently serving stale PDFs.
+if [ "$typst_failed" -ne 0 ]; then
+    exit 1
+fi
