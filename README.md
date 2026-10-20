@@ -69,9 +69,17 @@ caddy run --config Caddyfile
 	bind 127.0.0.1
 	root * public
 	encode zstd gzip
-	# …long cache on *.ico *.gif *.jpg *.jpeg *.png *.svg *.woff *.woff2,
+	# …long cache on images/fonts/media (*.ico *.gif *.jpg *.jpeg *.png *.svg
+	# *.webp *.avif *.pdf *.mp4 *.webm *.woff *.woff2), short cache on CSS/JS;
 	# missing paths raise 410 and serve /410.html with X-Robots-Tag: noindex
 }
 ```
 
 Regenerate `public/` after editing content, then reload Caddy if needed.
+
+For private access from a Tailscale device, use the tailnet-only listener on
+port 8443 (`tailscale serve status`), which skips the public Funnel ingress:
+
+```text
+https://aaron.beago-cirius.ts.net:8443/
+```

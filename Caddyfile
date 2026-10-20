@@ -8,9 +8,16 @@
 	# Speed optimizations from before
 	encode zstd gzip
 
-	# Optional: Aggressive Caching
-	@static path *.ico *.gif *.jpg *.jpeg *.png *.svg *.woff *.woff2
+	# Long cache for immutable binaries/media. Include .webp/.avif/.pdf: the
+	# gallery thumbnails and Typst previews are webp, and without this they
+	# were revalidated on every visit.
+	@static path *.ico *.gif *.jpg *.jpeg *.png *.svg *.webp *.avif *.pdf *.mp4 *.webm *.woff *.woff2
 	header @static Cache-Control "public, max-age=31536000"
+
+	# Text assets change on rebuild; a short cache avoids a revalidation round
+	# trip on repeat visits without pinning stale CSS/JS for long.
+	@text path /style.css /prism.css /prism.js
+	header @text Cache-Control "public, max-age=3600"
 
 	# Any missing page returns 410 Gone so stale URLs drop out of search
 	# indices quickly. Detect paths that don't resolve to a file, raise a 410
