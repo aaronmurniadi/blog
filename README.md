@@ -6,19 +6,19 @@ Build only depends on: `sh`, `cat`, `printf`, `mkdir`, `cp`, `find`, `sort`, `da
 
 ## Layout
 
-| Path                                                                        | What it is                                                                                                                   |
-| --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| `content/<path>/page.meta`                                                  | Per-page shell vars: `TITLE_FULL`, `PLAIN_TITLE`, `DESCRIPTION`, `CANONICAL`, `OG_TYPE`, `LANG`, `LOCALE`, `DATE`, `SITEMAP` |
-| `content/<path>/body.html`                                                  | Inner `<main>` fragment (no `<main>` tags)                                                                                   |
-| `content/media/`                                                            | Site media (`images/`, `typst/`, …), copied verbatim to `public/media/`                                                      |
-| `content/*.{png,ico,svg,txt,webmanifest}`                                   | Site-root static files (favicons, `robots.txt`, `site.webmanifest`, logo), copied to `public/`                               |
-| `templates/header.html`, `nav.html`, `footer.html`                          | Shell wrapped around every page                                                                                              |
-| `templates/410.html`, `style.css`, `prism.css`, `prism.js`, `fonts/*.woff2` | Copied verbatim to `public/`                                                                                                 |
-| `public/`                                                                   | Build output, git-ignored (`.gitignore`)                                                                                     |
-| `build.sh`                                                                  | The site builder                                                                                                             |
-| `formatter.sh`                                                              | `prettier --check` on HTML sources + `sh -n` on shell/`page.meta`; `--write` formats and rebuilds                            |
-| `serve-local.sh`                                                            | Local preview: `python3 -m http.server --directory public`                                                                   |
-| `Caddyfile`                                                                 | Local/prod static server for `public/` with 410 handling                                                                     |
+| Path                                                                        | What it is                                                                                                                                 |
+| --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `content/<path>/page.meta`                                                  | Per-page shell vars: `TITLE_FULL`, `PLAIN_TITLE`, `DESCRIPTION`, `CANONICAL`, `OG_TYPE`, `LANG`, `LOCALE`, `DATE`, `SITEMAP`, `BODY_CLASS` |
+| `content/<path>/body.html`                                                  | Inner `<main>` fragment (no `<main>` tags)                                                                                                 |
+| `content/media/`                                                            | Site media (`images/`, `typst/`, …), copied verbatim to `public/media/`                                                                    |
+| `content/*.{png,ico,svg,txt,webmanifest}`                                   | Site-root static files (favicons, `robots.txt`, `site.webmanifest`, logo), copied to `public/`                                             |
+| `templates/header.html`, `nav.html`, `footer.html`                          | Shell wrapped around every page                                                                                                            |
+| `templates/410.html`, `style.css`, `prism.css`, `prism.js`, `fonts/*.woff2` | Copied verbatim to `public/`                                                                                                               |
+| `public/`                                                                   | Build output, git-ignored (`.gitignore`)                                                                                                   |
+| `build.sh`                                                                  | The site builder                                                                                                                           |
+| `formatter.sh`                                                              | `prettier --check` on HTML sources + `sh -n` on shell/`page.meta`; `--write` formats and rebuilds                                          |
+| `serve-local.sh`                                                            | Local preview: `python3 -m http.server --directory public`                                                                                 |
+| `Caddyfile`                                                                 | Local/prod static server for `public/` with 410 handling                                                                                   |
 
 ## Build
 

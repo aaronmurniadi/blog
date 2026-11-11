@@ -1,57 +1,67 @@
 /* 1. Design tokens */
 :root {
-  /* size of h1 — set this to whatever you want */
-  --max-font-size: 1.5rem;
-  /* smaller ratio = tighter scaling */
-  --scale-ratio: 1.15;
+  /* Palette: warm paper, ink, one accent. Every colour in the sheet comes from
+     these tokens, so the dark theme only swaps values. */
+  --paper: #fbf8f2;
+  --ink: #1d1a16;
+  --muted: #6f665a;
+  --rule: #e0d7c9;
+  --accent: #a8451f;
 
-  --step-5: var(--max-font-size);
-  --step-4: calc(var(--step-5) / var(--scale-ratio));
-  --step-3: calc(var(--step-4) / var(--scale-ratio));
-  --step-2: calc(var(--step-3) / var(--scale-ratio));
-  --step-1: calc(var(--step-2) / var(--scale-ratio));
-  --step-0: calc(var(--step-1) / var(--scale-ratio));
+  /* Faces. Headings use the display face; body text uses the reading face,
+     which the font switcher overrides (html[data-font] rules below). */
+  --display: "Baskervald X", Georgia, serif;
+  --reading: "Crimson", Georgia, serif;
+  --sans:
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+  /* Widths. The sheet holds the masthead and the utility row; prose stops at
+     the measure. Pages that carry galleries or a front page opt out of the
+     measure (body.front / body.gallery). */
+  --sheet: 60rem;
+  --measure: 36rem;
+
+  /* Aliases kept for the inline styles in content/fujipes/body.html. */
+  --heading-font-family: var(--display);
+  --text: var(--ink);
+  --border: var(--rule);
+  --header-bg: var(--accent);
 }
 
-/* 2. Reset: normalize box model, strip default spacing. */
+/* 2. Reset and base elements */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 html {
-  font-size: 112.5%;
-  line-height: 1.5;
+  font-size: 100%;
+  line-height: 1.6;
   -webkit-text-size-adjust: 100%;
 }
 
-/* 3. Base elements */
 body {
   min-height: 100vh;
   min-height: 100dvh;
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--reading);
+  font-size: 1.125rem;
   font-kerning: normal;
   text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 
-  /* Default face: Bembo (vendored, fbb from CTAN). The font switcher
-     overrides this via html[data-font]. */
-  font-family: "Bembo", Georgia, serif;
-
-  /* Modern dimensions: centered fluid column, logical spacing. */
-  width: min(100% - 2rem, 42rem);
+  width: min(100% - 2.5rem, var(--sheet));
   margin-inline: auto;
-  padding-block: clamp(1rem, 3vh, 2rem);
+  padding-block: clamp(1rem, 2.5vh, 1.6rem) 1.5rem;
+
   display: flex;
   flex-direction: column;
-  gap: clamp(1rem, 3vh, 2rem);
-}
-
-h1,
-h2 {
-  text-wrap: balance;
-  font-optical-sizing: auto;
+  gap: clamp(1.1rem, 2.6vh, 1.9rem);
 }
 
 img,
@@ -64,6 +74,8 @@ video {
 ul,
 ol {
   list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 a {
@@ -77,7 +89,11 @@ select {
   font: inherit;
 }
 
-/* Font switcher (top-right of <main>): one family for the whole site.
+/* 3. Font faces and the reading-face switch
+
+   Font switcher (bottom utility row): one reading face for the whole site.
+   Headings always use the display face (--display); this dropdown changes
+   --reading, the body and prose face.
    Families follow https://r2src.github.io/top10fonts/ (Top 10 LaTeX Fonts),
    plus Baskervaldx. Everything is vendored under
    templates/fonts/ as woff2 (OTF/TTF converted with fontTools, unless noted);
@@ -102,7 +118,7 @@ select {
    - Bera Serif: Bitstream Vera Serif TTFs (COPYRIGHT-bitstream-vera.txt);
      upstream never made italics, so only 400/700 ship and <em> is
      browser-synthesized.
-    - Bembo (site default): fbb OTFs from CTAN fbb (Bembo-like, OFL-fbb.txt).
+   - Bembo: fbb OTFs from CTAN fbb (Bembo-like, OFL-fbb.txt).
    - Palatino: Domitian OTFs from CTAN domitian (drop-in Palatino
      replacement, OFL-domitian-README.txt carries the README statement).
    - Crimson: Crimson OTFs from CTAN crimson (OFL-crimson.txt).
@@ -644,199 +660,373 @@ html[data-font="crimson"] body {
   font-family: "Crimson", Georgia, serif;
 }
 
-
-/* 4. Type scale */
-main h1 {
-  font-size: var(--step-5);
-}
-
-main h2 {
-  font-size: var(--step-4);
-}
-
-main h3 {
-  font-size: var(--step-3);
-}
-
-main h4 {
-  font-size: var(--step-2);
-}
-
-main h5 {
-  font-size: var(--step-1);
-}
-
-main h6 {
-  font-size: var(--step-0);
-}
-
-/* 5. Layout */
-.sidebar {
-  display: contents;
-}
-
-header,
-nav,
-main,
-footer {
-  width: 100%;
-}
-
-blockquote {
-  padding: 0 1rem;
-  font-size: 0.925rem;
-}
-
-main {
-  flex: 1;
-  padding-top: 0.5rem !important;
-}
-
-header>*+*,
-main>*+*,
-footer>*+* {
-  margin-block-start: 1rem;
+/* 4. Masthead: site name on the left, sections on the right. */
+.masthead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem 2rem;
+  flex-wrap: wrap;
+  padding-block-end: 0.85rem;
+  border-block-end: 1px solid var(--rule);
 }
 
 header {
-  padding-block-end: 0.5rem;
-}
-
-.font-switcher-row,
-.theme-switcher-row {
   display: flex;
-  justify-content: flex-end;
-  margin-block-end: 0.5rem;
+  align-items: baseline;
+  gap: 0.85rem;
+  flex-wrap: wrap;
 }
 
-.font-switcher-label,
-.theme-switcher-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.8rem;
+header h1 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+}
+
+header h1 em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+header p {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
 }
 
 nav ul {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.25rem 1rem;
-  padding-block: 0.5rem;
+  gap: 0.1rem 1.15rem;
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
-nav li {
-  margin: 0;
+nav a {
+  display: inline-block;
+  padding-block: 0.3rem;
+  color: var(--muted);
+  text-decoration: none;
+  border-block-end: 1px solid transparent;
 }
 
-/* 6. Main content */
+nav a:hover {
+  color: var(--ink);
+}
+
+nav a[aria-current="page"] {
+  color: var(--ink);
+  border-block-end-color: var(--accent);
+}
+
+/* 5. Reading column and type scale */
 main {
-  counter-reset: para;
+  flex: 1;
+  width: 100%;
+  max-width: var(--measure);
+  min-width: 0;
+  margin-inline: auto;
 }
 
-main h1~p:not(:where(figcaption *)) {
-  counter-increment: para;
+/* Front page and galleries use the full sheet. In a gallery the prose blocks
+   still stop at the measure and center, so only pictures grow. */
+body.front main,
+body.gallery main {
+  max-width: none;
 }
 
-main h1~p:not(:where(figcaption *))::before {
-  content: "[" counter(para) "] ";
-  font-size: 0.75em;
-  line-height: inherit;
-  font-variant-numeric: tabular-nums;
-  opacity: 0.45;
+body.gallery main > :where(p, h1, h2, h3, h4, ul, ol, blockquote) {
+  max-width: var(--measure);
+  margin-inline: auto;
 }
 
-main :where(p, ul, ol) {
-  margin-block: 1rem;
+main > h1 {
+  margin: 0 0 0.85rem;
+  font-family: var(--display);
+  font-size: clamp(1.9rem, 3.4vw, 2.5rem);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
 }
 
-main> :first-child {
+main h2 {
+  margin: 2.4rem 0 0.7rem;
+  padding-block-start: 0.55rem;
+  border-block-start: 1px solid var(--rule);
+  font-family: var(--display);
+  font-size: clamp(1.32rem, 2.2vw, 1.6rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+}
+
+main h3 {
+  margin: 1.7rem 0 0.45rem;
+  font-family: var(--display);
+  font-size: 1.22rem;
+  font-weight: 400;
+  line-height: 1.25;
+}
+
+main h4 {
+  margin: 1.4rem 0 0.35rem;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+main h5,
+main h6 {
+  margin: 1.2rem 0 0.3rem;
+  font-family: var(--display);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+/* Section headings that open a front-page or index block. */
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-block: 2rem 0.7rem;
+}
+
+.section-head h2 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.section-head a {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  border-block-end: 1px solid var(--rule);
+}
+
+.section-head a:hover {
+  color: var(--ink);
+}
+
+/* 6. Prose */
+main :where(p, ul, ol, section, figure, blockquote, pre, table) {
+  margin-block: 0 1.05rem;
+}
+
+main > :first-child {
   margin-block-start: 0;
 }
 
 main :where(li + li) {
-  margin-block-start: 0.5rem;
+  margin-block-start: 0.35rem;
 }
 
-/* Date-index listings: <li><time>YYYY-MM-DD</time> <a>Title</a></li>
-   (home Recent Posts, /articles, /summaries). Flex keeps wrapped title
-   lines in their own column instead of sliding under the date. */
+main p {
+  text-wrap: pretty;
+}
+
+/* Post pages open with the date, set as a kicker above the title. */
+main > p:has(> time:only-child) {
+  margin: 0 0 0.4rem;
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+main ul {
+  list-style: disc outside;
+  padding-inline-start: 1.35rem;
+}
+
+main ol {
+  list-style: decimal outside;
+  padding-inline-start: 1.5rem;
+}
+
+blockquote {
+  margin: 1.4rem 0;
+  padding-inline-start: 1.15rem;
+  border-inline-start: 2px solid var(--accent);
+  font-size: 1.0625rem;
+}
+
+blockquote p:last-child {
+  margin-block-end: 0;
+}
+
+/* Links: accent colour inside prose, never on figure links. */
+main a:not(:where(figure a)) {
+  color: var(--accent);
+  text-decoration: none;
+  border-block-end: 1px solid
+    color-mix(in srgb, currentcolor 45%, transparent);
+}
+
+main a:not(:where(figure a)):hover {
+  border-block-end-color: currentcolor;
+}
+
+sup {
+  line-height: 0;
+}
+
+/* 7. Date indexes: <li><time>Y-M-D</time> <a>Title</a></li> */
+main ul:has(> li > time) {
+  list-style: none;
+  padding-inline-start: 0;
+  border-block-start: 1px solid var(--rule);
+}
+
 main li:has(> time) {
   display: flex;
-  gap: 0.75rem;
+  gap: 0.9rem;
   align-items: baseline;
+  padding-block: 0.45rem;
+  border-block-end: 1px solid
+    color-mix(in srgb, var(--rule) 70%, transparent);
 }
 
-main li:has(> time)>time {
+main li:has(> time) > time {
   flex: none;
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  letter-spacing: 0.05em;
   font-variant-numeric: tabular-nums;
+  color: var(--muted);
   white-space: nowrap;
 }
 
-main li:has(> time)>a {
+main li:has(> time) > a {
   min-width: 0;
   overflow-wrap: break-word;
-  text-underline-offset: 0.15em;
 }
 
-main :where(img, video) {
-  margin-block: 1.5rem;
+/* Two-column index spread (front page). */
+.spread {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 2rem;
 }
 
-/* Figures: captions sit tight under the image in smaller type. */
-main figcaption {
-  display: table-caption;
-  caption-side: bottom;
-  font-size: 0.85rem;
-  line-height: 1.3;
-  text-align: center;
-  margin-block-start: 0.2rem;
+/* Front-page standfirst: title left, intro copy right, rule between. */
+.standfirst {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 1.5rem 2.5rem;
+  align-items: start;
+  padding-block-end: 1.6rem;
+  border-block-end: 1px solid var(--rule);
 }
 
-/* Thin frame + snug caption gap for framed figure images (adapts to dark
-   theme). The media rule `main :where(img, video)` sets margin-block: 1.5rem
-   on images; here we kill the bottom margin so the img-to-figcaption gap is
-   just the figcaption's own small margin-block-start (adjacent margins would
-   otherwise collapse to the larger 1.5rem). */
+.standfirst h1 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(2.1rem, 4.6vw, 3rem);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.standfirst h1 em {
+  color: var(--accent);
+}
+
+.standfirst-copy {
+  padding-inline-start: 1.5rem;
+  border-inline-start: 1px solid var(--rule);
+}
+
+.standfirst-copy p {
+  max-width: 34rem;
+  margin: 0 0 0.7rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.standfirst-copy p:last-child {
+  margin-block-end: 0;
+}
+
+/* 8. Figures: thin frame, caption tight under the image. */
 main figure {
   display: table;
   max-width: 100%;
   margin-inline: auto;
 }
 
-main figure>a {
+main figure > a {
   display: block;
   max-width: 100%;
 }
 
 main figure img {
-  border: 1px solid currentColor;
-  margin-block-end: 0;
-  max-height: 90vh;
-  max-height: 90dvh;
-  max-width: 100%;
+  margin-block: 0;
+  margin-inline: auto;
+  border: 1px solid var(--rule);
   width: auto;
   height: auto;
-  margin-inline: auto;
+  max-width: 100%;
+  max-height: 90vh;
+  max-height: 90dvh;
+}
+
+main figcaption {
+  display: table-caption;
+  caption-side: bottom;
+  margin-block-start: 0.5rem;
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  line-height: 1.45;
+  color: var(--muted);
+  text-align: center;
 }
 
 main figcaption p {
   margin-block: 0;
-  text-align: center;
 }
 
 /* Opt-in flowing figures (<figure class="aside">, or aside-left /
    aside-right to fix a side): small, text wraps on roomy screens;
-   plain aside alternates sides; stacked and centered below 40rem. */
+   plain aside alternates sides; stacked and centered below 44rem. */
 main figure:is(.aside, .aside-left, .aside-right) {
-  max-width: 16rem;
+  max-width: 15rem;
+  margin-block: 1rem;
   margin-inline: auto;
 }
 
-main figure:is(.aside, .aside-left, .aside-right) img {
-  margin-block: 0;
-}
-
-@media (min-width: 40rem) {
+@media (min-width: 44rem) {
   main figure.aside-left {
     float: left;
     margin-inline: 0 1rem;
@@ -858,62 +1048,52 @@ main figure:is(.aside, .aside-left, .aside-right) img {
   }
 }
 
-/* A floated figure must never trap the next section heading beside it
-   (no-op on pages without floats). */
+/* A floated figure must never trap the next section heading beside it. */
 main h2,
 main h3 {
   clear: both;
 }
 
-/* Content bullet lists use "-" markers (nav keeps none). */
-main ul {
-  padding-inline-start: 1.25rem;
-}
-
-/* Content ordered lists use decimal markers. */
-main ol {
-  list-style: decimal outside;
-  padding-inline-start: 1.5rem;
-}
-
-/* 7. Code blocks */
+/* 9. Code blocks */
 pre {
-  padding: 1em;
-  border: solid currentColor;
-  border-width: thin;
-  font-size: 0.875em;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--rule);
+  background: color-mix(in srgb, var(--ink) 4%, var(--paper));
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  line-height: 1.55;
   white-space: pre;
   overflow-x: auto;
   max-width: 100%;
 }
 
-/* Match Prism-highlighted blocks to plain pre: size the pre itself, since
-   its font sets the strut (line boxes), padding, and margins — sizing only
-   the inner code leaves 1em/24px lines. Beats the vendored theme selector. */
 main pre[class*="language-"] {
-  font-size: 0.7125em;
-  line-height: 1.5;
+  font-size: 0.72rem;
+  line-height: 1.55;
 }
 
-/* 8. Footnotes: inline refs are <sup id="fnref:N"><a href="#fn:N">,
-   definitions live in <section class="footnotes"><ol><li id="fn:N">.
-   The generic `ol { list-style: none }` above is re-enabled here so
-   footnote numbers render. */
+:not(pre) > code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+}
+
+/* 10. Footnotes: inline refs are <sup id="fnref:N"><a href="#fn:N">,
+   definitions live in <section class="footnotes"><ol><li id="fn:N">. */
 sup[id^="fnref:"] {
   font-size: 0.75em;
   vertical-align: super;
-  line-height: 0;
 }
 
 sup[id^="fnref:"] a {
   text-decoration: none;
+  border-block-end: 0;
 }
 
 .footnotes {
   margin-block-start: 2rem;
   padding-block-start: 1rem;
-  border-block-start: 1px solid currentColor;
-  font-size: 0.9rem;
+  border-block-start: 1px solid var(--rule);
+  font-size: 0.95rem;
 }
 
 .footnotes hr {
@@ -931,7 +1111,7 @@ sup[id^="fnref:"] a {
 
 .footnotes li:target,
 sup[id^="fnref:"]:target {
-  outline: 1px dotted currentColor;
+  outline: 1px dotted currentcolor;
   outline-offset: 2px;
 }
 
@@ -940,80 +1120,134 @@ sup[id^="fnref:"]:target {
   white-space: nowrap;
 }
 
-/* 8b. Narrow viewports (single column, below sidebar breakpoint). */
-@media (max-width: 59.99rem) {
-  body {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-areas:
-      "header"
-      "nav"
-      "main"
-      "font"
-      "theme"
-      "footer";
-    width: min(100% - 1rem, 42rem);
-    padding-inline: max(0.5rem, env(safe-area-inset-left, 0px)) max(0.5rem, env(safe-area-inset-right, 0px));
+/* 11. Tables */
+main table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+main th,
+main td {
+  border: 1px solid var(--rule);
+  padding: 0.45rem 0.65rem;
+  text-align: left;
+  vertical-align: top;
+  overflow-wrap: break-word;
+}
+
+/* 12. Bottom utility row: font and theme selectors, then the footer. */
+.utilities {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem 1.5rem;
+  padding-block-start: 0.75rem;
+  border-block-start: 1px solid var(--rule);
+}
+
+.font-switcher-row,
+.theme-switcher-row {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.font-switcher-label,
+.theme-switcher-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--sans);
+  font-size: 0.64rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.font-switcher-label select,
+.theme-switcher-label select {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: 0.15rem;
+  padding: 0.12rem 0.3rem;
+  max-width: 11rem;
+}
+
+footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.4rem 1.5rem;
+  padding-block-start: 0.75rem;
+  border-block-start: 1px solid var(--rule);
+  font-family: var(--sans);
+  font-size: 0.66rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+footer p {
+  margin: 0;
+}
+
+footer a {
+  text-decoration: none;
+}
+
+/* 13. Narrow viewports */
+@media (max-width: 52rem) {
+  .masthead {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
   }
 
-  /* Content before font/theme controls (.sidebar is display: contents). */
-  header {
-    grid-area: header;
+  .standfirst {
+    grid-template-columns: 1fr;
+    gap: 1.1rem;
+    align-items: start;
   }
 
-  nav {
-    grid-area: nav;
+  .standfirst-copy {
+    padding-inline-start: 0;
+    border-inline-start: 0;
   }
 
-  main {
-    grid-area: main;
-    min-width: 0;
-  }
-
-  .font-switcher-row {
-    grid-area: font;
-    justify-content: flex-start;
-    margin-block: 0.75rem 0;
-    padding-block-start: 0.75rem;
-    border-block-start: 1px solid currentColor;
-  }
-
-  .theme-switcher-row {
-    grid-area: theme;
-    justify-content: flex-start;
-    margin-block: 0.35rem 0;
-  }
-
-  footer {
-    grid-area: footer;
-  }
-
-  nav a {
-    display: inline-block;
-    padding-block: 0.35rem;
-  }
-
-  .font-switcher-label,
-  .theme-switcher-label {
-    width: 100%;
-    max-width: 20rem;
-  }
-
-  .font-switcher-label select,
-  .theme-switcher-label select {
-    flex: 1;
-    min-width: 0;
-    max-width: 100%;
-  }
-
-  main :where(p, li) {
-    overflow-wrap: anywhere;
+  .spread {
+    grid-template-columns: 1fr;
   }
 }
 
-@media (max-width: 39.99rem) {
-  html {
-    font-size: 100%;
+@media (max-width: 40rem) {
+  body {
+    width: min(100% - 1.5rem, var(--sheet));
+    font-size: 1.0625rem;
+  }
+
+  header h1 {
+    font-size: 1.3rem;
+  }
+
+  nav ul {
+    font-size: 0.66rem;
+    gap: 0.1rem 0.85rem;
+  }
+
+  main > h1 {
+    font-size: 1.75rem;
+  }
+
+  .standfirst h1 {
+    font-size: 2rem;
   }
 
   main table {
@@ -1025,16 +1259,26 @@ sup[id^="fnref:"]:target {
 
   main th,
   main td {
-    padding: 0.35rem 0.5rem;
+    padding: 0.3rem 0.45rem;
     font-size: 0.85em;
   }
 
   pre {
-    font-size: 0.8em;
+    font-size: 0.72rem;
   }
 
   main pre[class*="language-"] {
-    font-size: 0.65em;
+    font-size: 0.66rem;
+  }
+
+  .utilities {
+    justify-content: flex-start;
+  }
+
+  /* Long URLs and code must not push the sheet wider than the viewport. */
+  main p,
+  main li {
+    overflow-wrap: anywhere;
   }
 }
 
@@ -1042,129 +1286,31 @@ sup[id^="fnref:"]:target {
   main li:has(> time) {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.2rem;
+    gap: 0.05rem;
   }
 
-  main li:has(> time)>time {
+  main li:has(> time) > time {
     white-space: normal;
   }
-}
 
-/* 9. Wide screens: nav as left sidebar, main content on the right. */
-@media (min-width: 60rem) {
-  body {
-    width: min(100% - 2rem, 55rem);
-    display: grid;
-    grid-template-columns: 13rem 1fr;
-    grid-template-rows: auto 1fr auto;
-    grid-template-areas:
-      "sidebar main"
-      "sidebar main"
-      "footer footer";
-    column-gap: clamp(1.5rem, 4vw, 3rem);
-    align-items: start;
+  .font-switcher-label,
+  .theme-switcher-label {
+    width: 100%;
   }
 
-  .sidebar {
-    grid-area: sidebar;
-    position: sticky;
-    top: clamp(1rem, 3vh, 2rem);
-    align-self: start;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    max-height: calc(100vh - clamp(1rem, 3vh, 2rem) * 2);
-    max-height: calc(100dvh - clamp(1rem, 3vh, 2rem) * 2);
-    overflow-y: auto;
-  }
-
-  header {
-    text-align: right;
-  }
-
-  /* Flush tops: trim the leading above the first cap-height in both
-     columns, so sidebar title and content start on the same pixel.
-     Both sides get a matching 0.1em top gap: trimming pulls cap
-     overshoot (e.g. the rounded tops of B, C, O) outside the title's
-     box, and without room that ink hits the sidebar's overflow-y clip
-     edge. (Older browsers ignore trim and fall back to line-height.) */
-  header h1,
-  main> :first-child {
-    text-box-trim: trim-start;
-    text-box-edge: cap alphabetic;
-  }
-
-  header h1 {
-    line-height: 1.3;
-    padding-block-start: 0.1em;
-  }
-
-  nav {
-    text-align: right;
-  }
-
-  nav ul {
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 0.25rem;
-  }
-
-  main {
-    grid-area: main;
-    min-width: 0;
-    /* Same top gap as the sidebar title (see above): keeps both
-       columns starting flush while the title keeps its clip room. */
-    padding-block-start: 0.1em;
-  }
-
-  main p {
-    text-align: justify;
-    text-justify: inter-word;
-    hyphens: auto;
-    overflow-wrap: break-word;
-    font-kerning: normal;
-    hanging-punctuation: first last;
-  }
-
-  main h1~p:not(:where(figcaption *)) {
-    position: relative;
-  }
-
-  main h1~p:not(:where(figcaption *))::before {
-    content: counter(para);
-    position: absolute;
-    inset-block-start: 0;
-    inset-inline-end: -1.25rem;
-  }
-
-  footer {
-    grid-area: footer;
+  .font-switcher-label select,
+  .theme-switcher-label select {
+    flex: 1;
+    max-width: none;
   }
 }
 
-/* Tables: full grid with collapsed borders, top-aligned cells. */
-main table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-block: 1rem;
-  font-size: 0.9rem;
-}
-
-main th,
-main td {
-  border: thin solid currentColor;
-  padding: 0.5rem 0.75rem;
-  text-align: left;
-  vertical-align: top;
-  overflow-wrap: break-word;
-}
-
-/* 10. Dark mode */
+/* 14. Dark theme: token swap only. */
 html[data-theme="dark"] {
   color-scheme: dark;
-}
-
-html[data-theme="dark"] body {
-  color: #e6e2dd;
-  background-color: #1a1816;
+  --paper: #16130f;
+  --ink: #ece5d9;
+  --muted: #a1958a;
+  --rule: #2e2820;
+  --accent: #e08a5b;
 }

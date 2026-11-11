@@ -5,3 +5,6 @@ content/media/typst/*.pdf
 content/media/typst/*.webp
 content/media/typst/maid_of_orleans/*.pdf
 content/media/typst/maid_of_orleans/*.webp
+
+# Local design mocks (preview only, not built or deployed)
+mockups/

@@ -5,7 +5,9 @@
 #
 # Source of truth:
 #   content/<path>/page.meta   shell vars: TITLE_FULL, PLAIN_TITLE, DESCRIPTION,
-#                               CANONICAL, OG_TYPE, LANG, LOCALE, DATE, SITEMAP
+#                               CANONICAL, OG_TYPE, LANG, LOCALE, DATE, SITEMAP,
+#                               BODY_CLASS (optional <body class>, e.g. "front"
+#                               or "gallery")
 #   content/<path>/body.html   inner <main> fragment (no <main> tags).
 #                               Write plain ' for single quotes; the build
 #                               smartens them to '/'. Double quotes are hand-set
@@ -19,7 +21,8 @@
 #   + public/media/ + public/{favicons,robots.txt,...} (all copied from content/)
 #
 # Add a page: mkdir content/<path>, write page.meta + body.html, run ./build.sh
-#   DATE='' means "use build date" (for section indexes).
+#   BODY_CLASS is optional; "front" (/) and "gallery" (image pages) lift the
+#   narrow reading measure. DATE='' means "use build date" (for section indexes).
 #   SITEMAP=0 excludes the page from sitemap.xml (kept for /posts, /recaps,
 #   /summaries indexes to match the existing sitemap).
 set -e
@@ -51,6 +54,7 @@ render_page() {
     OG_TYPE=website
     LANG=en
     LOCALE=en
+    BODY_CLASS=
     # shellcheck disable=SC1090
     . "./$meta"
     {
@@ -88,20 +92,23 @@ render_page() {
         printf '    <link rel="stylesheet" href="/style.css">\n'
         printf '    <link rel="stylesheet" href="/prism.css">\n'
         printf '    <script>try{var f=localStorage.getItem("site-font");if(f)document.documentElement.setAttribute("data-font",f)}catch(e){}try{var t=localStorage.getItem("site-theme");if(t){document.documentElement.setAttribute("data-theme",t);document.documentElement.style.colorScheme=t==="dark"?"dark":"light"}}catch(e){}</script>\n'
-        printf '\n    \n\n    \n\n    \n</head>\n\n<body>\n    \n'
-        printf '        <div class="sidebar">\n'
+        printf '\n    \n\n    \n\n    \n</head>\n\n<body class="%s">\n    \n' "$BODY_CLASS"
+        printf '        <div class="masthead">\n'
         cat "$T/header.html"
         cat "$T/nav.html"
-        cat "$T/font-switcher.html"
-        cat "$T/theme-switcher.html"
         printf '        </div>\n'
         printf '        <main>\n'
         python3 ./smarten.py < "$body"
         printf '        </main>\n'
+        printf '        <div class="utilities">\n'
+        cat "$T/font-switcher.html"
+        cat "$T/theme-switcher.html"
+        printf '        </div>\n'
         cat "$T/footer.html"
         printf '    <script src="/prism.js" defer></script>\n'
         printf '    <script>(function(){var s=document.getElementById("font-switcher");if(s){var ok={default:1,baskervaldx:1,computermodern:1,kpfonts:1,gfsdidot:1,utopia:1,venturis:1,libertine:1,gyrebonum:1,gyrepagella:1,gyreschola:1,gyretermes:1,antiqua:1,bera:1,bembo:1,palatino:1,crimson:1};var f="default";try{f=document.documentElement.getAttribute("data-font")||"default"}catch(e){}if(!ok[f]){f="default";try{document.documentElement.removeAttribute("data-font");localStorage.removeItem("site-font")}catch(e){}}s.value=f;s.addEventListener("change",function(){var v=s.value;try{if(v==="default"){document.documentElement.removeAttribute("data-font");localStorage.removeItem("site-font")}else{document.documentElement.setAttribute("data-font",v);localStorage.setItem("site-font",v)}}catch(e){}});}var t=document.getElementById("theme-switcher");if(t){var th="light";try{th=document.documentElement.getAttribute("data-theme")||"light"}catch(e){}t.value=th;t.addEventListener("change",function(){var v=t.value;try{document.documentElement.setAttribute("data-theme",v);document.documentElement.style.colorScheme=v==="dark"?"dark":"light";localStorage.setItem("site-theme",v)}catch(e){}});}})();</script>\n'
-        printf '\n    \n    \n</body>\n\n</html>'
+        printf '\n    <script>(function(){var p=location.pathname;var links=document.querySelectorAll("nav a");for(var i=0;i<links.length;i++){var h=links[i].getAttribute("href");if(!h){continue}if(p===h){links[i].setAttribute("aria-current","page");continue}if(h!=="/"&&p.indexOf(h)===0){links[i].setAttribute("aria-current","page")}}})();</script>\n'
+    printf '\n    \n    \n</body>\n\n</html>'
     } > "$out"
 }
 
