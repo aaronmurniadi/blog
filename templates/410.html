@@ -28,9 +28,9 @@
     </script>
   </head>
   <body>
-    <div class="sidebar">
+    <div class="masthead">
       <header>
-        <h1>Beago Cirius</h1>
+        <h1>Beago <em>Cirius</em></h1>
         <p>Aaron P. Murniadi</p>
       </header>
       <nav>
@@ -38,11 +38,20 @@
           <li><a href="/">Home</a></li>
         </ul>
       </nav>
+    </div>
+    <main>
+      <section>
+        <h1>410</h1>
+        <p><strong>Gone :(</strong></p>
+        <p>The requested page no longer exists.</p>
+      </section>
+    </main>
+    <div class="utilities">
       <div class="font-switcher-row">
         <label class="font-switcher-label"
-          >Font:
+          >Body font:
           <select id="font-switcher" aria-label="Font">
-            <option value="default">Default (Bembo)</option>
+            <option value="default">Default (Crimson)</option>
             <option value="baskervaldx">Baskervald X</option>
             <option value="computermodern">Computer Modern</option>
             <option value="kpfonts">KP Fonts</option>
@@ -72,13 +81,6 @@
         </label>
       </div>
     </div>
-    <main>
-      <section>
-        <h1>410</h1>
-        <p><strong>Gone :(</strong></p>
-        <p>The requested page no longer exists.</p>
-      </section>
-    </main>
     <footer>
       <p>&copy; 2026 Aaron P. Murniadi</p>
     </footer>
@@ -147,6 +149,25 @@
               localStorage.setItem("site-theme", v);
             } catch (e) {}
           });
+        }
+      })();
+    </script>
+    <script>
+      (function () {
+        var p = location.pathname;
+        var links = document.querySelectorAll("nav a");
+        for (var i = 0; i < links.length; i++) {
+          var h = links[i].getAttribute("href");
+          if (!h) {
+            continue;
+          }
+          if (p === h) {
+            links[i].setAttribute("aria-current", "page");
+            continue;
+          }
+          if (h !== "/" && p.indexOf(h) === 0) {
+            links[i].setAttribute("aria-current", "page");
+          }
         }
       })();
     </script>

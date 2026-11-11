@@ -7,3 +7,5 @@ LANG='en'
 LOCALE='en'
 DATE=''
 SITEMAP=1
+
+BODY_CLASS='front'

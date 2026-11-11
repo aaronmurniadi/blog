@@ -18,7 +18,10 @@ Always run `./formatter.sh` and `./build.sh` after touching content, templates,
 
 - `content/<path>/page.meta` — shell vars sourced by `build.sh` (`TITLE_FULL`,
   `PLAIN_TITLE`, `DESCRIPTION`, `CANONICAL`, `OG_TYPE`, `LANG`, `LOCALE`,
-  `DATE`, `SITEMAP`). Must stay valid `sh` (`sh -n` is gated).
+  `DATE`, `SITEMAP`, `BODY_CLASS`). Must stay valid `sh` (`sh -n` is gated).
+  `BODY_CLASS` becomes `<body class="...">`: `front` for `/`, `gallery` for
+  `/photography`, `/typesettings`, `/fujipes`. Both lift the narrow reading
+  measure (see CSS layout notes).
 - `content/<path>/body.html` — inner `<main>` fragment (no `<main>` tags).
 - `content/media/`, `content/*.{png,ico,svg,txt,webmanifest}` — copied verbatim.
 - `templates/header.html`, `nav.html`, `footer.html` — shell around every page.
@@ -37,6 +40,11 @@ Always run `./formatter.sh` and `./build.sh` after touching content, templates,
   in that dir are NOT copied; they are attribution carriers, keep them).
 - `smarten.py` — stdin→stdout HTML filter, applied to `body.html` only.
 - `public/` — build output. NEVER edit, never format, never commit.
+- `mockups/` — local design mocks, git-ignored, never built or deployed. A
+  tabbed harness (`mockups/index.html`) that loads four alternative layouts
+  plus a copy of the built home page in an iframe, with viewport and theme
+  controls. Run `mockups/serve.sh [port]` (default 8004); it symlinks
+  `public/fonts`, `public/media`, and `public/style.css` at its web root.
 
 ## Typography pipeline (quotes)
 
@@ -53,13 +61,16 @@ Always run `./formatter.sh` and `./build.sh` after touching content, templates,
 
 ## Font system
 
-- Dropdown lives in `templates/font-switcher.html` (injected into the sidebar
-  by `build.sh`, after `<nav>`; + mirrored markup in `templates/410.html`).
+- Dropdown lives in `templates/font-switcher.html` (injected into the
+  `.utilities` row by `build.sh`, after `</main>`; + mirrored markup in
+  `templates/410.html`).
 - Scope: families from https://r2src.github.io/top10fonts/ (9 of 10 — Boisik is
   Metafont-sources-only upstream and cannot be vendored, so it is omitted),
   plus Baskervald X, Bembo, Palatino, Crimson. NO system fonts in the dropdown.
-- Site default (base `body`) is Bembo (`"Bembo", Georgia, serif`) —
-  "Default" option = no `data-font` attribute.
+- Site default reading face is Crimson (`--reading`, `"Crimson", Georgia,
+  serif`) — "Default" option = no `data-font` attribute. Headings always use
+  `--display` (`"Baskervald X", Georgia, serif`), so the dropdown changes body
+  and prose only.
 - Adding a font requires ALL of these (they must stay in sync):
   1. `templates/fonts/<name>-400.woff2`, `-400-italic`, `-700`, `-700-italic`
      (omit a style only if upstream never made it — see gaps below) + a license
@@ -81,44 +92,52 @@ Always run `./formatter.sh` and `./build.sh` after touching content, templates,
 
 ## Theme switcher (dark/light)
 
-- Dropdown lives in `templates/theme-switcher.html` (injected into the sidebar
-  by `build.sh`, after the font switcher; + mirrored markup in
-  `templates/410.html`).
+- Dropdown lives in `templates/theme-switcher.html` (injected into the
+  `.utilities` row by `build.sh`, right after the font switcher; + mirrored
+  markup in `templates/410.html`).
 - Writes/reads `localStorage` key `site-theme`; stored value is applied to the
   `data-theme` attribute on `<html>` plus `style.colorScheme` (so native
   controls, scrollbars, and form fields match). Both persisted in the `<head>`
   inline script and the trailing control script in `build.sh`/`410.html`.
-- Dark theme CSS lives at the bottom of `templates/style.css`
-  (`html[data-theme="dark"]` rules). Text is inherited (`currentColor`), so
-  borders/boxes adapt automatically — keep any hardcoded colors out of the CSS.
-  When adding dark styles, keep the palette consistent (near-black bg
-  `#1a1816`, warm off-white text `#e6e2dd`).
+- Every colour is a token on `:root` (`--paper`, `--ink`, `--muted`,
+  `--rule`, `--accent`). The dark theme is one token swap at the bottom of
+  `templates/style.css` (`html[data-theme="dark"]`), so no rule below the tokens
+  may hardcode a colour. Keep the palette consistent (`#16130f` paper,
+  `#ece5d9` ink, `#e08a5b` accent).
 - The selected value is never allowlisted (only `light`/`dark` are offered), so
   the theme script needs no `ok={...}` stale-value guard (unlike fonts).
 
 ## CSS layout notes
 
-- Narrow (`max-width: 59.99rem`): single centered column
-  `min(100% - 1rem, 42rem)` with safe-area padding; body `grid-template-areas`
-  put `<main>` before font/theme switchers (sidebar still `display: contents`).
-  Below `28rem`, date-index rows stack date above title.
-- Wide (`@media (min-width: 60rem)`): grid `55rem` total, `13rem` sidebar +
-  `1fr` main, gap `clamp(1.5rem, 4vw, 3rem)`. Keep main ≈39rem when retuning.
-- Flush tops: `text-box-trim: trim-start` on `header h1` + `main > :first-child`,
-  with matching `0.1em` top gap on both. The gap is load-bearing: without it,
-  cap overshoot hits the sidebar's `overflow-y` clip edge. Do not use a
-  negative margin to compensate (it puts ink back on the clip edge).
-- Date-index listings (`<li><time>date</time> <a>title</a></li>`, e.g. home
-  Recent Posts, `/articles`, `/summaries`) use the `main li:has(> time)` flex
-  rules in `style.css`: the date is a fixed no-wrap tabular-nums column so
-  wrapped titles stay in their own column instead of sliding under the date.
-- Tables use the `main table` grid rules (`border-collapse`, thin borders,
-  top-aligned padded cells, `0.9rem`).
-- Figure images get a `1px solid currentColor` frame (`main figure img`),
-  `max-height: 90dvh` with `width: auto` / `max-width: 100%` so aspect ratio
-  is preserved. `main figure` is `display: table` with `figcaption` as
-  `table-caption` so caption width matches the image, not the column. Matches
-  the dark-theme "no hardcoded colors" rule.
+- The sheet is `min(100% - 2.5rem, 60rem)` (`1.5rem` below `40rem`). `body` is
+  a flex column: `.masthead`, `main`, `.utilities`, `footer`.
+- Prose stops at `--measure` (`36rem`), centered inside the sheet: `main` is
+  capped, not every child. `body.front` (`/`) and `body.gallery` lift the cap;
+  gallery pages re-cap prose blocks to `--measure` and center them, so pictures
+  grow and text does not.
+- Masthead: site name + byline left, sections right, one rule under both. Below
+  `52rem` it stacks into two rows. The active link gets `aria-current="page"`
+  from a small script at the end of `<body>` (prefix match, so a post under
+  `/posts/` marks Posts).
+- Front page only: `.standfirst` is a two-column grid (title left, intro copy
+  right with a rule between), then a `.section-head` label and a `.spread`
+  two-column index. Both collapse to one column below `52rem`.
+- Date-index listings (`<li><time>date</time> <a>title</a></li>`, e.g.
+  `/posts`, `/articles`, `/summaries`) use the `main li:has(> time)` flex rules:
+  the date is a fixed no-wrap tabular-nums column so wrapped titles stay in
+  their own column instead of sliding under the date. Below `28rem` the date
+  stacks above the title.
+- Tables use the `main table` rules (`border-collapse`, thin `--rule` borders,
+  top-aligned padded cells, `0.92rem`).
+- Figure images get a `1px solid var(--rule)` frame, `max-height: 90dvh` with
+  `width: auto` / `max-width: 100%` so aspect ratio is preserved. `main figure`
+  is `display: table` with `figcaption` as `table-caption` so caption width
+  matches the image, not the column. `.aside*` figures float from `44rem` up;
+  headings `clear: both`.
+- `content/fujipes/body.html` carries its own `<style>` block that reads
+  `--border`, `--text`, `--header-bg`, `--heading-font-family`; `:root` keeps
+  those four as aliases of the new tokens. Do not remove them without editing
+  that block.
 
 ## Article rewrite workflow (repeatable)
 
@@ -168,6 +187,11 @@ Reuse for other long texts.
 - `README.md` dependency line predates `smarten.py` (build needs `python3`).
 - Prettier formats HTML sources only; `public/` is excluded by scope, not by
   `.prettierignore` (there is none).
+- `mockups/` holds throwaway UI exploration. It is not part of the build and
+  `formatter.sh` does not check it. Delete the directory when a direction is
+  chosen; port the winning rules into `templates/style.css` by hand. The
+  `Current` tab is a copy of `public/index.html`, so run `./build.sh` before
+  comparing.
 
 ## Maintaining this file
 
