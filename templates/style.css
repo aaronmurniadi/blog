@@ -21,7 +21,7 @@
      the measure. Pages that carry galleries or a front page opt out of the
      measure (body.front / body.gallery). */
   --sheet: 60rem;
-  --measure: 36rem;
+  --measure: 42rem;
 
   /* Aliases kept for the inline styles in content/fujipes/body.html. */
   --heading-font-family: var(--display);
@@ -50,7 +50,7 @@ body {
   background: var(--paper);
   color: var(--ink);
   font-family: var(--reading);
-  font-size: 1.125rem;
+  font-size: 1.3rem;
   font-kerning: normal;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -693,6 +693,17 @@ header h1 em {
   color: var(--accent);
 }
 
+/* Site name links home; keep the masthead look, show a hover cue only. */
+header h1 a {
+  text-decoration: none;
+}
+
+header h1 a:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--rule);
+  text-underline-offset: 0.25em;
+}
+
 header p {
   margin: 0;
   font-family: var(--sans);
@@ -737,6 +748,7 @@ main {
   max-width: var(--measure);
   min-width: 0;
   margin-inline: auto;
+  letter-spacing: -0.01em;
 }
 
 /* Front page and galleries use the full sheet. In a gallery the prose blocks
@@ -851,6 +863,16 @@ main p {
   text-wrap: pretty;
 }
 
+/* Justify article and post prose on wide screens. The front page, galleries,
+   and the date kicker stay ragged-right. Hyphenation stops rivers at the
+   narrow measure. */
+@media (min-width: 52rem) {
+  body:not(.front):not(.gallery) main p:not(:has(> time:only-child)) {
+    text-align: justify;
+    hyphens: auto;
+  }
+}
+
 /* Post pages open with the date, set as a kicker above the title. */
 main > p:has(> time:only-child) {
   margin: 0 0 0.4rem;
@@ -941,7 +963,7 @@ main li:has(> time) > a {
 /* Front-page standfirst: title left, intro copy right, rule between. */
 .standfirst {
   display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
   gap: 1.5rem 2.5rem;
   align-items: start;
   padding-block-end: 1.6rem;
@@ -970,7 +992,7 @@ main li:has(> time) > a {
 .standfirst-copy p {
   max-width: 34rem;
   margin: 0 0 0.7rem;
-  font-size: 1rem;
+  font-size: 1.3rem;
   line-height: 1.6;
   color: var(--muted);
 }
@@ -1230,7 +1252,7 @@ footer a {
 @media (max-width: 40rem) {
   body {
     width: min(100% - 1.5rem, var(--sheet));
-    font-size: 1.0625rem;
+    font-size: 1.125rem;
   }
 
   header h1 {
