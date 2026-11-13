@@ -16,6 +16,8 @@
 #   content/*.{png,ico,svg,txt,webmanifest}  site-root static files, copied to public/
 #   templates/header.html, nav.html, footer.html, 410.html
 #   smarten.py                 stdin->stdout HTML filter, applied to body.html only
+#   slashlinks.py              stdin->stdout HTML filter, adds the trailing slash
+#                              to internal page links (see page_url below)
 #
 # Output: public/<path>/index.html + public/sitemap.xml + public/410.html
 #   + public/media/ + public/{favicons,robots.txt,...} (all copied from content/)
@@ -43,6 +45,18 @@ C=content
 OUT=public
 typst_failed=0
 
+# Every page is a directory: Caddy answers /posts/ with 200 and 308s the
+# slashless /posts to it. Canonical URLs, og:url, the sitemap, and internal
+# links must all use the slash form or Google files the page as "Page with
+# redirect" (or as an alternate of a URL that redirects). page_url() appends
+# the slash; slashlinks.py does the same for href values at build time.
+page_url() {
+    case $1 in
+        */) printf '%s' "$1" ;;
+        *) printf '%s/' "$1" ;;
+    esac
+}
+
 render_page() {
     meta=$1
     body=$2
@@ -57,6 +71,8 @@ render_page() {
     BODY_CLASS=
     # shellcheck disable=SC1090
     . "./$meta"
+    CANONICAL=$(page_url "$CANONICAL")
+    tmp_page=$(mktemp)
     {
         printf '<!DOCTYPE html>\n<html lang="%s">\n\n<head>\n' "$LANG"
         printf '    <meta charset="UTF-8">\n'
@@ -109,7 +125,9 @@ render_page() {
         printf '    <script>(function(){var s=document.getElementById("font-switcher");if(s){var ok={default:1,baskervaldx:1,computermodern:1,kpfonts:1,gfsdidot:1,utopia:1,venturis:1,libertine:1,gyrebonum:1,gyrepagella:1,gyreschola:1,gyretermes:1,antiqua:1,bera:1,bembo:1,palatino:1,crimson:1};var f="default";try{f=document.documentElement.getAttribute("data-font")||"default"}catch(e){}if(!ok[f]){f="default";try{document.documentElement.removeAttribute("data-font");localStorage.removeItem("site-font")}catch(e){}}s.value=f;s.addEventListener("change",function(){var v=s.value;try{if(v==="default"){document.documentElement.removeAttribute("data-font");localStorage.removeItem("site-font")}else{document.documentElement.setAttribute("data-font",v);localStorage.setItem("site-font",v)}}catch(e){}});}var t=document.getElementById("theme-switcher");if(t){var th="light";try{th=document.documentElement.getAttribute("data-theme")||"light"}catch(e){}t.value=th;t.addEventListener("change",function(){var v=t.value;try{document.documentElement.setAttribute("data-theme",v);document.documentElement.style.colorScheme=v==="dark"?"dark":"light";localStorage.setItem("site-theme",v)}catch(e){}});}})();</script>\n'
         printf '\n    <script>(function(){var p=location.pathname;var links=document.querySelectorAll("nav a");for(var i=0;i<links.length;i++){var h=links[i].getAttribute("href");if(!h){continue}if(p===h){links[i].setAttribute("aria-current","page");continue}if(h!=="/"&&p.indexOf(h)===0){links[i].setAttribute("aria-current","page")}}})();</script>\n'
     printf '\n    \n    \n</body>\n\n</html>'
-    } > "$out"
+    } > "$tmp_page"
+    python3 ./slashlinks.py < "$tmp_page" > "$out"
+    rm -f "$tmp_page"
 }
 
 # 1. Pages: content/<stem>/ -> public/<stem>/index.html (stem "index" -> public/)
@@ -126,8 +144,8 @@ for meta in $(find "$C" -name page.meta | sort); do
     render_page "$meta" "$body" "$out"
 done
 
-# 2. Error page: verbatim copy, never templated
-cp "$T/410.html" "$OUT/410.html"
+# 2. Error page: its nav links still need the trailing slash
+python3 ./slashlinks.py < "$T/410.html" > "$OUT/410.html"
 cp "$T/style.css" "$OUT/style.css"
 cp "$T/prism.css" "$OUT/prism.css"
 cp "$T/prism.js" "$OUT/prism.js"
@@ -180,7 +198,7 @@ fi
         [ "$SITEMAP" = "0" ] && continue
         [ -z "$CANONICAL" ] && continue
         [ -z "$DATE" ] && DATE=$(date +%F)
-        printf '  <url>\n    <loc>%s</loc>\n    <lastmod>%s</lastmod>\n  </url>\n' "$CANONICAL" "$DATE"
+        printf '  <url>\n    <loc>%s</loc>\n    <lastmod>%s</lastmod>\n  </url>\n' "$(page_url "$CANONICAL")" "$DATE"
     done
     printf '</urlset>\n'
 } > "$OUT/sitemap.xml"

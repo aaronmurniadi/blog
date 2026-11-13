@@ -6,13 +6,13 @@ Personal blog. Static HTML built by shell + Python, no framework, no bundler.
 
 ```bash
 ./build.sh            # regenerate public/ (requires: sh + python3)
-./formatter.sh        # gate: prettier --check on HTML sources, sh -n on shell/page.meta, AST parse of smarten.py
+./formatter.sh        # gate: prettier --check on HTML sources, sh -n on shell/page.meta, AST parse of smarten.py + slashlinks.py
 ./formatter.sh --write  # prettier --write, then rebuild
 ./serve-local.sh [port] # preview public/ (default 8000)
 ```
 
 Always run `./formatter.sh` and `./build.sh` after touching content, templates,
-`build.sh`, or `smarten.py`. Both must exit 0.
+`build.sh`, `smarten.py`, or `slashlinks.py`. Both must exit 0.
 
 ## Layout (source of truth)
 
@@ -39,6 +39,9 @@ Always run `./formatter.sh` and `./build.sh` after touching content, templates,
 - `templates/fonts/*.woff2` — copied to `public/fonts/` (license `.txt` files
   in that dir are NOT copied; they are attribution carriers, keep them).
 - `smarten.py` — stdin→stdout HTML filter, applied to `body.html` only.
+- `slashlinks.py` — stdin→stdout HTML filter, applied to every assembled page
+  and to `410.html`; adds the trailing slash to internal page links (see the
+  URL form section below).
 - `public/` — build output. NEVER edit, never format, never commit.
 - `mockups/` — local design mocks, git-ignored, never built or deployed. A
   tabbed harness (`mockups/index.html`) that loads four alternative layouts
@@ -58,6 +61,32 @@ Always run `./formatter.sh` and `./build.sh` after touching content, templates,
   inside `<code>`, e.g. PDF extracts — leave those alone).
 - `page.meta` values are copied verbatim (no smartening) AND cannot contain
   straight `'` (single-quoted shell syntax). Use entities or curly chars there.
+
+## URL form (trailing slash)
+
+Every page is a directory: Caddy answers `/posts/` with 200 and 308-redirects
+`/posts` to it. The canonical form is therefore the trailing-slash URL, and four
+things must all use it, or Google files the page as "Page with redirect" and
+only a fraction of the site gets indexed:
+
+- `<link rel="canonical">` and `og:url` — `build.sh` runs `page_url()` on
+  `CANONICAL`, so `page.meta` stores the slashless form and the output gets the
+  slash. Never store a trailing slash in `page.meta` (the root `/` is fine).
+- `public/sitemap.xml` `<loc>` — same `page_url()` call.
+- Internal links (`href="/..."` in `nav.html`, `footer.html`, `body.html`) —
+  written slashless in source; `slashlinks.py` adds the slash at build time for
+  any target whose last segment has no dot (assets keep their extension).
+  `templates/410.html` goes through the same filter.
+- `Caddyfile` — do not change the directory behaviour without changing the
+  other three.
+
+## Deployment
+
+The server (`~/server/blog` on `aaron` behind `tailscale funnel`) runs
+`~/server/blog-update.sh` from cron every 5 minutes: `git pull --ff-only` then
+`sh ./build.sh`. It does **not** reload Caddy, so a `Caddyfile` change in this
+repo is pulled but never applied. `.ts.net` is the only public origin; Funnel
+proxies `https://aaron.beago-cirius.ts.net/` to `127.0.0.1:8002`.
 
 ## Font system
 
@@ -115,7 +144,8 @@ Always run `./formatter.sh` and `./build.sh` after touching content, templates,
   capped, not every child. `body.front` (`/`) and `body.gallery` lift the cap;
   gallery pages re-cap prose blocks to `--measure` and center them, so pictures
   grow and text does not.
-- Masthead: site name + byline left, sections right, one rule under both. Below
+- Masthead: site name + byline left, sections right, one rule under both. The
+  site name is a link to `/` (no underline; underline on hover). Below
   `52rem` it stacks into two rows. The active link gets `aria-current="page"`
   from a small script at the end of `<body>` (prefix match, so a post under
   `/posts/` marks Posts).

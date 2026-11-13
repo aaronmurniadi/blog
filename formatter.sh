@@ -15,6 +15,7 @@ check_shell() {
     sh -n build.sh
     sh -n formatter.sh
     python3 -c "import ast; ast.parse(open('smarten.py').read())"
+    python3 -c "import ast; ast.parse(open('slashlinks.py').read())"
     for meta in $(find content -name page.meta | sort); do
         sh -n "$meta" || exit 1
         ( . "./$meta" ) || exit 1
