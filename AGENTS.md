@@ -150,8 +150,10 @@ proxies `https://aaron.beago-cirius.ts.net/` to `127.0.0.1:8002`.
   from a small script at the end of `<body>` (prefix match, so a post under
   `/posts/` marks Posts).
 - Front page only: `.standfirst` is a two-column grid (title left, intro copy
-  right with a rule between), then a `.section-head` label and a `.spread`
-  two-column index. Both collapse to one column below `52rem`.
+  right with a rule between), then two `.section-head` + `.spread` blocks: the
+  eight latest posts, then the three latest articles (the article archive is
+  years older, so the two lists stay separate). All of it collapses to one
+  column below `52rem`.
 - Date-index listings (`<li><time>date</time> <a>title</a></li>`, e.g.
   `/posts`, `/articles`, `/summaries`) use the `main li:has(> time)` flex rules:
   the date is a fixed no-wrap tabular-nums column so wrapped titles stay in
