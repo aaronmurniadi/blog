@@ -1,41 +1,46 @@
 <p><time datetime="2026-09-27">2026-09-27</time></p>
-<h1>Why I built OFX Raw Host</h1>
+<h1>Why I built OfxHost</h1>
 <p>
   I keep finding OpenFX plugins I want to try on a still photo, and then
-  realizing the only way to run them is to open a full video host. Resolve,
-  Nuke, something else with a timeline I do not need. For a look on one RAW
-  file, that felt backwards.
+  realizing the only way to run them is to open a full video host.
 </p>
 <p>
-  So I built
-  <a href="https://github.com/aaronmurniadi/ofxrawhost">OFX Raw Host</a>: a
-  small desktop app that loads a still (RAW, TIFF, PNG, JPEG, EXR), runs it
-  through one or more OFX filter plugins, shows a preview, and exports. No
-  timeline. No NLE. Just the image and the effects.
+  Resolve, Nuke, another app with a timeline I do not need. For one look on one
+  RAW file, that felt backwards. So I built
+  <a href="https://github.com/aaronmurniadi/ofxhost">OfxHost</a>: a small
+  desktop app that loads a still, runs it through one or more OFX filter
+  plugins, shows a preview, and exports the result. No timeline. No NLE. Just
+  the image and the effects.
 </p>
 <figure>
-  <a href="/media/images/ofx-raw-host-screenshot.png"
+  <a href="/media/images/ofxhost-screenshot.png"
     ><img
-      src="/media/images/thumbnail/ofx-raw-host-screenshot.png"
-      alt="OFX Raw Host with a photo and a chain of OFX plugin nodes"
+      src="/media/images/thumbnail/ofxhost-screenshot.png"
+      alt="OfxHost with a photo and a chain of OFX plugin nodes"
   /></a>
   <figcaption>
-    <p>OFX Raw Host: open a still, stack OFX filters, preview, export.</p>
+    <p>OfxHost: open a still, stack OFX filters, preview, export.</p>
   </figcaption>
 </figure>
 <h2>The itch</h2>
 <p>
   OpenFX is a real standard. Plugin authors ship film sims, analog dirt, grade
   tools, and more under that API. A lot of that work lives inside hosts aimed at
-  motion. If you are a photographer, or you just want to audition a look on one
-  frame, you still pay the cost of a video app: project setup, clip import,
-  render settings you do not care about.
+  motion.
 </p>
 <p>
-  I wanted the opposite shape. Drop a photo in. Pick a plugin (or a short
-  chain). Tweak params. See the result. Export a JPEG or PNG. That is the whole
-  loop.
+  If you are a photographer, or you just want to audition a look on one frame,
+  you still pay the cost of a video app: project setup, clip import, render
+  settings you do not care about.
 </p>
+<p>I wanted the opposite shape. One loop, and nothing else:</p>
+<ul>
+  <li>Drop a photo in.</li>
+  <li>Pick a plugin, or a short chain of them.</li>
+  <li>Tweak the parameters.</li>
+  <li>Look at the result.</li>
+  <li>Export.</li>
+</ul>
 <p>
   There was also a selfish reason. Effects like
   <a href="https://github.com/chaert-s/spektrafilm-ofx">spektrafilm-ofx</a> and
@@ -43,22 +48,71 @@
   to me as still-image looks, not only as video treatments. Sitting in Resolve
   just to try grain and print simulation on a DNG was getting old.
 </p>
-<h2>What I hoped to make</h2>
+<h2>What it does</h2>
+<ul>
+  <li>
+    Opens RAW camera files, plus TIFF, PNG, JPEG, and EXR. One photo per
+    session.
+  </li>
+  <li>Stacks OFX filter plugins in a node list you can reorder and bypass.</li>
+  <li>
+    Previews at a few resolutions, so a slider move does not wait on the full
+    file every time.
+  </li>
+  <li>Exports to PNG, JPEG, or 16-bit TIFF.</li>
+</ul>
+<h2>Under the hood</h2>
 <p>
-  A host that stays small on purpose. C++17, Dear ImGui, LibRaw for camera
-  files, a simple node list you can reorder and bypass. Preview at a few
-  resolutions so you are not waiting on full-res every slider move. Export when
-  you are ready.
+  The window is C++17 and Dear ImGui. LibRaw reads the camera files, libtiff,
+  libwebp, and JPEG XL handle the rest, and Little CMS 2 does colour. GLFW is
+  fetched by CMake, so <code>./build.sh</code> is the whole build on macOS and
+  Linux. Windows links the same libraries statically through vcpkg and ships as
+  one file.
 </p>
 <p>
-  It is not trying to replace a finishing pipeline. Color management is
-  practical, not a full ACES suite. Plugin support is &ldquo;filters that behave
-  like still processors,&rdquo; not every OFX context under the sun. If
-  something needs a proper timeline or multi-clip graph, use a real NLE.
+  Colour management is practical, not a full ACES suite. Plugin support means
+  &ldquo;filters that behave like still processors,&rdquo; not every OFX context
+  under the sun. If something needs a proper timeline or a multi-clip graph, use
+  a real NLE. Those limits are the point: they keep the app small enough to open
+  for one frame.
 </p>
 <p>
-  macOS gets packaged DMGs for Apple Silicon and Intel. The codebase is meant to
-  build elsewhere too; Windows and Linux installers are still on the roadmap.
+  The self-test is its own binary, so a shipped build can check itself without a
+  window, and <code>--selftest</code> forwards to it:
+</p>
+<pre><code class="language-bash">build/OfxHost.app/Contents/MacOS/OfxHost --selftest</code></pre>
+<h2>Install</h2>
+<p>Releases carry a package for each platform:</p>
+<ul>
+  <li>
+    <strong>macOS:</strong> <code>OfxHost-macOS-arm64.dmg</code> or
+    <code>OfxHost-macOS-x86_64.dmg</code>. The app is ad-hoc signed, so
+    right-click it and choose Open on the first launch.
+  </li>
+  <li>
+    <strong>Windows:</strong> one self-contained <code>.exe</code>. No
+    installer, no console window.
+  </li>
+  <li>
+    <strong>Linux:</strong> <code>OfxHost-Linux-x86_64.AppImage</code>. Install
+    <code>zenity</code> or <code>kdialog</code> if the Open and Export dialogs
+    do not appear.
+  </li>
+</ul>
+<p>
+  Plugins load from the platform OFX directory, and from any path in
+  <code>OFX_PLUGIN_PATH</code>. On macOS, that is
+  <code>/Library/OFX/Plugins</code>:
+</p>
+<pre><code class="language-bash">sudo mkdir -p /Library/OFX/Plugins
+sudo cp -R path/to/*.ofx.bundle /Library/OFX/Plugins/</code></pre>
+<p>
+  Restart the app once the plugins are in place. If none are found, the status
+  bar says so. Tested on stills so far:
+  <a href="https://github.com/chaert-s/spektrafilm-ofx">spektrafilm-ofx</a>,
+  <a href="https://github.com/valadaptive/ntsc-rs">ntsc-rs</a>, and
+  <a href="https://github.com/purzbeats/purzos-ofx">purzOS</a>. Other OFX filter
+  plugins should work too.
 </p>
 <h2>Who I hope it helps</h2>
 <p>
@@ -70,10 +124,10 @@
 </p>
 <p>
   If that is you: grab a release from
-  <a href="https://github.com/aaronmurniadi/ofxrawhost/releases">GitHub</a>,
-  drop an image in, and see what your installed OFX plugins do. If a plugin
-  works well on stills and is not listed yet, a PR to the tested table is
-  welcome.
+  <a href="https://github.com/aaronmurniadi/ofxhost/releases">GitHub</a>, drop
+  an image in, and see what your installed OFX plugins do. The project is BSD
+  3-Clause, and issues and PRs are welcome. If a plugin works well on stills and
+  is not in the tested table yet, that entry is a one-line change.
 </p>
 <p>
   I built this because I needed it. I am putting it out because I suspect a few
