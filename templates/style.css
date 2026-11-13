@@ -668,7 +668,6 @@ html[data-font="crimson"] body {
   gap: 0.75rem 2rem;
   flex-wrap: wrap;
   padding-block-end: 0.85rem;
-  border-block-end: 1px solid var(--rule);
 }
 
 header {
@@ -926,7 +925,6 @@ sup {
 main ul:has(> li > time) {
   list-style: none;
   padding-inline-start: 0;
-  border-block-start: 1px solid var(--rule);
 }
 
 main li:has(> time) {
@@ -960,7 +958,7 @@ main li:has(> time) > a {
   column-gap: 2rem;
 }
 
-/* Front-page standfirst: title left, intro copy right, rule between. */
+/* Front-page standfirst: title left, intro copy right. */
 .standfirst {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
@@ -986,7 +984,6 @@ main li:has(> time) > a {
 
 .standfirst-copy {
   padding-inline-start: 1.5rem;
-  border-inline-start: 1px solid var(--rule);
 }
 
 .standfirst-copy p {
@@ -1166,7 +1163,6 @@ main td {
   justify-content: space-between;
   gap: 0.6rem 1.5rem;
   padding-block-start: 0.75rem;
-  border-block-start: 1px solid var(--rule);
 }
 
 .font-switcher-row,
@@ -1209,7 +1205,6 @@ footer {
   justify-content: space-between;
   gap: 0.4rem 1.5rem;
   padding-block-start: 0.75rem;
-  border-block-start: 1px solid var(--rule);
   font-family: var(--sans);
   font-size: 0.66rem;
   letter-spacing: 0.05em;
