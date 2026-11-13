@@ -135,6 +135,21 @@ proxies `https://aaron.beago-cirius.ts.net/` to `127.0.0.1:8002`.
   `#ece5d9` ink, `#e08a5b` accent).
 - The selected value is never allowlisted (only `light`/`dark` are offered), so
   the theme script needs no `ok={...}` stale-value guard (unlike fonts).
+- Syntax highlighting is the one exception to the token rule. `prism.css` is
+  the vendored light theme; `prism-okaidia.css` is Prism's official Okaidia
+  dark theme (v1.30.0, MIT) with two changes: every selector is prefixed with
+  `html[data-theme="dark"]` so it applies to the dark surface only, and the
+  type/box declarations are dropped so section 9 of `templates/style.css` keeps
+  owning code typography and spacing. Both files load after the sheet; the
+  prefix outranks the light theme regardless of order. To update the theme,
+  download `themes/prism-okaidia.min.css` from cdnjs, prefix each selector,
+  drop every declaration except `color`, `background`, `background-color`,
+  `text-shadow`, `font-style`, `font-weight`, `opacity`, `text-decoration`, and
+  `cursor`, and refresh the header comment.
+- The Typst grammar in `prism.css` emits a few token classes Okaidia does not
+  cover (`label`, `reference`, `escaped`, `math .operator`, `raw`). They keep
+  their light-theme teal, so the bottom of `templates/style.css` gives those
+  five a light variant for dark mode. Any new Typst token class needs the same.
 
 ## CSS layout notes
 

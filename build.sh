@@ -107,6 +107,7 @@ render_page() {
         printf '    <link rel="manifest" href="/site.webmanifest">\n'
         printf '    <link rel="stylesheet" href="/style.css">\n'
         printf '    <link rel="stylesheet" href="/prism.css">\n'
+        printf '    <link rel="stylesheet" href="/prism-okaidia.css">\n'
         printf '    <script>try{var f=localStorage.getItem("site-font");if(f)document.documentElement.setAttribute("data-font",f)}catch(e){}try{var t=localStorage.getItem("site-theme");if(t){document.documentElement.setAttribute("data-theme",t);document.documentElement.style.colorScheme=t==="dark"?"dark":"light"}}catch(e){}</script>\n'
         printf '\n    \n\n    \n\n    \n</head>\n\n<body class="%s">\n    \n' "$BODY_CLASS"
         printf '        <div class="masthead">\n'
@@ -148,6 +149,7 @@ done
 python3 ./slashlinks.py < "$T/410.html" > "$OUT/410.html"
 cp "$T/style.css" "$OUT/style.css"
 cp "$T/prism.css" "$OUT/prism.css"
+cp "$T/prism-okaidia.css" "$OUT/prism-okaidia.css"
 cp "$T/prism.js" "$OUT/prism.js"
 mkdir -p "$OUT/fonts"
 cp "$T/fonts/"*.woff2 "$OUT/fonts/"

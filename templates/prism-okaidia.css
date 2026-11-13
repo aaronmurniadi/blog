@@ -1,0 +1,23 @@
+/* Vendored from Prism v1.30.0 (MIT, https://prismjs.com) - official Okaidia
+   dark theme, https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/themes/prism-okaidia.min.css
+   Two changes only: every selector is prefixed with html[data-theme="dark"] so
+   the theme applies to the dark surface alone, and the type/box declarations
+   (font-family, font-size, padding, margin, border, ...) are dropped so
+   templates/style.css keeps owning code typography and spacing. Colour,
+   background, text-shadow, weight, and style declarations are untouched. */
+
+html[data-theme="dark"] code[class*=language-],html[data-theme="dark"] pre[class*=language-]{color:#f8f8f2;background:0 0;text-shadow:0 1px rgba(0,0,0,.3)}
+html[data-theme="dark"] :not(pre)>code[class*=language-],html[data-theme="dark"] pre[class*=language-]{background:#272822}
+html[data-theme="dark"] .token.cdata,html[data-theme="dark"] .token.comment,html[data-theme="dark"] .token.doctype,html[data-theme="dark"] .token.prolog{color:#8292a2}
+html[data-theme="dark"] .token.punctuation{color:#f8f8f2}
+html[data-theme="dark"] .token.namespace{opacity:.7}
+html[data-theme="dark"] .token.constant,html[data-theme="dark"] .token.deleted,html[data-theme="dark"] .token.property,html[data-theme="dark"] .token.symbol,html[data-theme="dark"] .token.tag{color:#f92672}
+html[data-theme="dark"] .token.boolean,html[data-theme="dark"] .token.number{color:#ae81ff}
+html[data-theme="dark"] .token.attr-name,html[data-theme="dark"] .token.builtin,html[data-theme="dark"] .token.char,html[data-theme="dark"] .token.inserted,html[data-theme="dark"] .token.selector,html[data-theme="dark"] .token.string{color:#a6e22e}
+html[data-theme="dark"] .language-css .token.string,html[data-theme="dark"] .style .token.string,html[data-theme="dark"] .token.entity,html[data-theme="dark"] .token.operator,html[data-theme="dark"] .token.url,html[data-theme="dark"] .token.variable{color:#f8f8f2}
+html[data-theme="dark"] .token.atrule,html[data-theme="dark"] .token.attr-value,html[data-theme="dark"] .token.class-name,html[data-theme="dark"] .token.function{color:#e6db74}
+html[data-theme="dark"] .token.keyword{color:#66d9ef}
+html[data-theme="dark"] .token.important,html[data-theme="dark"] .token.regex{color:#fd971f}
+html[data-theme="dark"] .token.bold,html[data-theme="dark"] .token.important{font-weight:700}
+html[data-theme="dark"] .token.italic{font-style:italic}
+html[data-theme="dark"] .token.entity{cursor:help}

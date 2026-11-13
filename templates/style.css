@@ -1336,3 +1336,18 @@ html[data-theme="dark"] {
   --rule: #2e2820;
   --accent: #e08a5b;
 }
+
+/* Dark mode syntax colours come from the vendored official Okaidia theme
+   (prism-okaidia.css). Only the tokens of the Typst grammar added in prism.css
+   have no Okaidia match; they keep their light-theme teal, which is unreadable
+   on #272822, so they get a light variant here. */
+html[data-theme="dark"] .token.label,
+html[data-theme="dark"] .token.reference,
+html[data-theme="dark"] .token.escaped,
+html[data-theme="dark"] .token.math .token.operator {
+  color: #86c0b8;
+}
+
+html[data-theme="dark"] .token.raw {
+  color: #b0b0b0;
+}
