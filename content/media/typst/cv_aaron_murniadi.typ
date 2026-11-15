@@ -1,5 +1,3 @@
-#import "@preview/droplet:0.3.1": dropcap
-
 #set document(title: "Aaron P. Murniadi's CV")
 
 #let section-block(title, content) = [
@@ -21,6 +19,16 @@
       #if location != [] [| #location]
     ],
     time,
+  )
+]
+
+#let role-heading(role: [], time: []) = [
+  #v(0.65em)
+  #grid(
+    columns: (1fr, auto),
+    align: (left + bottom, right + bottom),
+    text(style: "italic", weight: "bold", role),
+    text(size: 0.8em, time),
   )
 ]
 
@@ -50,7 +58,25 @@
   #line(length: 100%, stroke: 1pt)
 ]
 
-#let point = text(size: 1em, weight: "bold")[#text("★")]
+#let point = text(size: 0.95em, weight: "bold")[★]
+
+// Hanging-indent bullet list. Each item is its own line, so long entries wrap
+// under the text and not under the star.
+#let bullets(..items) = {
+  set par(justify: true, leading: 0.55em)
+  for item in items.pos() {
+    block(
+      above: 0.5em,
+      below: 0pt,
+      grid(
+        columns: (1.1em, 1fr),
+        align: (left + top, left + top),
+        point,
+        item,
+      ),
+    )
+  }
+}
 
 // =============================================
 // =============================================
@@ -63,7 +89,6 @@
     tracking: (max: 0.02em, min: -0.015em),
   ),
 )
-
 
 #set text(
   hyphenate: true,
@@ -81,12 +106,12 @@
   name: [Aaron P. Murniadi],
   contact: [
     #link("mailto:aaronmurniadi@gmail.com")[_aaronmurniadi\@gmail.com_] \
-    (+62) 881 535 9522, Indonesia, Jakarta \
+    (+62) 881 535 9522, Jakarta, Indonesia \
     #link("https://www.linkedin.com/in/aaronmurniadi/")[LinkedIn] | #link("https://github.com/aaronmurniadi")[GitHub] | #link("https://aaron.beago-cirius.ts.net/")[My Blog]
   ],
 )
 
-Software Engineer with expertise in building scalable web dashboards and custom operating systems for logistics infrastructure. Strong background in test automation frameworks and cross-platform application development (QA Engineer), with additional track record in cybersecurity research including two independently discovered vulnerabilities in high-profile systems. Passionate advocate for FOSS principles and open science.
+Software engineer who owns the software stack of a production Dimension, Weight, and Sizing (DWS) platform for logistics: 220 machines across four countries, scanning 15,000 parcels per hour. Built the Debian based operating system image, a custom machine vision camera driver reverse engineered from the vendor SDK, the Go and SvelteKit capture application, and the fleet provisioning and monitoring dashboards. Previous background in test automation and security research.
 
 #section-block(
   [Work Experience],
@@ -95,39 +120,53 @@ Software Engineer with expertise in building scalable web dashboards and custom 
       location: [Jakarta, Indonesia],
       time: [December 2021--_Present_],
     )
+    #text(size: 0.9em, style: "italic")[Promoted three times in four years, from test intern to software engineer.]
 
-    _*Software Engineer*_ #h(1fr) #text(size: 0.8em)[August 2025--_Present_]\
-    #point Engineered scalable internal web dashboards using React and Yarn, implementing comprehensive CI/CD pipelines and automated testing suites to ensure high code coverage.
-    #point Architected a custom Debian based operating system image tailored for proprietary Dimension, Weight, and Sizing (DWS) hardware.
-    #point Developed a high performance application for DWS systems utilizing Wails (Go + SvelteKit).
-    #point Led the design of a centralized provisioning dashboard to streamline the deployment of DWS infrastructure.
-    #point Modernized legacy microservices by implementing design patterns and enforcing Single Responsibility Principles (SRP), improving system maintainability in the future.
-    #point Optimized geospatial data processing by leveraging PostGIS for precise latitude and longitude waypoint zone assignments.
-    #point Solved operation blockers by participating in a 24/7 on-call duty roster, providing rapid technical resolution for production level issues.
+    #role-heading(role: [Software Engineer], time: [August 2025--_Present_])
 
-    _*Software Engineer 2, QA*_ #h(1fr) #text(size: 0.8em)[September 2024--July 2025]\
-    #point Seamlessly integrated into a newly restructured team, demonstrating strong adaptability and collaboration skills.
-    #point Initiated and planned the migration of Karate projects from Maven to Gradle for improved build performance and maintainability.
-    #point Appointed as QA Driver App Release Manager, coordinating smoke testing for new driver app releases across three teams to ensure quality and timely delivery.
-    #point Developed a Multi-scale Template Matching solution using #link("https://opencv.org/")[OpenCV] to locate UI elements in the screenshots using reference sample images.
-    #point Transitioning to Developer role through mentoring, training, and skill development.
+    #bullets(
+      [Reverse engineered the proprietary camera SDK and wire protocol and wrote a replacement machine vision driver. Frame rate rose from 2 to 8 frames per second, and the vendor runtime cost dropped to zero.],
+      [Cut scan time per parcel from 3.0 s to 1.5 s, with a 2.0 s recovery pass on parcels that the camera does not detect, by rewriting the capture path in Go.],
+      [Own the DWS software stack for 220 production machines in Indonesia, Malaysia, Singapore, and the Philippines, with a combined peak scan rate of 15,000 parcels per hour across shifts.],
+      [Built the Debian based operating system image for DWS hardware with the Debian Live ISO builder: 2.5 GB image, under 30 s to ready state, 25 min unattended install.],
+      [Built the capture application with Wails (Go and SvelteKit), which runs at up to 10,000 parcels per machine per day, and the provisioning dashboard that 15 staff in four countries use to roll out the fleet.],
+      [Assigned 10 million latitude and longitude waypoints to hundreds of thousands of waypoint zones with PostGIS for parcel routing.],
+      [Resolve about 5 production incidents per month within one hour on a 24/7 on-call rotation of 6 engineers.],
+    )
 
-    _*Software Engineer 1, QA*_ #h(1fr) #text(size: 0.8em)[January 2023--August 2024]\
-    #point Served as a _Hybrid Tester_, proficient in both manual and automated testing, with prioritization driven by business objectives.
-    #point Designed, developed, and maintained automated regression test suites in Java, covering API testing using #link("https://rest-assured.io/")[REST Assured] and #link("https://square.github.io/okhttp/")[OkHttp], front-end web testing with #link("https://www.selenium.dev/documentation/webdriver/")[Selenium WebDriver], and Android application testing via #link("https://github.com/appium/appium-flutter-driver")[Appium Flutter Driver]. All tests utilized the #link("https://github.com/cucumber/cucumber-jvm")[Cucumber-JVM] framework.
-    #point The primary contributor in integrating #link("https://github.com/karatelabs/karate")[Karate DSL] into the technology stack used by the QA team.
-    #point Led the design and implementation of an API to Scenario (ATS) mapping system to establish traceability between automated tests and backend APIs, including the development of a new API service written in _Go_.
-    #point Contributed to the integration of OpenAPI-generated API clients into the QA automation framework to improve testing fidelity.
+    #role-heading(
+      role: [Software Engineer 2, QA],
+      time: [September 2024--July 2025],
+    )
 
-    _*Software Tester (Internship)*_ #h(1fr) #text(size: 0.8em)[December 2021--December 2022]\
-    #point Executed manual testing activities on new or existing product features to ensure quality and adherence to requirements.
-    #point Authored and managed test scenarios in #link("https://studio.cucumber.io/")[Cucumber Studio].
-    #point Performed smoke tests in production environment to validate the stability of newly deployed features.
-    #point Created a Python-based automation project to support manual testers through semi-automation, leveraging the #link("https://github.com/behave/behave")[Behave] framework.
+    #bullets(
+      [Planned and led the migration of the Karate regression projects from Maven to Gradle, covering 5 teams and about 1,500 scenarios.],
+      [Built a multi-scale template matching tool with #link("https://opencv.org/")[OpenCV] that finds UI elements from reference screenshots, which removed manual element lookup from the front-end suites.],
+    )
+
+    #role-heading(
+      role: [Software Engineer 1, QA],
+      time: [January 2023--August 2024],
+    )
+
+    #bullets(
+      [Designed and maintained the Java regression suite for 5 teams: API tests with #link("https://rest-assured.io/")[REST Assured] and #link("https://square.github.io/okhttp/")[OkHttp], web tests with #link("https://www.selenium.dev/documentation/webdriver/")[Selenium WebDriver], and Android tests with #link("https://github.com/appium/appium-flutter-driver")[Appium Flutter Driver], all on #link("https://github.com/cucumber/cucumber-jvm")[Cucumber-JVM].],
+      [Led the design and implementation of an API to Scenario (ATS) mapping service in Go that traces each automated scenario to the backend APIs it covers.],
+    )
+
+    #role-heading(
+      role: [Software Tester (Internship)],
+      time: [December 2021--December 2022],
+    )
+
+    #bullets(
+      [Ran manual test passes on new and existing features against their requirements.],
+      [Built a Python #link("https://github.com/behave/behave")[Behave] harness that gave manual testers semi-automation, used by 5 colleagues.],
+    )
   ],
 )
 
-#section-block(
+#block(breakable: false, section-block(
   [Technical Skills],
   [
     #set text(hyphenate: false)
@@ -138,13 +177,12 @@ Software Engineer with expertise in building scalable web dashboards and custom 
       fill: (none, none),
       align: (right, left),
       [*Programming Languages*],
-      [
-        #link("https://www.oracle.com/java/")[Java],
-        #link("https://go.dev/")[Go],
-        #link("https://www.python.org/")[Python]
-      ],
+      [Java, Go, Python, TypeScript, JavaScript, SQL],
 
-      [*Testing, Development,\ and Infrastructure*],
+      [*Application Development*],
+      [React, SvelteKit, Wails, Yarn, #link("https://swagger.io/specification/")[OpenAPI]],
+
+      [*Testing*],
       [
         #link("https://www.selenium.dev/")[Selenium],
         #link("https://appium.io/")[Appium],
@@ -153,39 +191,61 @@ Software Engineer with expertise in building scalable web dashboards and custom 
         #link("https://rest-assured.io/")[REST Assured],
         #link("https://github.com/behave/behave")[Behave],
         #link("https://square.github.io/okhttp/")[OkHttp],
+        #link("https://opencv.org/")[OpenCV]
+      ],
+
+      [*Data and Infrastructure*],
+      [
+        #link("https://postgis.net/")[PostGIS],
+        #link("https://www.mysql.com/")[MySQL],
+        #link("https://redis.io/")[Redis],
         #link("https://docs.docker.com/")[Docker],
-        #link("https://git-scm.com/")[Git],
+        #link("https://live-team.pages.debian.net/live-manual/html/live-manual/index.en.html")[Debian Live ISO Builder],
+        Linux systems,
         #link("https://www.atlassian.com/software/bamboo")[Bamboo],
         #link("https://gradle.org/")[Gradle],
         #link("https://maven.apache.org/")[Maven],
-        #link("https://swagger.io/specification/")[OpenAPI],
-        #link("https://redis.io/")[Redis],
-        #link("https://www.mysql.com/")[MySQL],
-        #link("https://postgis.net/")[PostGIS],
-        #link("https://opencv.org/")[OpenCV],
-        #link("https://live-team.pages.debian.net/live-manual/html/live-manual/index.en.html")[Debian Live ISO Builder]
+        #link("https://git-scm.com/")[Git]
       ],
 
-      [*Development Methodologies*],
-      [
-        #link("https://agilemanifesto.org/")[Agile],
-        #link("https://cucumber.io/docs/bdd/")[Behavior-Driven Development testing]
-      ],
-
-      [*Other*], [Cybersecurity Research, FOSS Advocacy, Technical Writing,],
+      [*Other*],
+      [Reverse engineering, machine vision, agentic code generation workflows, technical writing, FOSS advocacy],
     )
   ],
-)
-
-
+))
 
 #section-block(
   [Security Research],
   [
-    #publication-heading(
-      detail: [*Vulnerability Disclosure Contributor* \ Independently discovered and responsibly disclosed two critical security vulnerabilities affecting national and international web applications, demonstrating strong ethical hacking capabilities and commitment to cybersecurity best practices.],
-      year: [2022--2023],
+    Vulnerability researcher, 2022--2023. Both findings were disclosed privately to the vendor and remain under NDA.
+
+    #v(0.4em)
+    #bullets(
+      [Directory traversal in a journal publication platform, which exposed full text PDFs behind a paid access wall.],
+      [Query enumeration and Insecure Direct Object Reference (IDOR) in a national education institution system, which exposed personally identifiable information (PII).],
     )
+  ],
+)
+
+#section-block(
+  [Projects],
+  [
+    #bullets(
+      [*#link("https://github.com/aaronmurniadi/gogige")[gogige]*: a pure Go GigE Vision client (GVCP control channel, GVSP streaming with packet resend, GenICam GenApi node map) that drives industrial machine vision cameras without a vendor SDK, driver, or GenTL producer. BSD-3-Clause, v1.10.0.],
+      [Built the implementation from the standard documents: ran the GigE Vision and GenICam reference PDFs through Mistral OCR into structured markdown, then developed an agent and subagent workflow that turns the parsed reference into Go code.],
+    )
+  ],
+)
+
+#section-block(
+  [Education],
+  [#edu-heading(
+      department: [SMAK 1 Penabur Cirebon],
+      location: [Cirebon, West Java],
+      role: [Natural Sciences Concentration],
+      time: [2014--2017],
+    )
+    Finalist, ANFORCOM (Annual Informatics Competition) 2017, #link("https://www.undip.ac.id/")[Diponegoro University], Semarang.
   ],
 )
 
@@ -197,39 +257,8 @@ Software Engineer with expertise in building scalable web dashboards and custom 
       year: [2022],
     )
     #publication-heading(
-      detail: ["Ranting Mencari Jalan ke Akar", Mardiatmadja, SJ, B.S. and Whisnu Bintoro, CICM, Dhaniel (2020) "EKLESIOLOGI Langkah demi Langkah. Sudut-Sudut Hening Ziarah Gereja". #link("http://repo.driyarkara.ac.id/321/1/EKLESIOLOGI.PDF")[PT Kanisius], Yogyakarta. ISBN 978-979-21-6665-1],
+      detail: ["Ranting Mencari Jalan ke Akar", in Mardiatmadja, SJ, B.S. and Whisnu Bintoro, CICM, Dhaniel (2020) #link("http://repo.driyarkara.ac.id/321/1/EKLESIOLOGI.PDF")[_Eklesiologi Langkah demi Langkah_], PT Kanisius, Yogyakarta. ISBN 978-979-21-6665-1],
       year: [2020],
     )
   ],
 )
-
-#section-block(
-  [Education & Achievements],
-  [#edu-heading(
-      department: [SMAK 1 Penabur Cirebon],
-      location: [Cirebon, West Java],
-      role: [Natural Sciences Concentration],
-      time: [2014--2017],
-    )
-
-    *Academic Competitions:*
-    #point Finalist in ANFORCOM (Annual Informatics Competition) 2017 at #link("https://www.undip.ac.id/")[Diponegoro University], Semarang—demonstrating early programming and problem-solving excellence.
-    #point Semi-finalist at POPKOT (Pekan Olahraga Pelajar Tingkat Kota) 2016 in Table Tennis, showcasing competitive excellence and sportmanship.
-
-    *Leadership & Community Engagement:*
-    #point Student committee leadership across 6 major school events (2015-2016), including cultural festivals, academic programs, and community outreach initiatives.
-    #point Participated in "Live In" community immersion program in Muntilan (2016), developing cultural sensitivity and social awareness through direct community engagement.
-  ],
-)
-
-#v(2fr)
-
-#grid(
-  columns: (3fr, 3.5fr, 3fr),
-  align: (left, center, right),
-  [],
-  ["It is not the strongest of the species that survives, nor the most intelligent; it is the one most adaptable to change." — _Charles Darwin_],
-  [],
-)
-
-#v(2fr)
