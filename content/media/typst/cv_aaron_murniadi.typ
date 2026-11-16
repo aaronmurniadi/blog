@@ -132,8 +132,8 @@ test automation and security research.
     #text(size: 0.9em, style: "italic")[Promoted three times in four years, from
       Software Tester, Automation Engineer, to Software Engineer 2.]
 
-    #role-heading(role: [Software Engineer 2, Developer], time: [July
-      2026--_Present_])
+    #role-heading(role: [Software Engineer 2, Developer], time: [March
+      2025--_Present_])
 
     #bullets(
       [Reverse engineered the proprietary camera SDK and wire protocol and wrote
@@ -159,7 +159,7 @@ test automation and security research.
 
     #role-heading(
       role: [Software Engineer 2, QA],
-      time: [September 2024--July 2025],
+      time: [July 2024--March 2025],
     )
 
     #bullets(
@@ -173,7 +173,7 @@ test automation and security research.
 
     #role-heading(
       role: [Software Engineer 1, QA],
-      time: [January 2023--August 2024],
+      time: [January 2023--July 2024],
     )
 
     #bullets(
