@@ -6,13 +6,14 @@ Personal blog. Static HTML built by shell + Python, no framework, no bundler.
 
 ```bash
 ./build.sh            # regenerate public/ (requires: sh + python3)
-./formatter.sh        # gate: prettier --check on HTML sources, sh -n on shell/page.meta, AST parse of smarten.py + slashlinks.py
+./formatter.sh        # gate: prettier --check on HTML sources, sh -n on shell/page.meta/sync-readme.sh, AST parse of md.py + smarten.py + slashlinks.py
 ./formatter.sh --write  # prettier --write, then rebuild
+./sync-readme.sh      # re-vendor the ofxhost README into content/ofxhost/body.md, then rebuild
 ./serve-local.sh [port] # preview public/ (default 8000)
 ```
 
 Always run `./formatter.sh` and `./build.sh` after touching content, templates,
-`build.sh`, `smarten.py`, or `slashlinks.py`. Both must exit 0.
+`build.sh`, `md.py`, `smarten.py`, or `slashlinks.py`. Both must exit 0.
 
 ## Layout (source of truth)
 
@@ -23,6 +24,18 @@ Always run `./formatter.sh` and `./build.sh` after touching content, templates,
   `/photography`, `/typesettings`, `/fujipes`. Both lift the narrow reading
   measure (see CSS layout notes).
 - `content/<path>/body.html` — inner `<main>` fragment (no `<main>` tags).
+- `content/<path>/body.md` — alternative body source: Markdown, rendered to
+  HTML by `md.py` and then smartened like `body.html`. A page has one body,
+  either `.html` or `.md`. Supported subset: ATX headings (with slug ids),
+  paragraphs, lists, tables, fenced code, blockquotes, rules, raw HTML blocks;
+  inline code, images, links, strong, emphasis. `/ofxhost/` uses this: its body
+  is a copy of the ofxhost repo README, kept current by `./sync-readme.sh`,
+  which downloads `README.md` and `docs/logo.png` (to
+  `content/media/images/ofxhost-logo.png`), rewrites the logo path and
+  repo-relative links, and ends with `./build.sh`. Run it when the README
+  changes, then commit `body.md`. `build.sh` itself never touches the network,
+  so the cron build stays deterministic. Do not hand-edit a generated
+  `body.md`; it carries an HTML comment that marks it as generated.
 - `content/media/`, `content/*.{png,ico,svg,txt,webmanifest}` — copied verbatim.
 - `templates/header.html`, `nav.html`, `footer.html` — shell around every page.
 - Article images: full files in `content/media/images/`, 800px thumbs in
@@ -38,7 +51,8 @@ Always run `./formatter.sh` and `./build.sh` after touching content, templates,
 - `templates/410.html`, `style.css`, `prism.css/js` — copied verbatim.
 - `templates/fonts/*.woff2` — copied to `public/fonts/` (license `.txt` files
   in that dir are NOT copied; they are attribution carriers, keep them).
-- `smarten.py` — stdin→stdout HTML filter, applied to `body.html` only.
+- `md.py` — stdin→stdout Markdown→HTML filter, applied to `body.md` only.
+- `smarten.py` — stdin→stdout HTML filter, applied to every page body.
 - `slashlinks.py` — stdin→stdout HTML filter, applied to every assembled page
   and to `410.html`; adds the trailing slash to internal page links (see the
   URL form section below).
@@ -165,7 +179,10 @@ proxies `https://aaron.beago-cirius.ts.net/` to `127.0.0.1:8002`.
   from a small script at the end of `<body>` (prefix match, so a post under
   `/posts/` marks Posts).
 - Front page only: `.standfirst` is a two-column grid (title left, intro copy
-  right with a rule between), then two `.section-head` + `.spread` blocks: the
+  right with a rule between), then a `.section-head` + `ul.projects` block (the
+  recent projects: each `li` is a project name linking out to its repo over a
+  one-line description; `auto-fit` on a `14rem` minimum so a single project
+  fills the row), then two `.section-head` + `.spread` blocks: the
   eight latest posts, then the three latest articles (the article archive is
   years older, so the two lists stay separate). All of it collapses to one
   column below `52rem`.

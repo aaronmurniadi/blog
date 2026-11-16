@@ -14,6 +14,8 @@ HTML_FILES=$(find content templates -name '*.html' | sort)
 check_shell() {
     sh -n build.sh
     sh -n formatter.sh
+    sh -n sync-readme.sh
+    python3 -c "import ast; ast.parse(open('md.py').read())"
     python3 -c "import ast; ast.parse(open('smarten.py').read())"
     python3 -c "import ast; ast.parse(open('slashlinks.py').read())"
     for meta in $(find content -name page.meta | sort); do

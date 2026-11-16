@@ -10,12 +10,16 @@ Build only depends on: `sh`, `cat`, `printf`, `mkdir`, `cp`, `find`, `sort`, `da
 | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | `content/<path>/page.meta`                                                  | Per-page shell vars: `TITLE_FULL`, `PLAIN_TITLE`, `DESCRIPTION`, `CANONICAL`, `OG_TYPE`, `LANG`, `LOCALE`, `DATE`, `SITEMAP`, `BODY_CLASS` |
 | `content/<path>/body.html`                                                  | Inner `<main>` fragment (no `<main>` tags)                                                                                                 |
+| `content/<path>/body.md`                                                    | Alternative body: Markdown, rendered by `md.py` (used for vendored READMEs)                                                                |
 | `content/media/`                                                            | Site media (`images/`, `typst/`, …), copied verbatim to `public/media/`                                                                    |
 | `content/*.{png,ico,svg,txt,webmanifest}`                                   | Site-root static files (favicons, `robots.txt`, `site.webmanifest`, logo), copied to `public/`                                             |
 | `templates/header.html`, `nav.html`, `footer.html`                          | Shell wrapped around every page                                                                                                            |
 | `templates/410.html`, `style.css`, `prism.css`, `prism.js`, `fonts/*.woff2` | Copied verbatim to `public/`                                                                                                               |
 | `public/`                                                                   | Build output, git-ignored (`.gitignore`)                                                                                                   |
 | `build.sh`                                                                  | The site builder                                                                                                                           |
+| `md.py`                                                                     | Markdown to HTML filter for `body.md` (python3 stdlib only)                                                                                |
+| `smarten.py`                                                                | Straight-quote to curly-quote filter for every body                                                                                        |
+| `sync-readme.sh`                                                            | Vendors the OfxHost `README.md` into `content/ofxhost/body.md`                                                                             |
 | `formatter.sh`                                                              | `prettier --check` on HTML sources + `sh -n` on shell/`page.meta`; `--write` formats and rebuilds                                          |
 | `serve-local.sh`                                                            | Local preview: `python3 -m http.server --directory public`                                                                                 |
 | `Caddyfile`                                                                 | Local/prod static server for `public/` with 410 handling                                                                                   |
@@ -37,6 +41,11 @@ mkdir content/<path>
 # write content/<path>/page.meta + content/<path>/body.html
 ./build.sh
 ```
+
+A page can take its body from Markdown instead: write `content/<path>/body.md`
+and `build.sh` renders it with `md.py`, then smartens it like `body.html`. A
+page has one body, either `.html` or `.md`. `/ofxhost/` does this: its body is a
+copy of the project README, kept current by `./sync-readme.sh`.
 
 ## Format / check
 

@@ -1,0 +1,9 @@
+TITLE_FULL='OfxHost · Beago Cirius'
+PLAIN_TITLE='OfxHost'
+DESCRIPTION='OfxHost is a minimal still-image OpenFX plugin host: open a raw or standard image, run OFX filter plugins, preview the result, and export it.'
+CANONICAL='https://aaron.beago-cirius.ts.net/ofxhost'
+OG_TYPE='website'
+LANG='en'
+LOCALE='en'
+DATE='2026-11-16'
+SITEMAP=1

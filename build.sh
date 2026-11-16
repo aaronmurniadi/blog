@@ -12,10 +12,16 @@
 #                               Write plain ' for single quotes; the build
 #                               smartens them to '/'. Double quotes are hand-set
 #                               &ldquo;/&rdquo; in the source.
+#   content/<path>/body.md     alternative body source, rendered to HTML by
+#                               md.py and then smartened like body.html. Used
+#                               for vendored READMEs (see sync-readme.sh); a
+#                               page has one body, either .html or .md.
 #   content/media/             site media, copied verbatim to public/media/
 #   content/*.{png,ico,svg,txt,webmanifest}  site-root static files, copied to public/
 #   templates/header.html, nav.html, footer.html, 410.html
-#   smarten.py                 stdin->stdout HTML filter, applied to body.html only
+#   md.py                      stdin->stdout Markdown->HTML filter, applied to
+#                              body.md only
+#   smarten.py                 stdin->stdout HTML filter, applied to every body
 #   slashlinks.py              stdin->stdout HTML filter, adds the trailing slash
 #                              to internal page links (see page_url below)
 #
@@ -115,7 +121,10 @@ render_page() {
         cat "$T/nav.html"
         printf '        </div>\n'
         printf '        <main>\n'
-        python3 ./smarten.py < "$body"
+        case $body in
+            *.md) python3 ./md.py < "$body" | python3 ./smarten.py ;;
+            *) python3 ./smarten.py < "$body" ;;
+        esac
         printf '        </main>\n'
         printf '        <div class="utilities">\n'
         cat "$T/font-switcher.html"
@@ -136,6 +145,9 @@ for meta in $(find "$C" -name page.meta | sort); do
     dir=${meta%/*}
     stem=${dir#"$C/"}
     body="$dir/body.html"
+    if [ ! -f "$body" ] && [ -f "$dir/body.md" ]; then
+        body="$dir/body.md"
+    fi
     if [ "$stem" = "index" ]; then
         out="$OUT/index.html"
     else
