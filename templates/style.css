@@ -862,20 +862,6 @@ main p {
   text-wrap: pretty;
 }
 
-/* Justify article and post prose on wide screens. The front page, galleries,
-   the date kicker, and footnote definitions stay ragged-right. Hyphenation
-   stops rivers at the narrow measure. */
-@media (min-width: 52rem) {
-  body:not(.front):not(.gallery)
-    main
-    p:not(:has(> time:only-child)):not(.footnotes p):not([align="center"]):not(
-      .badges
-    ) {
-    text-align: justify;
-    hyphens: auto;
-  }
-}
-
 /* Post pages open with the date, set as a kicker above the title. */
 main > p:has(> time:only-child) {
   margin: 0 0 0.4rem;
