@@ -113,7 +113,7 @@
   ],
 )
 
-Software engineer with more than four years of experience across the full stack
+Software engineer with more than five years of experience across the full stack
 of a production system: operating system images, a reverse engineered device
 driver, Go backend services, web front ends, and test automation. Replaced a
 proprietary vendor runtime with an in-house driver, rewrote the capture path in
@@ -126,14 +126,14 @@ test automation and security research.
   [#work-heading(
       company: [#link("https://www.ninjavan.co/")[Ninja Van]],
       location: [Jakarta, Indonesia],
-      time: [December 2021--_Present_],
+      time: [December 2021--December 2026],
     )
 
-    #text(size: 0.9em, style: "italic")[Promoted three times in four years, from
+    #text(size: 0.9em, style: "italic")[Promoted three times in five years, from
       Software Tester, Automation Engineer, to Software Engineer 2.]
 
-    #role-heading(role: [Software Engineer 2, Developer], time: [March
-      2025--_Present_])
+    #role-heading(role: [Software Engineer 2, Developer], time: [August
+      2025--December 2026])
 
     #bullets(
       [Reverse engineered the proprietary camera SDK and wire protocol and wrote
@@ -159,7 +159,7 @@ test automation and security research.
 
     #role-heading(
       role: [Software Engineer 2, QA],
-      time: [July 2024--March 2025],
+      time: [July 2024--August 2025],
     )
 
     #bullets(
