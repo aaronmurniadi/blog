@@ -8,3 +8,7 @@ content/media/typst/maid_of_orleans/*.webp
 
 # Local design mocks (preview only, not built or deployed)
 mockups/
+
+# Local scratch files, including HR review PDFs. Never commit: the server pulls
+# this repository, so a committed file becomes public over the funnel.
+_temp/

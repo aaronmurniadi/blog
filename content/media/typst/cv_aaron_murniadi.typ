@@ -1,337 +1,214 @@
-#set document(title: "Aaron P. Murniadi's CV")
+#set document(title: "Aaron P. Murniadi's CV", author: "Aaron P. Murniadi")
 
+// ---------- Page and text ----------
+#set page(
+  paper: "a4",
+  margin: (top: 0.7in, x: 0.8in, bottom: 0.7in),
+  footer: context align(center, text(size: 0.85em)[
+    #counter(page).display() / #counter(page).final().first()
+  ]),
+)
+
+#set text(size: 10.5pt, lang: "en", hyphenate: false)
+#set par(justify: false, leading: 0.72em, spacing: 0.9em)
+#set list(marker: [•], indent: 0.3em, body-indent: 0.6em, spacing: 0.65em)
+
+// ---------- Helpers ----------
 #let section-block(title, content) = [
-  #text(size: 1.25em, style: "italic", title)
-
-  #block(inset: (left: 2em))[
-    #content
+  #block(above: 1.5em, below: 0.8em, sticky: true)[
+    #text(size: 1.05em, weight: "bold", tracking: 0.04em)[#upper(title)]
+    #v(-0.3em)
+    #line(length: 100%, stroke: 0.5pt)
   ]
-
-  #v(0.5em)
+  #content
 ]
 
-#let work-heading(company: [], location: [], time: []) = [
-  #grid(
-    columns: (3fr, 2fr),
-    align: (left, right),
-    [
-      #text(weight: "bold")[#smallcaps[#company]]
-      #if location != [] [| #location]
-    ],
-    time,
-  )
-]
+#let work-heading(company: [], location: [], time: []) = grid(
+  columns: (1fr, auto),
+  align: (left, right),
+  [#text(weight: "bold")[#company] | #location | #time], [],
+)
 
-#let role-heading(role: [], time: []) = [
-  #v(0.8em)
+#let role-heading(role: [], time: []) = block(
+  above: 1.2em,
+  below: 0.7em,
+  sticky: true,
+)[
   #grid(
     columns: (1fr, auto),
-    align: (left + bottom, right + bottom),
-    text(style: "italic", weight: "bold", role + " (" + time + ")"), v(0.2em),
-  )
-]
-
-#let edu-heading(department: [], location: [], role: [], time: []) = [
-  #grid(
-    columns: (3fr, 1fr),
     align: (left, right),
-    row-gutter: 1em,
-    [#strong(department) \ #emph(role)], [#location \ #time],
+    text(weight: "bold", style: "italic")[#role (#time)],
+    text(style: "italic")[],
   )
 ]
 
-#let publication-heading(detail: [], year: []) = [
-  #grid(
-    columns: (5fr, 1fr),
-    align: (left, right),
-    detail, year,
-  )
+#let entry-heading(main: [], side: []) = grid(
+  columns: (1fr, auto),
+  align: (left, right),
+  main, side,
+)
+
+#let bullets(..items) = list(..items.pos())
+
+// ---------- Header ----------
+#align(center)[
+  #text(size: 1.9em, weight: "bold")[Aaron P. Murniadi] \
+  #v(0.2em)
+  Jakarta, Indonesia | (+62) 881 535 9522 | #link(
+    "mailto:aaronmurniadi@gmail.com",
+  )[aaronmurniadi\@gmail.com] \
+  #link(
+    "https://www.linkedin.com/in/aaronmurniadi/",
+  )[linkedin.com/in/aaronmurniadi] |
+  #link("https://github.com/aaronmurniadi")[github.com/aaronmurniadi]
 ]
 
-#let header(name: [], contact: []) = [
-  #grid(
-    columns: (3fr, 2fr),
-    align: (left + bottom, right + bottom),
-    text(size: 2em, style: "italic")[#name], [#contact],
+// ---------- Summary ----------
+#section-block([Summary], [
+  Software engineer with 5+ years of experience across the full stack of a
+  production system: OS images, a reverse engineered device driver, Go and Java
+  backend services, web front ends, and monitoring. Replaced a proprietary
+  vendor runtime with an in-house driver, halved per-parcel scan time by
+  rewriting the capture path in Go, and built the tooling that provisions,
+  monitors, and hardens a 220 machine fleet in four countries. Previous
+  background in test automation and security research.
+])
+
+// ---------- Experience ----------
+#section-block([Work Experience], [
+  #work-heading(
+    company: [Ninja Van],
+    location: [Jakarta, Indonesia],
+    time: [Dec 2021 – Dec 2026],
   )
-  #line(length: 100%, stroke: 1pt)
-]
+  #text(size: 0.92em, style: "italic")[Promoted three times in five years:
+    Software Tester, Automation Engineer, Software Engineer 2.]
 
-#let point = text(size: 0.95em, weight: "bold")[★]
-
-// Hanging-indent bullet list. Each item is its own line, so long entries wrap
-// under the text and not under the star.
-#let bullets(..items) = {
-  set par(justify: true, leading: 0.55em)
-  for item in items.pos() {
-    block(
-      above: 0.5em,
-      below: 0pt,
-      grid(
-        columns: (1.1em, 1fr),
-        align: (left + top, left + top),
-        point, item,
-      ),
-    )
-  }
-}
-
-// =============================================
-// =============================================
-
-#let today = datetime.today().display("[month repr:long] [day], [year]")
-
-#set par(
-  justify: true,
-  justification-limits: (
-    tracking: (max: 0.02em, min: -0.015em),
-  ),
-)
-
-#set text(
-  hyphenate: true,
-  lang: "en",
-  number-width: "proportional",
-  costs: (hyphenation: 30%),
-)
-
-#set page(paper: "a4", margin: 0.95in, footer: [#text(
-    style: "italic",
-    size: 1em,
-  )[Last updated: #today #h(1fr)] #context [\[#counter(page).display() / #(
-      counter(page).final().first()
-    )]\]])
-
-#header(
-  name: [Aaron P. Murniadi],
-  contact: [
-    #link("mailto:aaronmurniadi@gmail.com")[_aaronmurniadi\@gmail.com_] \
-    (+62) 881 535 9522, Jakarta, Indonesia \
-    #link("https://www.linkedin.com/in/aaronmurniadi/")[LinkedIn] | #link(
-      "https://github.com/aaronmurniadi",
-    )[GitHub] | #link("https://aaron.beago-cirius.ts.net/")[My Blog]
-  ],
-)
-
-Software engineer with more than five years of experience across the full stack
-of a production system: operating system images, a reverse engineered device
-driver, Go backend services, web front ends, and test automation. Replaced a
-proprietary vendor runtime with an in-house driver, rewrote the capture path in
-Go to halve the processing time per unit, and built the tooling that provisions
-and monitors a 220 machine fleet across four countries. Previous background in
-test automation and security research.
-
-#section-block(
-  [Work Experience],
-  [#work-heading(
-      company: [#link("https://www.ninjavan.co/")[Ninja Van]],
-      location: [Jakarta, Indonesia],
-      time: [December 2021--December 2026],
-    )
-
-    #text(size: 0.9em, style: "italic")[Promoted three times in five years, from
-      Software Tester, Automation Engineer, to Software Engineer 2.]
-
-    #role-heading(role: [Software Engineer 2, Developer], time: [August
-      2025--December 2026])
-
-    #bullets(
-      [Reverse engineered the proprietary camera SDK and wire protocol and wrote
-        a replacement machine vision driver. Frame rate rose from 2 to 8 frames
-        per second, and the vendor runtime cost dropped to zero.],
-      [Cut scan time per parcel from 3.0 s to 1.5 s, with a 2.0 s recovery pass
-        on parcels that the camera does not detect, by rewriting the capture
-        path in Go.],
-      [Own the DWS software stack for 220 production machines in Indonesia,
-        Malaysia, Singapore, and the Philippines, with a combined peak scan rate
-        of 15,000 parcels per hour across shifts.],
-      [Built the Debian based operating system image for DWS hardware with the
-        Debian Live ISO builder: 2.5 GB image, under 30 s to ready state, 25 min
-        unattended install.],
-      [Built the capture application with Wails (Go and SvelteKit), which runs
-        at up to 10,000 parcels per machine per day, and the provisioning
-        dashboard that 15 staff in four countries use to roll out the fleet.],
-      [Assigned 10 million latitude and longitude waypoints to hundreds of
-        thousands of waypoint zones with PostGIS for parcel routing.],
-      [Resolve about 5 production incidents per month within one hour on a 24/7
-        on-call rotation of 6 engineers.],
-    )
-
-    #role-heading(
-      role: [Software Engineer 2, QA],
-      time: [July 2024--August 2025],
-    )
-
-    #bullets(
-      [Planned and led the migration of the Karate regression projects from
-        Maven to Gradle, covering 5 teams and about 1,500 scenarios.],
-      [Built a multi-scale template matching tool with #link(
-          "https://opencv.org/",
-        )[OpenCV] that finds UI elements from reference screenshots, which
-        removed manual element lookup from the front-end suites.],
-    )
-
-    #role-heading(
-      role: [Software Engineer 1, QA],
-      time: [January 2023--July 2024],
-    )
-
-    #bullets(
-      [Designed and maintained the Java regression suite for 5 teams: API tests
-        with #link("https://rest-assured.io/")[REST Assured] and #link(
-          "https://square.github.io/okhttp/",
-        )[OkHttp], web tests with #link(
-          "https://www.selenium.dev/documentation/webdriver/",
-        )[Selenium WebDriver], and Android tests with #link(
-          "https://github.com/appium/appium-flutter-driver",
-        )[Appium Flutter Driver], all on #link(
-          "https://github.com/cucumber/cucumber-jvm",
-        )[Cucumber-JVM].],
-      [Led the design and implementation of an API to Scenario (ATS) mapping
-        service in Go that traces each automated scenario to the backend APIs it
-        covers.],
-    )
-
-    #role-heading(
-      role: [Software Tester (Internship)],
-      time: [December 2021--December 2022],
-    )
-
-    #bullets(
-      [Ran manual test passes on new and existing features against their
-        requirements.],
-      [Built a Python #link("https://github.com/behave/behave")[Behave] harness
-        that gave manual testers semi-automation, used by 5 colleagues.],
-    )
-  ],
-)
-
-#block(breakable: false, section-block([Technical Skills], [
-  #set text(hyphenate: false)
-  #table(
-    columns: (auto, auto),
-    inset: 5pt,
-    stroke: 0pt,
-    fill: (none, none),
-    align: (right, left),
-    [*Programming Languages*], [Java, Go, Python, TypeScript, JavaScrip, C++],
-
-    [*Application Development*],
-    [React, SvelteKit, Wails, Yarn, #link(
-        "https://swagger.io/specification/",
-      )[OpenAPI]],
-
-    [*Testing*],
-    [
-      #link("https://www.selenium.dev/")[Selenium], #link(
-        "https://appium.io/",
-      )[Appium], #link("https://github.com/karatelabs/karate")[Karate DSL],
-      #link("https://github.com/cucumber/cucumber-jvm")[Cucumber-JVM], #link(
-        "https://rest-assured.io/",
-      )[REST Assured], #link("https://github.com/behave/behave")[Behave], #link(
-        "https://square.github.io/okhttp/",
-      )[OkHttp],
-      #link("https://opencv.org/")[OpenCV]
-    ],
-
-    [*Data and Infrastructure*],
-    [
-      #link("https://postgis.net/")[PostGIS], #link(
-        "https://www.mysql.com/",
-      )[MySQL], #link("https://redis.io/")[Redis], #link(
-        "https://docs.docker.com/",
-      )[Docker], #link(
-        "https://live-team.pages.debian.net/live-manual/html/live-manual/index.en.html",
-      )[Debian Live ISO Builder],#link(
-        "https://www.atlassian.com/software/bamboo",
-      )[Bamboo], #link("https://gradle.org/")[Gradle], #link(
-        "https://maven.apache.org/",
-      )[Maven],
-      #link("https://git-scm.com/")[Git]
-    ],
-
-    [*Operating Systems*],
-    [
-      #link("https://www.microsoft.com/windows/")[Windows], #link(
-        "https://www.apple.com/macos/",
-      )[macOS], #link("https://www.debian.org/")[Debian], #link(
-        "https://www.fedora.org/",
-      )[Fedora], #link("https://ubuntu.com/")[Ubuntu], #link(
-        "https://archlinux.org/",
-      )[Arch Linux]
-    ],
-
-    [*Other*],
-    [Reverse engineering, machine vision, agentic code generation workflows,
-      technical writing],
+  #role-heading(role: [Software Engineer 2, Developer], time: [Aug 2025 – Dec
+    2026])
+  #bullets(
+    [Reverse engineered the proprietary camera SDK and GigE Vision protocol
+      (Wireshark) and wrote a replacement machine vision driver in Go
+      (libaravis, CGO): frame rate rose from 2 to 8 FPS and the vendor runtime
+      cost dropped to zero.],
+    [Rewrote the capture path in Go, cutting scan time per parcel from 3.0 s to
+      1.5 s (2.0 s recovery pass for parcels the camera does not detect).],
+    [Own the DWS software stack for 220 production machines in Indonesia,
+      Malaysia, Singapore, and the Philippines, at a combined peak of 15,000
+      parcels per hour.],
+    [Built the Debian based OS image with the Debian Live ISO builder (2.5 GB,
+      under 30 s to ready state, 25 min unattended install). Hardened it for
+      InfoSec review with Wazuh, RustDesk behind an nftables guard, and
+      device-specific host names.],
+    [Built the capture app with Wails (Go, SvelteKit), running up to 10,000
+      parcels per machine per day, and the provisioning dashboard used by 15
+      staff in four countries.],
+    [Assigned 10 million latitude and longitude waypoints to hundreds of
+      thousands of zones with PostGIS for parcel routing. Proposed a design that
+      removes polygon geometry from sort zone configuration, lowering build and
+      operations complexity.],
+    [Built fleet observability: two Grafana dashboards over Quickwit logs and
+      Prometheus metrics (one with 30 panels), an ingest endpoint in the
+      hub-users Go service, and a log uploader in the capture app.],
+    [Extended the hub-users and sort-service APIs: device registry, logout
+      endpoint, rotating nonce, and FeatureHub switches.],
+    [Resolve about 5 production incidents per month within one hour on a 24/7
+      on-call rotation of 6 engineers. Mentored a new developer on the DWSv2
+      architecture and found a silent crash in the Mile 0 order sync script.],
   )
-]))
 
-#section-block(
-  [Security Research],
-  [
-    Vulnerability researcher, 2022--2023. Both findings were disclosed privately
-    to the vendor and remain under NDA.
+  #role-heading(role: [Software Engineer 2, QA], time: [Jul 2024 – Aug 2025])
+  #bullets(
+    [Release manager for Driver App v8.42.1 and v8.45.0, coordinating three
+      product teams with no rollbacks or blockers.],
+    [Built the NVQA Tools IntelliJ plugin: Bamboo build monitoring with rerun, a
+      test data encryption helper, and an AI chat over QA scenarios and
+      Confluence pages.],
+    [Led the migration of Karate regression projects from Maven to Gradle across
+      5 teams and about 1,500 scenarios.],
+    [Built a multi-scale template matching tool with OpenCV that finds UI
+      elements from reference screenshots, removing manual element lookup from
+      front-end suites.],
+  )
 
-    #v(0.4em)
+  #block(breakable: false)[
+    #role-heading(role: [Software Engineer 1, QA], time: [Jan 2023 – Jul 2024])
     #bullets(
-      [Directory traversal in a journal publication platform, which exposed full
-        text PDFs behind a paid access wall.],
-      [Query enumeration and Insecure Direct Object Reference (IDOR) in a
-        national education institution system, which exposed personally
-        identifiable information (PII).],
+      [Released common-karate, the shared automation library adopted by 5 teams,
+        and supported their migrations.],
+      [Maintained the Java regression suite for 5 teams (REST Assured, OkHttp,
+        Selenium WebDriver, Appium Flutter Driver, Cucumber-JVM).],
+      [Led design of an API to Scenario (ATS) mapping service in Go that traces
+        each automated scenario to the backend APIs it covers.],
     )
-  ],
-)
+  ]
 
-#section-block(
-  [Projects],
-  [
+  #block(breakable: false)[
+    #role-heading(role: [Software Tester Intern], time: [Dec 2021 – Dec 2022])
     #bullets(
-      [*#link("https://github.com/aaronmurniadi/gogige")[gogige]*: a pure Go
-        GigE Vision client (GVCP control channel, GVSP streaming with packet
-        resend, GenICam GenApi node map) that drives industrial machine vision
-        cameras without a vendor SDK, driver, or GenTL producer. BSD-3-Clause,
-        v1.10.0.],
-      [Built the implementation from the standard documents: ran the GigE Vision
-        and GenICam reference PDFs through Mistral OCR into structured markdown,
-        then developed an agent and subagent workflow that turns the parsed
-        reference into Go code.],
+      [Ran manual test passes against requirements and built a Python Behave
+        harness for semi-automation, used by 5 colleagues.],
     )
-  ],
-)
+  ]
+])
 
-#section-block(
-  [Education],
-  [#edu-heading(
-      department: [SMAK 1 Penabur Cirebon],
-      location: [Cirebon, West Java],
-      role: [Natural Sciences Concentration],
-      time: [2014--2017],
-    )
-    Finalist, ANFORCOM (Annual Informatics Competition) 2017, #link(
-      "https://www.undip.ac.id/",
-    )[Diponegoro University], Semarang.
-  ],
-)
+// ---------- Skills ----------
+#section-block([Technical Skills], [
+  #set par(spacing: 0.8em)
+  *Languages:* Java, Go, Python, TypeScript, JavaScript, C++ \
+  *Development:* React, SvelteKit, Wails, OpenAPI, Yarn \
+  *Testing:* Selenium, Appium, Karate DSL, Cucumber-JVM, REST Assured, Behave,
+  OkHttp, OpenCV \
+  *Data and Infrastructure:* PostGIS, MySQL, Redis, Elasticsearch, Docker,
+  Debian Live ISO Builder, Bamboo, Gradle, Maven, Git, Grafana, Prometheus,
+  Quickwit, Wazuh \
+  *Operating Systems:* Debian, Ubuntu, Fedora, Arch Linux, Windows, macOS \
+  *Other:* Reverse engineering, machine vision, agentic code generation
+  workflows, technical writing
+])
 
-#section-block(
-  [Publications],
-  [
-    #publication-heading(
-      detail: [Murniadi, Aaron Purnomo (2022) "Waktu Intuitif (durasi) sebagai
-        Dasar Adanya Kehendak Bebas Manusia Menurut Henri Bergson." #link(
-          "https://karya.brin.go.id/id/eprint/25247",
-        )[_Driyarkara Jurnal Filsafat_], 42 (2): 5. pp. 81--91. ISSN 2809-9516],
-      year: [2022],
-    )
-    #publication-heading(
-      detail: ["Ranting Mencari Jalan ke Akar", in Mardiatmadja, SJ, B.S. and
-        Whisnu Bintoro, CICM, Dhaniel (2020) #link(
-          "http://repo.driyarkara.ac.id/321/1/EKLESIOLOGI.PDF",
-        )[_Eklesiologi Langkah demi Langkah_], PT Kanisius, Yogyakarta. ISBN
-        978-979-21-6665-1],
-      year: [2020],
-    )
-  ],
-)
+// ---------- Projects ----------
+#section-block([Projects], [
+  #bullets(
+    [*#link("https://github.com/aaronmurniadi/gogige")[gogige]*: pure Go GigE
+      Vision client (GVCP control, GVSP streaming with packet resend, GenICam
+      node map) that drives industrial cameras without a vendor SDK or GenTL
+      producer. BSD-3-Clause, v1.10.0. Built from the standard by OCR-ing the
+      reference PDFs into markdown and using an agent workflow to generate Go
+      code.],
+  )
+])
+
+// ---------- Security ----------
+#section-block([Security Research], [
+  Vulnerability researcher, 2022 – 2023: found a directory traversal in a
+  journal publication platform and an IDOR with query enumeration in a national
+  education system. Both were disclosed privately to the vendor and remain under
+  NDA.
+])
+
+// ---------- Education ----------
+#section-block([Education], [
+  #entry-heading(
+    main: [*SMAK 1 Penabur Cirebon*, Natural Sciences],
+    side: [Cirebon, West Java | 2014 – 2017],
+  )
+  Finalist, ANFORCOM 2017, Diponegoro University, Semarang.
+])
+
+// ---------- Publications ----------
+#section-block([Publications], [
+  #entry-heading(
+    main: [Murniadi, A. P. "Waktu Intuitif (durasi) sebagai Dasar Adanya
+      Kehendak Bebas Manusia Menurut Henri Bergson." #link(
+        "https://karya.brin.go.id/id/eprint/25247",
+      )[_Driyarkara Jurnal Filsafat_], 42 (2), pp. 81–91. ISSN 2809-9516.],
+    side: [2022],
+  )
+  #v(0.6em)
+  #entry-heading(
+    main: ["Ranting Mencari Jalan ke Akar," in _Eklesiologi Langkah demi
+      Langkah_, PT Kanisius, Yogyakarta. ISBN 978-979-21-6665-1.],
+    side: [2020],
+  )
+])
