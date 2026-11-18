@@ -1,8 +1,9 @@
 <h1>Curriculum Vitae</h1>
 <p>
-  Aaron Purnomo Murniadi, software engineer in South Jakarta, Indonesia.
+  Aaron P. Murniadi, software engineer in Jakarta, Indonesia.
   <a href="https://www.linkedin.com/in/aaronmurniadi/">LinkedIn</a>,
-  <a href="https://github.com/aaronmurniadi">GitHub</a>.
+  <a href="https://github.com/aaronmurniadi">GitHub</a>,
+  aaronmurniadi@gmail.com.
 </p>
 <p>
   <strong>Typeset copy:</strong>
@@ -11,13 +12,13 @@
   >.
 </p>
 <p>
-  Software engineer who owns the software stack of a production Dimension,
-  Weight, and Sizing (DWS) platform for logistics: 220 machines across four
-  countries, scanning 15,000 parcels per hour. Built the Debian based operating
-  system image, a custom machine vision camera driver reverse engineered from
-  the vendor SDK, the Go and SvelteKit capture application, the fleet
-  provisioning and monitoring dashboards, and the device log pipeline. Previous
-  background in test automation and security research.
+  Software engineer with 5+ years of experience across the full stack of a
+  production system: operating system images, a reverse engineered device
+  driver, Go and Java backend services, web front ends, and monitoring. Replaced
+  a proprietary vendor runtime with an in-house driver, halved per parcel scan
+  time by rewriting the capture path in Go, and built the tooling that
+  provisions, monitors, and hardens a 220 machine fleet in four countries.
+  Previous background in test automation and security research.
 </p>
 
 <h2 id="work-experience">Work Experience</h2>
@@ -26,97 +27,80 @@
 <p><em>December 2021 to December 2026</em></p>
 <p>
   <em
-    >Promoted three times in five years, from test intern to software
-    engineer.</em
+    >Promoted three times in five years: Software Tester, Automation Engineer,
+    Software Engineer 2.</em
   >
 </p>
 
-<h4>Software Engineer 2, Developer</h4>
-<p><em>August 2025 to December 2026</em></p>
+<h4>Software Engineer 2, Developer (August 2025 to December 2026)</h4>
 <ul>
   <li>
-    Reverse engineered the proprietary camera SDK and wire protocol, read the
-    GigE Vision traffic in Wireshark, and drove the camera from Go through
-    libaravis and CGO. Wrote a replacement machine vision driver: frame rate
-    rose from 2 to 8 frames per second, and the vendor runtime cost dropped to
-    zero.
+    Reverse engineered the proprietary camera SDK and GigE Vision protocol in
+    Wireshark and wrote a replacement machine vision driver in Go, using
+    libaravis through CGO: frame rate rose from 2 to 8 frames per second, and
+    the vendor runtime cost dropped to zero.
   </li>
   <li>
-    Cut scan time per parcel from 3.0 s to 1.5 s, with a 2.0 s recovery pass on
-    parcels that the camera does not detect, by rewriting the capture path in
-    Go.
+    Rewrote the capture path in Go, cutting scan time per parcel from 3.0 s to
+    1.5 s, with a 2.0 s recovery pass for parcels that the camera does not
+    detect.
   </li>
   <li>
     Own the DWS software stack for 220 production machines in Indonesia,
-    Malaysia, Singapore, and the Philippines, with a combined peak scan rate of
-    15,000 parcels per hour across shifts.
+    Malaysia, Singapore, and the Philippines, at a combined peak of 15,000
+    parcels per hour.
   </li>
   <li>
     Built the Debian based operating system image with the Debian Live ISO
-    builder (2.5 GB image, under 30 s to ready state, 25 min unattended
-    install), starting from a proof of concept that unblocked the DWSv2 rollout.
+    builder: 2.5 GB image, under 30 s to ready state, 25 min unattended install.
     Hardened it for the InfoSec review with a Wazuh agent, RustDesk behind an
-    nftables guard, and host names that identify each device.
+    nftables guard, and device specific host names.
   </li>
   <li>
-    Built the capture application with Wails (Go and SvelteKit), which runs at
-    up to 10,000 parcels per machine per day, and the provisioning dashboard
-    that 15 staff in four countries use to roll out the fleet.
+    Built the capture application with Wails (Go, SvelteKit), which runs at up
+    to 10,000 parcels per machine per day, and the provisioning dashboard that
+    15 staff in four countries use to roll out the fleet.
   </li>
   <li>
     Assigned 10 million latitude and longitude waypoints to hundreds of
-    thousands of waypoint zones with PostGIS for parcel routing.
+    thousands of zones with <a href="https://postgis.net/">PostGIS</a> for
+    parcel routing. Proposed a design that removes polygon geometry from sort
+    zone configuration, which lowered build and operations complexity.
   </li>
   <li>
-    Built the observability layer for the fleet: two
+    Built fleet observability: two
     <a href="https://grafana.com/">Grafana</a> dashboards over
     <a href="https://quickwit.io/">Quickwit</a> logs and
-    <a href="https://prometheus.io/">Prometheus</a> metrics. One shows hub
-    traffic and platform health in 30 panels (scans, missorts, no-dimension
-    errors, latency, JVM, rollout). The other lists every device and shows its
-    logs. Built the pipeline behind them: an ingest and re-emit endpoint in the
-    hub-users Go service, and a log uploader in the capture app with loop
-    protection.
+    <a href="https://prometheus.io/">Prometheus</a> metrics, one of them with 30
+    panels, an ingest endpoint in the hub-users Go service, and a log uploader
+    in the capture app.
   </li>
   <li>
-    Extended the hub-users and sort-service APIs: device registry (register,
-    rename, serial), logout endpoint, rotating nonce, and FeatureHub switches
-    for parcel features.
-  </li>
-  <li>
-    Cut the sort zone configuration work by proposing a technical design that
-    removes polygon geometry, which lowered build and operations complexity.
-  </li>
-  <li>
-    Found a silent crash in the Mile 0 order sync script that dropped orders,
-    and reported the root cause to the owning team.
-  </li>
-  <li>
-    Mentored a new developer through the DWSv2 architecture, and shared the
-    Model Context Protocol (MCP) setup that lets QA agents query our self-hosted
-    Bitbucket.
+    Extended the hub-users and sort-service APIs: device registry, logout
+    endpoint, rotating nonce, and FeatureHub switches.
   </li>
   <li>
     Resolve about 5 production incidents per month within one hour on a 24/7
-    on-call rotation of 6 engineers.
+    on-call rotation of 6 engineers. Mentored a new developer on the DWSv2
+    architecture, and found a silent crash in the Mile 0 order sync script.
   </li>
 </ul>
 
-<h4>Software Engineer 2, QA</h4>
-<p><em>July 2024 to August 2025</em></p>
+<h4>Software Engineer 2, QA (July 2024 to August 2025)</h4>
 <ul>
   <li>
-    Led the Driver App QA release program as release manager for v8.42.1 and
-    v8.45.0, coordinating three product teams, with no rollbacks or blockers.
+    Release manager for the Driver App v8.42.1 and v8.45.0, coordinating three
+    product teams with no rollbacks or blockers.
   </li>
   <li>
     Built the NVQA Tools IntelliJ plugin: Bamboo build monitoring with rerun, a
-    test data encryption helper, and an AI chat window over QA scenarios and
-    Confluence pages.
+    test data encryption helper, and an AI chat over QA scenarios and Confluence
+    pages.
   </li>
   <li>
-    Planned and led the migration of the Karate regression projects from Maven
-    to Gradle, covering 5 teams and about 1,500 scenarios.
+    Led the migration of the
+    <a href="https://github.com/karatelabs/karate">Karate</a> regression
+    projects from Maven to Gradle across 5 teams and about 1,500 scenarios.
   </li>
   <li>
     Built a multi-scale template matching tool with
@@ -126,53 +110,48 @@
   </li>
 </ul>
 
-<h4>Software Engineer 1, QA</h4>
-<p><em>January 2023 to July 2024</em></p>
+<h4>Software Engineer 1, QA (January 2023 to July 2024)</h4>
 <ul>
   <li>
     Released common-karate, the shared automation library adopted by 5 teams,
-    and supported their migrations to it.
+    and supported their migrations.
   </li>
   <li>
-    Designed and maintained the Java regression suite for 5 teams: API tests
-    with <a href="https://rest-assured.io/">REST Assured</a> and
-    <a href="https://square.github.io/okhttp/">OkHttp</a>, web tests with
+    Maintained the Java regression suite for 5 teams: REST Assured and
+    <a href="https://square.github.io/okhttp/">OkHttp</a> for API tests,
     <a href="https://www.selenium.dev/documentation/webdriver/"
       >Selenium WebDriver</a
-    >, and Android tests with
+    >
+    for web tests, and
     <a href="https://github.com/appium/appium-flutter-driver"
       >Appium Flutter Driver</a
-    >, all on the
-    <a href="https://github.com/cucumber/cucumber-jvm">Cucumber-JVM</a>
-    framework.
+    >
+    for Android tests, all on
+    <a href="https://github.com/cucumber/cucumber-jvm">Cucumber-JVM</a>.
   </li>
   <li>
-    Led the design and implementation of an API to Scenario (ATS) mapping
-    service in Go that traces each automated scenario to the backend APIs it
-    covers.
+    Led the design of an API to Scenario (ATS) mapping service in Go that traces
+    each automated scenario to the backend APIs it covers.
   </li>
 </ul>
 
-<h4>Software Tester (Internship)</h4>
-<p><em>December 2021 to December 2022</em></p>
+<h4>Software Tester Intern (December 2021 to December 2022)</h4>
 <ul>
   <li>
-    Ran manual test passes on new and existing features against their
-    requirements, and built a Python
-    <a href="https://github.com/behave/behave">Behave</a> harness that gave
-    manual testers semi-automation, used by 5 colleagues.
+    Ran manual test passes against requirements, and built a Python
+    <a href="https://github.com/behave/behave">Behave</a> harness for
+    semi-automation, used by 5 colleagues.
   </li>
 </ul>
 
 <h2 id="technical-skills">Technical Skills</h2>
 <ul>
   <li>
-    <strong>Programming languages</strong>: Java, Go, Python, TypeScript,
-    JavaScript, SQL, C++.
+    <strong>Languages</strong>: Java, Go, Python, TypeScript, JavaScript, C++.
   </li>
   <li>
-    <strong>Application development</strong>: React, SvelteKit, Wails, Yarn,
-    <a href="https://swagger.io/specification/">OpenAPI</a>.
+    <strong>Development</strong>: React, SvelteKit, Wails,
+    <a href="https://swagger.io/specification/">OpenAPI</a>, Yarn.
   </li>
   <li>
     <strong>Testing</strong>: <a href="https://www.selenium.dev/">Selenium</a>,
@@ -189,35 +168,29 @@
     <a href="https://postgis.net/">PostGIS</a>,
     <a href="https://www.mysql.com/">MySQL</a>,
     <a href="https://redis.io/">Redis</a>,
+    <a href="https://www.elastic.co/elasticsearch">Elasticsearch</a>,
     <a href="https://docs.docker.com/">Docker</a>,
     <a
       href="https://live-team.pages.debian.net/live-manual/html/live-manual/index.en.html"
       >Debian Live ISO Builder</a
-    >, Linux systems,
-    <a href="https://www.atlassian.com/software/bamboo">Bamboo</a>,
+    >, <a href="https://www.atlassian.com/software/bamboo">Bamboo</a>,
     <a href="https://gradle.org/">Gradle</a>,
     <a href="https://maven.apache.org/">Maven</a>,
     <a href="https://git-scm.com/">Git</a>,
     <a href="https://grafana.com/">Grafana</a>,
     <a href="https://prometheus.io/">Prometheus</a>,
     <a href="https://quickwit.io/">Quickwit</a>,
-    <a href="https://www.elastic.co/elasticsearch">Elasticsearch</a>,
     <a href="https://www.wazuh.com/">Wazuh</a>.
   </li>
   <li>
+    <strong>Operating systems</strong>: Debian, Ubuntu, Fedora, Arch Linux,
+    Windows, macOS.
+  </li>
+  <li>
     <strong>Other</strong>: reverse engineering, machine vision, agentic code
-    generation workflows, technical writing, FOSS advocacy.
+    generation workflows, technical writing.
   </li>
 </ul>
-
-<h2 id="security-research">Security Research</h2>
-<p>
-  Vulnerability researcher, 2022 to 2023: found a directory traversal in a
-  journal publication platform that exposed full text PDFs behind a paid access
-  wall, and query enumeration with insecure direct object reference (IDOR) in a
-  national education system that exposed personal data. Both findings were
-  disclosed privately to the vendor and remain under NDA.
-</p>
 
 <h2 id="projects">Projects</h2>
 <ul>
@@ -226,15 +199,22 @@
     >: a pure Go GigE Vision client (GVCP control channel, GVSP streaming with
     packet resend, GenICam GenApi node map) that drives industrial machine
     vision cameras without a vendor SDK or GenTL producer. BSD-3-Clause,
-    v1.10.0. Built from the standard: the GigE Vision and GenICam reference PDFs
-    went through OCR into markdown, then an agent workflow turned the reference
-    into Go code.
+    v1.10.0. Built from the standard: the reference PDFs went through OCR into
+    markdown, then an agent workflow turned the reference into Go code.
   </li>
 </ul>
 
+<h2 id="security-research">Security Research</h2>
+<p>
+  Vulnerability researcher, 2022 to 2023: found a directory traversal in a
+  journal publication platform, and an Insecure Direct Object Reference (IDOR)
+  with query enumeration in a national education system. Both findings were
+  disclosed privately to the vendor and remain under NDA.
+</p>
+
 <h2 id="education">Education</h2>
 <h3>SMAK 1 Penabur Cirebon</h3>
-<p><em>Natural Sciences Concentration, 2014 to 2017, Cirebon, West Java</em></p>
+<p><em>Natural Sciences, 2014 to 2017, Cirebon, West Java</em></p>
 <p>
   Finalist, ANFORCOM (Annual Informatics Competition) 2017,
   <a href="https://www.undip.ac.id/">Diponegoro University</a>, Semarang.
@@ -243,17 +223,16 @@
 <h2 id="publications">Publications</h2>
 <ul>
   <li>
-    Murniadi, Aaron Purnomo (2022). &ldquo;Waktu Intuitif (durasi) sebagai Dasar
-    Adanya Kehendak Bebas Manusia Menurut Henri Bergson.&rdquo;
+    Murniadi, A. P. (2022). &ldquo;Waktu Intuitif (durasi) sebagai Dasar Adanya
+    Kehendak Bebas Manusia Menurut Henri Bergson.&rdquo;
     <a href="https://karya.brin.go.id/id/eprint/25247"
       ><em>Driyarkara Jurnal Filsafat</em></a
-    >, 42 (2): 5, pp. 81 to 91. ISSN 2809-9516.
+    >, 42 (2), pp. 81 to 91. ISSN 2809-9516.
   </li>
   <li>
-    &ldquo;Ranting Mencari Jalan ke Akar&rdquo;, in Mardiatmadja, SJ, B.S. and
-    Whisnu Bintoro, CICM, Dhaniel (2020).
+    &ldquo;Ranting Mencari Jalan ke Akar,&rdquo; in
     <a href="http://repo.driyarkara.ac.id/321/1/EKLESIOLOGI.PDF"
       ><em>Eklesiologi Langkah demi Langkah</em></a
-    >, PT Kanisius, Yogyakarta. ISBN 978-979-21-6665-1.
+    >, PT Kanisius, Yogyakarta (2020). ISBN 978-979-21-6665-1.
   </li>
 </ul>
