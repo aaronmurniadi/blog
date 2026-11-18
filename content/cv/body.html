@@ -35,20 +35,20 @@
 <h4>Software Engineer 2, Developer (August 2025 to December 2026)</h4>
 <ul>
   <li>
+    Own the DWS software stack for 220 production machines in Indonesia,
+    Malaysia, Singapore, and the Philippines, at a combined peak of 15,000
+    parcels per hour.
+  </li>
+  <li>
     Reverse engineered the proprietary camera SDK and GigE Vision protocol in
     Wireshark and wrote a replacement machine vision driver in Go, using
     libaravis through CGO: frame rate rose from 2 to 8 frames per second, and
-    the vendor runtime cost dropped to zero.
+    the vendor maintenance cost dropped to zero.
   </li>
   <li>
     Rewrote the capture path in Go, cutting scan time per parcel from 3.0 s to
     1.5 s, with a 2.0 s recovery pass for parcels that the camera does not
     detect.
-  </li>
-  <li>
-    Own the DWS software stack for 220 production machines in Indonesia,
-    Malaysia, Singapore, and the Philippines, at a combined peak of 15,000
-    parcels per hour.
   </li>
   <li>
     Built the Debian based operating system image with the Debian Live ISO
@@ -62,22 +62,12 @@
     15 staff in four countries use to roll out the fleet.
   </li>
   <li>
-    Assigned 10 million latitude and longitude waypoints to hundreds of
-    thousands of zones with <a href="https://postgis.net/">PostGIS</a> for
-    parcel routing. Proposed a design that removes polygon geometry from sort
-    zone configuration, which lowered build and operations complexity.
-  </li>
-  <li>
     Built fleet observability: two
     <a href="https://grafana.com/">Grafana</a> dashboards over
     <a href="https://quickwit.io/">Quickwit</a> logs and
     <a href="https://prometheus.io/">Prometheus</a> metrics, one of them with 30
     panels, an ingest endpoint in the hub-users Go service, and a log uploader
     in the capture app.
-  </li>
-  <li>
-    Extended the hub-users and sort-service APIs: device registry, logout
-    endpoint, rotating nonce, and FeatureHub switches.
   </li>
   <li>
     Resolve about 5 production incidents per month within one hour on a 24/7
@@ -89,8 +79,8 @@
 <h4>Software Engineer 2, QA (July 2024 to August 2025)</h4>
 <ul>
   <li>
-    Release manager for the Driver App v8.42.1 and v8.45.0, coordinating three
-    product teams with no rollbacks or blockers.
+    Release manager for the Driver App, coordinating three product teams with no
+    rollbacks or blockers.
   </li>
   <li>
     Built the NVQA Tools IntelliJ plugin: Bamboo build monitoring with rerun, a
@@ -146,12 +136,9 @@
 
 <h2 id="technical-skills">Technical Skills</h2>
 <ul>
+  <li><strong>Programming languages</strong>: Java, Go, Python, C++.</li>
   <li>
-    <strong>Languages</strong>: Java, Go, Python, TypeScript, JavaScript, C++.
-  </li>
-  <li>
-    <strong>Development</strong>: React, SvelteKit, Wails,
-    <a href="https://swagger.io/specification/">OpenAPI</a>, Yarn.
+    <strong>Development frameworks</strong>: React, SvelteKit, Wails, Yarn.
   </li>
   <li>
     <strong>Testing</strong>: <a href="https://www.selenium.dev/">Selenium</a>,
@@ -161,7 +148,8 @@
     <a href="https://rest-assured.io/">REST Assured</a>,
     <a href="https://github.com/behave/behave">Behave</a>,
     <a href="https://square.github.io/okhttp/">OkHttp</a>,
-    <a href="https://opencv.org/">OpenCV</a>.
+    <a href="https://opencv.org/">OpenCV</a>,
+    <a href="https://swagger.io/specification/">OpenAPI</a>.
   </li>
   <li>
     <strong>Data and infrastructure</strong>:
@@ -201,6 +189,14 @@
     vision cameras without a vendor SDK or GenTL producer. BSD-3-Clause,
     v1.10.0. Built from the standard: the reference PDFs went through OCR into
     markdown, then an agent workflow turned the reference into Go code.
+  </li>
+  <li>
+    <a href="https://github.com/aaronmurniadi/ofxhost"
+      ><strong>OfxHost</strong></a
+    >: a minimal still-image OpenFX plugin host. Open a RAW (or PNG, JPEG, TIFF,
+    EXR) photo, run it through one or more OFX filter plugins, preview the
+    result, and export to PNG, JPEG, TIFF (8-bit or 16-bit integer, or 32-bit
+    float).
   </li>
 </ul>
 

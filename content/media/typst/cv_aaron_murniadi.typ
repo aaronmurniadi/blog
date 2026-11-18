@@ -87,15 +87,15 @@
   #role-heading(role: [Software Engineer 2, Developer], time: [Aug 2025 – Dec
     2026])
   #bullets(
-    [Reverse engineered the proprietary camera SDK and GigE Vision protocol
-      (Wireshark) and wrote a replacement machine vision driver in Go
-      (libaravis, CGO): frame rate rose from 2 to 8 FPS and the vendor runtime
-      cost dropped to zero.],
-    [Rewrote the capture path in Go, cutting scan time per parcel from 3.0 s to
-      1.5 s (2.0 s recovery pass for parcels the camera does not detect).],
     [Own the DWS software stack for 220 production machines in Indonesia,
       Malaysia, Singapore, and the Philippines, at a combined peak of 15,000
       parcels per hour.],
+    [Reverse engineered the proprietary camera SDK and GigE Vision protocol
+      (Wireshark) and wrote a replacement machine vision driver in Go
+      (libaravis, CGO): frame rate rose from 2 to 8 FPS and the vendor
+      maintenance cost dropped to zero.],
+    [Rewrote the capture path in Go, cutting scan time per parcel from 3.0 s to
+      1.5 s (2.0 s recovery pass for parcels the camera does not detect).],
     [Built the Debian based OS image with the Debian Live ISO builder (2.5 GB,
       under 30 s to ready state, 25 min unattended install). Hardened it for
       InfoSec review with Wazuh, RustDesk behind an nftables guard, and
@@ -103,15 +103,9 @@
     [Built the capture app with Wails (Go, SvelteKit), running up to 10,000
       parcels per machine per day, and the provisioning dashboard used by 15
       staff in four countries.],
-    [Assigned 10 million latitude and longitude waypoints to hundreds of
-      thousands of zones with PostGIS for parcel routing. Proposed a design that
-      removes polygon geometry from sort zone configuration, lowering build and
-      operations complexity.],
     [Built fleet observability: two Grafana dashboards over Quickwit logs and
       Prometheus metrics (one with 30 panels), an ingest endpoint in the
       hub-users Go service, and a log uploader in the capture app.],
-    [Extended the hub-users and sort-service APIs: device registry, logout
-      endpoint, rotating nonce, and FeatureHub switches.],
     [Resolve about 5 production incidents per month within one hour on a 24/7
       on-call rotation of 6 engineers. Mentored a new developer on the DWSv2
       architecture and found a silent crash in the Mile 0 order sync script.],
@@ -119,8 +113,8 @@
 
   #role-heading(role: [Software Engineer 2, QA], time: [Jul 2024 – Aug 2025])
   #bullets(
-    [Release manager for Driver App v8.42.1 and v8.45.0, coordinating three
-      product teams with no rollbacks or blockers.],
+    [Release manager for Driver App, coordinating three product teams with no
+      rollbacks or blockers.],
     [Built the NVQA Tools IntelliJ plugin: Bamboo build monitoring with rerun, a
       test data encryption helper, and an AI chat over QA scenarios and
       Confluence pages.],
@@ -155,10 +149,10 @@
 // ---------- Skills ----------
 #section-block([Technical Skills], [
   #set par(spacing: 0.8em)
-  *Languages:* Java, Go, Python, TypeScript, JavaScript, C++ \
-  *Development:* React, SvelteKit, Wails, OpenAPI, Yarn \
+  *Programming Languages:* Java, Go, Python, C++ \
+  *Development Frameworks:* React, SvelteKit, Wails, Yarn \
   *Testing:* Selenium, Appium, Karate DSL, Cucumber-JVM, REST Assured, Behave,
-  OkHttp, OpenCV \
+  OkHttp, OpenCV, OpenAPI \
   *Data and Infrastructure:* PostGIS, MySQL, Redis, Elasticsearch, Docker,
   Debian Live ISO Builder, Bamboo, Gradle, Maven, Git, Grafana, Prometheus,
   Quickwit, Wazuh \
@@ -176,6 +170,10 @@
       producer. BSD-3-Clause, v1.10.0. Built from the standard by OCR-ing the
       reference PDFs into markdown and using an agent workflow to generate Go
       code.],
+    [*#link("https://github.com/aaronmurniadi/ofxhost")[OfxHost]*: A minimal
+      still-image OpenFX plugin host. Open a RAW (or PNG/JPEG/TIFF/EXR) photo,
+      run it through one or more OFX filter plugins, preview the result, and
+      export to PNG, JPEG, TIFF (8/16-bit integer or 32-bit float).],
   )
 ])
 
